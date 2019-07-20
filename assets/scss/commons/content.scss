@@ -6,11 +6,20 @@
   left: 0;
 
   &-white {
-    background-color: floralwhite;
-    opacity: 0.25;
+    background: rgba(255, 255, 255, 0.4);
   }
 
   &-transparent {
     background-color: rgba(0, 0, 255, 0.5);
+  }
+}
+
+.content {
+  &-center {
+    margin: 0 auto;
+  }
+
+  &-quarterSize {
+    width: 25%;
   }
 }

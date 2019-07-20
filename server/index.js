@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/messages", require("./routes/messages"));
+app.use("/api", require("./routes"));
 
 async function start() {
   // Init Nuxt.js

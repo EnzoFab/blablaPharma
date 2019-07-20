@@ -5,6 +5,10 @@ const env = require("dotenv").config();
 module.exports = {
   mode: "universal",
   env: env.parsed,
+
+  server: {
+    port: env.PORT
+  },
   /*
    ** Headers of the page
    */
