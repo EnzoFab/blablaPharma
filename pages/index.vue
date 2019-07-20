@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <div class="mb-5">
     <section>
       <v-parallax src="/banner.jpg" height="500" dark>
         <div class="overlay overlay-white"></div>
@@ -58,23 +58,33 @@
       </v-layout>
     </section>
 
-    <section>
-      <v-parallax src="/engagement.jpg" dark>
+    <section class="mt-0">
+      <v-parallax src="/engagement.jpg" height="450" class="mt-0">
         <div class="overlay overlay-white">
-          <v-card flat tile class="content-center content-quarterSize white">
-            <div class="headline text-xs-center">
-              NOS ENGAGEMENT
-            </div>
-          </v-card>
+          <v-layout hidden-xs-only column align-center class="mt-0 transparent">
+            <v-flex xs12 class="white text-xs-center mt-0 px-2">
+              <div class="headline text-xs-center blue-grey--text px-5 py-2">
+                NOS ENGAGEMENT
+              </div>
+            </v-flex>
+          </v-layout>
+          <v-layout hidden-sm-and-up column class="mt-0">
+            <v-flex xs12 class="white text-xs-center mt-0">
+              <div class="headline text-xs-center blue-grey--text">
+                NOS ENGAGEMENT
+              </div>
+            </v-flex>
+          </v-layout>
 
           <v-container grid-list-xl fluid class="px-2 mt-2">
-            <v-layout row wrap>
+            <v-layout row wrap class="scroll-y content-commonHeight">
               <v-flex
                 v-for="engagement in engagements"
+                xs12
                 sm3
                 :key="engagement.title"
               >
-                <v-card class="pt-5 pb-3" flat tile>
+                <v-card class="pt-5 pb-3" flat>
                   <v-card-text class="text-xs-center pb-1">
                     <v-icon medium>{{ engagement.icon }}</v-icon>
                   </v-card-text>
@@ -95,7 +105,7 @@
         </div>
       </v-parallax>
     </section>
-  </v-content>
+  </div>
 </template>
 
 <script>

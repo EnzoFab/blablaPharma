@@ -14,7 +14,9 @@
         <v-btn flat>Link Three</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <nuxt />
+    <v-content>
+      <nuxt />
+    </v-content>
     <app-footer class="mt-4" />
   </v-app>
 </template>
