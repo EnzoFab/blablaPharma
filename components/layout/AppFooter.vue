@@ -1,13 +1,13 @@
 <template>
   <v-footer app absolute dark height="auto" class="mt-4">
     <div class="footer">
-      <v-container grid-list-xl>
+      <v-container grid-list-xl align-center>
         <v-layout row wrap align-center class="my-3 mx-3">
-          <v-flex offset-xs1 xs2>mec</v-flex>
-          <v-flex xs6>
+          <v-flex offset-sm1 sm2 xs12>mec</v-flex>
+          <v-flex sm6 xs12>
             <v-card flat class="transparent">
               <v-card-title primary-title class="layout justify-center">
-                <div class="headline text-xs-center">BlaBlaPHARMA</div>
+                <div class="headline text-xs-center">[BlaBlaPHARMA image]</div>
               </v-card-title>
               <v-card-text class="justify-center text-xs-center"
                 >La plateforme qui vous permet de discuter directement avec un
@@ -20,12 +20,14 @@
               <div>contact@blablapharma.fr</div>
               <div class="pt-3">
                 <span v-for="icon in icons" :key="icon.name" class="pr-3">
-                  <v-icon medium>fab fa-{{ icon.name }}</v-icon>
+                  <v-icon large>fab fa-{{ icon.name }}</v-icon>
                 </span>
               </div>
             </v-card-text>
           </v-flex>
-          <v-flex xs2><span class="text--titlesection">Title</span>ok</v-flex>
+          <v-flex sm2 xs12
+            ><span class="text--titlesection">Title</span>ok</v-flex
+          >
         </v-layout>
       </v-container>
     </div>

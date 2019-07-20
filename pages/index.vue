@@ -1,55 +1,64 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <div class="text-xs-center" style="height: 1000px">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">Welcome to the Vuetify + Nuxt.js template</v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-            >documentation</a>.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              title="chat"
-            >discord</a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >issue board</a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em>
-              <small>&mdash; John Leider</small>
-            </em>
-          </div>
-          <hr class="my-3" />
-          <a href="https://nuxtjs.org/" target="_blank">Nuxt Documentation</a>
-          <br />
-          <a href="https://github.com/nuxt/nuxt.js" target="_blank">Nuxt GitHub</a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" flat nuxt to="/inspire">Continue</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-content>
+    <section>
+      <v-parallax src="/banner.jpg" height="450" dark>
+        <div class="overlay overlay-white"></div>
+      </v-parallax>
+    </section>
+    <section>
+      <v-layout class="my-5" align-center>
+        <v-flex xs12>
+          <v-container grid-list-xl align-center>
+            <v-layout row wrap align-center class="px-2">
+              <v-flex xs12 md4
+                ><v-card flat class="transparent">
+                  <v-card-text class="text-xs-center">
+                    <v-icon x-large class="blue--text text--lighten-2"
+                      >color_lens</v-icon
+                    >
+                  </v-card-text>
+                  <v-card-title primary-title class="layout justify-center">
+                    <div class="headline text-xs-center">
+                      Un réseau de pharmaciens
+                    </div>
+                  </v-card-title>
+                </v-card></v-flex
+              >
+              <v-flex xs12 md4
+                ><v-card flat class="transparent">
+                  <v-card-text class="text-xs-center">
+                    <v-icon x-large class="blue--text text--lighten-2"
+                      >color_lens</v-icon
+                    >
+                  </v-card-text>
+                  <v-card-title primary-title class="layout justify-center">
+                    <div class="headline text-xs-center">
+                      Des réponses fiables
+                    </div>
+                  </v-card-title>
+                </v-card></v-flex
+              >
+              <v-flex xs12 md4
+                ><v-card flat class="transparent">
+                  <v-card-text class="text-xs-center">
+                    <v-icon x-large class="blue--text text--lighten-2"
+                      >color_lens</v-icon
+                    >
+                  </v-card-text>
+                </v-card></v-flex
+              >
+            </v-layout>
+          </v-container>
+        </v-flex>
+      </v-layout>
+    </section>
+
+    <v-section>
+      <v-parallax src="/engagement.jpg" dark>
+        <div class="overlay"></div>
+      </v-parallax>
+    </v-section>
+  </v-content>
 </template>
 
 <script>

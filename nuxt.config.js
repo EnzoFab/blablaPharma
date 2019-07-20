@@ -1,7 +1,10 @@
 const colors = require("vuetify/es5/util/colors").default;
+const env = require("dotenv").config();
+//const mode = process.env.NODE_ENV === "development" ? "spa" : "universal";
 
 module.exports = {
   mode: "universal",
+  env: env.parsed,
   /*
    ** Headers of the page
    */
@@ -46,7 +49,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ["~/plugins/axios"],
   /*
    ** Nuxt.js modules
    */
@@ -54,7 +57,8 @@ module.exports = {
     "@nuxtjs/vuetify",
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+    ["vue-scrollto/nuxt", { duration: 300 }]
   ],
   /*
    ** Axios module configuration
@@ -80,6 +84,10 @@ module.exports = {
    ** Build configuration
    */
   build: {
+    /*  filenames: {
+      app: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js"),
+      chunk: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js")
+    }, */
     /*
      ** You can extend webpack config here
      */

@@ -1,3 +1,19 @@
+@import "commons/content";
 @import "commons/fonts";
 @import "commons/text";
 @import "components/footer";
+@import "components/messaging";
+
+/* Custom scrollbar */
+.scroll-y::-webkit-scrollbar {
+  width: 6px;
+  background-color: #e1f5fe;
+  border-radius: 45px;
+}
+.scroll-y::-webkit-scrollbar-thumb {
+  background-color: #e1f5fe;
+  border-radius: 45px;
+}
+.scroll-y::-webkit-scrollbar-track {
+  background-color: #eceff1;
+}

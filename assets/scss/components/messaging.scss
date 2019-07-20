@@ -1,0 +1,47 @@
+.messaging-full {
+  margin: auto;
+}
+
+.messaging-aside {
+  border-right: lightgreen solid 1px;
+  border-top: lightgreen solid 1px;
+  border-radius: 3px;
+}
+
+.conversation {
+  background-color: whitesmoke;
+  border-radius: 5px;
+  opacity: 0.8;
+
+  &-message-holder {
+    display: block;
+    min-height: 20vh;
+    max-height: 60vh;
+    overflow-y: scroll;
+    width: 100%;
+  }
+}
+
+.message {
+  border: solid 1px transparent;
+  border-radius: 6px;
+  text-align: center;
+
+  &-sent {
+    background-color: #dbe1e3;
+  }
+
+  &-received {
+    background-color: white;
+  }
+}
+
+.sendbox {
+  background-color: white;
+  border-radius: 6px;
+  border: solid 1px navajowhite;
+  display: block;
+  min-height: 30px;
+  max-height: 90px;
+  max-width: 100%;
+}
