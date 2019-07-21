@@ -1,16 +1,70 @@
 <template>
-  <div class="mb-5">
+  <v-content class="mt-0 pt-0 mb-5" style="color:#868788">
     <section>
-      <v-parallax src="/banner.jpg" height="500" dark>
-        <div class="overlay overlay-white"></div>
-      </v-parallax>
+      <responsive-parallax
+        src="/banner.jpg"
+        :min-height="350"
+        :max-height="500"
+        user-overlay
+      >
+        <v-container fluid>
+          <v-layout row wrap>
+            <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
+            <v-flex offset-sm6 xs12>
+              <v-card class="mt-5 pl-2" flat>
+                <v-card-title class="pa-3">
+                  <div class="title title-main pt-3 ">
+                    <span class="title-main-rail">Votre pharmacien<br /></span>
+                    <span class="title-main-rail">en ligne<br /> </span>
+                    <span class="title-main-rail">et à votre écoute</span>
+                    <br />
+                  </div>
+                </v-card-title>
+                <v-card-text>
+                  <span class="text-content text--baseColor"
+                    >Sentez-vous en sécurité avec votre traitement</span
+                  >
+                  <v-container class="pa-0" fluid grid-list-xs>
+                    <v-layout row wrap align-center>
+                      <v-flex sm6 xs12>
+                        <v-btn
+                          color="light-green lighten-1"
+                          block
+                          ripple
+                          small
+                          flat
+                          >Contacter un pharmacien</v-btn
+                        >
+                      </v-flex>
+                      <v-flex sm6 xs12>
+                        <v-btn
+                          color="light-green lighten-1"
+                          block
+                          ripple
+                          small
+                          flat
+                          >En savoir plus</v-btn
+                        >
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </responsive-parallax>
     </section>
     <section>
       <v-layout class="my-5" align-center>
         <v-flex xs12>
-          <v-container grid-list-xl align-center>
+          <v-container grid-list-xl align-center fluid>
             <v-layout row wrap align-center class="px-2">
-              <v-flex xs12 md4
+              <v-flex
+                v-for="presentation in presentations"
+                xs12
+                md4
+                :key="presentation.title"
                 ><v-card flat class="transparent">
                   <v-card-text class="text-xs-center">
                     <v-icon x-large class="blue--text text--lighten-2"
@@ -19,37 +73,17 @@
                   </v-card-text>
                   <v-card-title primary-title class="layout justify-center">
                     <div class="headline text-xs-center">
-                      Un réseau de pharmaciens
+                      {{ presentation.title }}
                     </div>
                   </v-card-title>
-                </v-card></v-flex
-              >
-              <v-flex xs12 md4
-                ><v-card flat class="transparent">
-                  <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2"
-                      >color_lens</v-icon
-                    >
-                  </v-card-text>
-                  <v-card-title primary-title class="layout justify-center">
-                    <div class="headline text-xs-center">
-                      Des réponses fiables
-                    </div>
-                  </v-card-title>
-                </v-card></v-flex
-              >
-              <v-flex xs12 md4
-                ><v-card flat class="transparent">
-                  <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2"
-                      >color_lens</v-icon
-                    >
-                  </v-card-text>
-                  <v-card-title primary-title class="layout justify-center">
-                    <div class="headline text-xs-center">
-                      Des articles et des vidéos
-                    </div>
-                  </v-card-title>
+                  <v-card-text
+                    style=" text-align:center; width: 80%; margin: 0 auto"
+                    ><span
+                      class="text-content text--baseColor text--section"
+                      style=""
+                      >{{ presentation.description }}</span
+                    ></v-card-text
+                  >
                 </v-card></v-flex
               >
             </v-layout>
@@ -57,62 +91,87 @@
         </v-flex>
       </v-layout>
     </section>
-
     <section class="mt-0">
-      <v-parallax src="/engagement.jpg" height="450" class="mt-0">
-        <div class="overlay overlay-white">
-          <v-layout hidden-xs-only column align-center class="mt-0 transparent">
-            <v-flex xs12 class="white text-xs-center mt-0 px-2">
-              <div class="headline text-xs-center blue-grey--text px-5 py-2">
-                NOS ENGAGEMENT
-              </div>
-            </v-flex>
-          </v-layout>
-          <v-layout hidden-sm-and-up column class="mt-0">
-            <v-flex xs12 class="white text-xs-center mt-0">
-              <div class="headline text-xs-center blue-grey--text">
-                NOS ENGAGEMENT
-              </div>
-            </v-flex>
-          </v-layout>
+      <responsive-parallax
+        src="/engagement.jpg"
+        :max-height="500"
+        :min-height="500"
+        class="mt-0 pt-0"
+        user-overlay
+      >
+        <v-layout hidden-xs-only column align-center class="mt-0 transparent">
+          <v-flex xs12 class="white text-xs-center mt-0 px-2">
+            <div class="headline text-xs-center blue-grey--text px-5 py-2">
+              NOS ENGAGEMENT
+            </div>
+          </v-flex>
+        </v-layout>
+        <v-layout hidden-sm-and-up column class="mt-0">
+          <v-flex xs12 class="white text-xs-center mt-0">
+            <div class="headline text-xs-center blue-grey--text">
+              NOS ENGAGEMENT
+            </div>
+          </v-flex>
+        </v-layout>
 
-          <v-container grid-list-xl fluid class="px-2 mt-2">
-            <v-layout row wrap class="scroll-y content-commonHeight">
-              <v-flex
-                v-for="engagement in engagements"
-                xs12
-                sm3
-                :key="engagement.title"
-              >
-                <v-card class="pt-5 pb-3" flat>
-                  <v-card-text class="text-xs-center pb-1">
-                    <v-icon medium>{{ engagement.icon }}</v-icon>
-                  </v-card-text>
-                  <v-card-title class="mt-0 pt-0 pb-1 layout justify-center">
-                    <div class="text-xs-center">
-                      {{ engagement.title.toUpperCase() }}
-                    </div>
-                  </v-card-title>
-                  <hr class="divider divider-dark" />
-                  <v-card-text class="">
-                    <div>{{ engagement.firstParagraph }}</div>
-                    <div class="mt-3">{{ engagement.secondParagrah }}</div>
-                  </v-card-text>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </div>
-      </v-parallax>
+        <v-container grid-list-xl fluid class="px-2 mt-2">
+          <v-layout row wrap class="scroll-y content-commonHeight">
+            <v-flex
+              v-for="engagement in engagements"
+              xs12
+              sm3
+              :key="engagement.title"
+            >
+              <v-card class="pt-5 pb-3" flat>
+                <v-card-text class="text-xs-center mt-1 pb-1">
+                  <v-icon medium>{{ engagement.icon }}</v-icon>
+                </v-card-text>
+                <v-card-title class="mt-0 pt-0 pb-1 layout justify-center">
+                  <div class="text-xs-center">
+                    {{ engagement.title.toUpperCase() }}
+                  </div>
+                </v-card-title>
+                <hr class="divider divider-dark" />
+                <v-card-text class="">
+                  <div>{{ engagement.firstParagraph }}</div>
+                  <div class="mt-3">{{ engagement.secondParagrah }}</div>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </responsive-parallax>
     </section>
-  </div>
+    <section></section>
+  </v-content>
 </template>
 
 <script>
+import ResponsiveParallax from "../components/ResponsiveParallax";
 export default {
+  components: { ResponsiveParallax },
   data() {
     return {
-      descriptions: [],
+      presentations: [
+        {
+          image: "",
+          title: "Un réseau de pharmaciens",
+          description:
+            "Soucieux de votre santé et près à vous accompagner sur votre traitements ou vos pathologies."
+        },
+        {
+          image: "",
+          title: "Des réponses fiables",
+          description:
+            "et personnalisées à vos questions grâce à un service de messagerie instantanée."
+        },
+        {
+          image: "",
+          title: "Des articles et des vidéos",
+          description:
+            "Du contenu ludique et interactif pur mieux comprendre votre traitement."
+        }
+      ],
       engagements: [
         {
           icon: "fab fa-creative-commons-nc-eu",

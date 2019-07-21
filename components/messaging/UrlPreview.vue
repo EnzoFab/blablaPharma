@@ -1,15 +1,15 @@
 <template>
   <v-card flat :href="url" target="_blank" color="white">
-    <v-card-title primary>
-      <span class="text-uppercase font-weight-bold body-1mb-0">
-        {{ truncateText(title, 20) }}
+    <v-card-title primary class="text-truncate">
+      <span class="text-uppercase font-weight-bold body-1mb-0 text-truncate">
+        {{ title }}
       </span></v-card-title
     >
     <v-img v-if="preview" :src="preview" aspect-ratio="2.75"></v-img>
-    <v-card-text class="grey--text caption">
+    <v-card-text class="grey--text caption text-truncate">
       <v-tooltip top dark>
         <template v-slot:activator="{ on }">
-          <span v-on="on">{{ truncateText(description, 45) }}</span>
+          <span v-on="on">{{ description }}</span>
         </template>
         <span> {{ description }}</span>
       </v-tooltip>

@@ -1,11 +1,44 @@
 .text {
+  &-content {
+    font-family: roboto-thin, roboto, sans-serif;
+    font-size: 1.2em;
+    font-weight: 400;
+    color: #000000;
+  }
+
+  &--baseColor {
+    color: $text-color;
+  }
+
   &--section {
-    color: #868788;
-    font-weight: bold;
-    font-family: "Raleway", sans-serif;
+    font: normal normal normal 16px/1.4em roboto-thin, roboto, sans-serif;
+    text-align: -moz-center;
+    line-height: 1.7em;
   }
 
   &--huge {
     font-size: 1.3rem;
+  }
+}
+
+.title {
+  color: $text-color;
+  &-main {
+    font: normal normal bold 38px/1.4em futura-lt-w01-book, sans-serif;
+    font-size: 52px;
+    line-height: 0.9em;
+  }
+
+  &-main-rail {
+    /* @media screen and (max-width: 600px) {
+      font-size: 28px;
+    }
+    @media screen and (min-width: 601px) {
+      font-size: 52px;
+    } */
+    font-size: 4.5vw;
+    line-height: 0.9em;
+    letter-spacing: 0.05em;
+    font-family: raleway, sans-serif;
   }
 }
