@@ -17,6 +17,11 @@
 .content {
   &-center {
     margin: 0 auto;
+    text-align: center;
+  }
+
+  &-padded {
+    width: 80%;
   }
 
   &-quarterSize {

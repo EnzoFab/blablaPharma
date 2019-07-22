@@ -3,7 +3,7 @@
     <section>
       <responsive-parallax
         src="/banner.jpg"
-        :min-height="350"
+        :min-height="370"
         :max-height="500"
         user-overlay
       >
@@ -11,9 +11,9 @@
           <v-layout row wrap>
             <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
             <v-flex offset-sm6 xs12>
-              <v-card class="mt-5 pl-2" flat>
+              <v-card class="mt-4 pl-2" flat>
                 <v-card-title class="pa-3">
-                  <div class="title title-main pt-3 ">
+                  <div class="text--baseColor title-main pt-3 ">
                     <span class="title-main-rail">Votre pharmacien<br /></span>
                     <span class="title-main-rail">en ligne<br /> </span>
                     <span class="title-main-rail">et à votre écoute</span>
@@ -71,18 +71,15 @@
                       >color_lens</v-icon
                     >
                   </v-card-text>
-                  <v-card-title primary-title class="layout justify-center">
-                    <div class="headline text-xs-center">
-                      {{ presentation.title }}
-                    </div>
-                  </v-card-title>
                   <v-card-text
-                    style=" text-align:center; width: 80%; margin: 0 auto"
-                    ><span
-                      class="text-content text--baseColor text--section"
-                      style=""
-                      >{{ presentation.description }}</span
-                    ></v-card-text
+                    class="justify-center content-center content-padded"
+                  >
+                    <span class="title-section text--baseColor">{{
+                      presentation.title
+                    }}</span>
+                    <div class="text--baseColor text--section mt-3">
+                      {{ presentation.description }}
+                    </div></v-card-text
                   >
                 </v-card></v-flex
               >
@@ -119,22 +116,31 @@
             <v-flex
               v-for="engagement in engagements"
               xs12
-              sm3
+              sm6
+              md3
               :key="engagement.title"
             >
-              <v-card class="pt-5 pb-3" flat>
+              <v-card class="pt-5 pb-3" flat height="350">
                 <v-card-text class="text-xs-center mt-1 pb-1">
-                  <v-icon medium>{{ engagement.icon }}</v-icon>
+                  <v-icon medium class="text--baseColor">{{
+                    engagement.icon
+                  }}</v-icon>
                 </v-card-text>
                 <v-card-title class="mt-0 pt-0 pb-1 layout justify-center">
-                  <div class="text-xs-center">
-                    {{ engagement.title.toUpperCase() }}
+                  <div class="text-xs-center text--black ">
+                    <span class="title-section-small">{{
+                      engagement.title.toUpperCase()
+                    }}</span>
                   </div>
                 </v-card-title>
                 <hr class="divider divider-dark" />
-                <v-card-text class="">
-                  <div>{{ engagement.firstParagraph }}</div>
-                  <div class="mt-3">{{ engagement.secondParagrah }}</div>
+                <v-card-text>
+                  <div class="text--baseColor text-content">
+                    {{ engagement.firstParagraph }}
+                  </div>
+                  <div class="mt-3 text-content text--baseColor">
+                    {{ engagement.secondParagrah }}
+                  </div>
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -143,13 +149,24 @@
       </responsive-parallax>
     </section>
     <section></section>
+    <section>
+      <responsive-parallax
+        src="/contact.jpg"
+        :min-height="500"
+        :max-height="500"
+        user-overlay
+      >
+        <contact></contact>
+      </responsive-parallax>
+    </section>
   </v-content>
 </template>
 
 <script>
 import ResponsiveParallax from "../components/ResponsiveParallax";
+import Contact from "../components/Contact";
 export default {
-  components: { ResponsiveParallax },
+  components: { Contact, ResponsiveParallax },
   data() {
     return {
       presentations: [

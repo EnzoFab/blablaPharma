@@ -1,4 +1,8 @@
 .text {
+  &-futura {
+    font-family: futura-light, light, Arial, sans-serif;
+  }
+
   &-content {
     font-family: roboto-thin, roboto, sans-serif;
     font-size: 1.2em;
@@ -15,30 +19,38 @@
     text-align: -moz-center;
     line-height: 1.7em;
   }
-
-  &--huge {
-    font-size: 1.3rem;
-  }
 }
 
 .title {
-  color: $text-color;
   &-main {
     font: normal normal bold 38px/1.4em futura-lt-w01-book, sans-serif;
-    font-size: 52px;
+    font-size: 4vw;
     line-height: 0.9em;
   }
 
   &-main-rail {
-    /* @media screen and (max-width: 600px) {
+    @media screen and (max-width: 600px) {
       font-size: 28px;
     }
-    @media screen and (min-width: 601px) {
+    /*@media screen and (min-width: 601px) {
       font-size: 52px;
     } */
-    font-size: 4.5vw;
     line-height: 0.9em;
     letter-spacing: 0.05em;
     font-family: raleway, sans-serif;
+  }
+
+  &-section {
+    font-family: raleway, sans-serif;
+    font-size: 5vh;
+    line-height: 1em;
+    font-weight: 900;
+  }
+
+  &-section-small {
+    font-family: futura-light, light, Arial, sans-serif;
+    font-size: 3.2vh;
+    font-weight: 500;
+    letter-spacing: 0.05em;
   }
 }
