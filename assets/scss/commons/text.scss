@@ -1,6 +1,6 @@
 .text {
   &-futura {
-    font-family: futura-light, light, Arial, sans-serif;
+    font-family: futura-light, light, Arial, sans-serif !important;
   }
 
   &-content {
@@ -27,8 +27,10 @@
 }
 
 .title {
+  font-size: 3.8vw;
+
   &-main {
-    font: normal normal bold 38px/1.4em futura-lt-w01-book, sans-serif;
+    font: normal normal 400 4vw/1.4em futura-light, light sans-serif;
     font-size: 4vw;
     line-height: 0.9em;
   }

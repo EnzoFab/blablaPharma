@@ -1,5 +1,5 @@
 <template>
-  <v-content class="mt-0 pt-0 mb-5" style="color:#868788">
+  <div class="mt-0 pt-0" style="color:#868788">
     <section>
       <responsive-parallax
         src="/banner.jpg"
@@ -98,15 +98,17 @@
       >
         <v-layout hidden-xs-only column align-center class="mt-0 transparent">
           <v-flex xs12 class="white text-xs-center mt-0 px-2">
-            <div class="headline text-xs-center blue-grey--text px-5 py-2">
-              NOS ENGAGEMENT
+            <div
+              class="text-futura display-2 text-xs-center text--baseColor  px-5 py-2"
+            >
+              NOS ENGAGEMENTS
             </div>
           </v-flex>
         </v-layout>
         <v-layout hidden-sm-and-up column class="mt-0">
           <v-flex xs12 class="white text-xs-center mt-0">
-            <div class="headline text-xs-center blue-grey--text">
-              NOS ENGAGEMENT
+            <div class="text-futura display-2 text-xs-center text--baseColor ">
+              NOS ENGAGEMENTS
             </div>
           </v-flex>
         </v-layout>
@@ -159,7 +161,7 @@
         <contact></contact>
       </responsive-parallax>
     </section>
-  </v-content>
+  </div>
 </template>
 
 <script>
@@ -219,20 +221,6 @@ export default {
             "Chez nous, vos données personnelles sont bien gardées !",
           secondParagrah:
             "BlaBlaPHARMA répond à toutes les exigences de la loi RGPD."
-        }
-      ],
-      medias: [
-        {
-          icon: "",
-          href: ""
-        },
-        {
-          icon: "",
-          href: ""
-        },
-        {
-          icon: "",
-          href: ""
         }
       ]
     };

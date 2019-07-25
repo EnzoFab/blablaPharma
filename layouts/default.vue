@@ -17,7 +17,7 @@
     <v-content>
       <nuxt />
     </v-content>
-    <app-footer class="mt-4" />
+    <app-footer />
   </v-app>
 </template>
 
