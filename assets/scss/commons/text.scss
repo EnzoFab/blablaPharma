@@ -15,9 +15,14 @@
   }
 
   &--section {
-    font: normal normal normal 16px/1.4em roboto-thin, roboto, sans-serif;
+    font-family: roboto-thin, roboto, sans-serif;
+    font-size: 1.1em;
     text-align: -moz-center;
     line-height: 1.7em;
+  }
+
+  &-no-decoration {
+    text-decoration: none;
   }
 }
 

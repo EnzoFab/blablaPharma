@@ -111,7 +111,7 @@
           </v-flex>
         </v-layout>
 
-        <v-container grid-list-xl fluid class="px-2 mt-2">
+        <v-container grid-list-xl fluid class="px-5 mt-2">
           <v-layout row wrap class="scroll-y content-commonHeight">
             <v-flex
               v-for="engagement in engagements"
@@ -152,8 +152,8 @@
     <section>
       <responsive-parallax
         src="/contact.jpg"
-        :min-height="500"
-        :max-height="500"
+        :min-height="700"
+        :max-height="700"
         user-overlay
       >
         <contact></contact>
@@ -219,6 +219,20 @@ export default {
             "Chez nous, vos données personnelles sont bien gardées !",
           secondParagrah:
             "BlaBlaPHARMA répond à toutes les exigences de la loi RGPD."
+        }
+      ],
+      medias: [
+        {
+          icon: "",
+          href: ""
+        },
+        {
+          icon: "",
+          href: ""
+        },
+        {
+          icon: "",
+          href: ""
         }
       ]
     };
