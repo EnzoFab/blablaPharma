@@ -8,7 +8,7 @@
               <span class="title-main-rail">Pour aller plus loin</span>
             </div>
           </v-card-title>
-          <v-card-text style="height: 550px" class="scroll-y">
+          <v-card-text style="height: 85%" class="scroll-y">
             <div class="content-center text--baseColor">
               <div class="text--section">
                 Vous voulez en savoir plus sur l'aventure

@@ -18,16 +18,19 @@
   &-center {
     margin: 0 auto;
     text-align: center;
+
+    &-vertical {
+      padding: 30%;
+    }
+
+    &-vertical > i {
+      margin: auto;
+      width: 100%;
+    }
   }
 
   &-padded {
     width: 80%;
-  }
-
-  &-quarterSize {
-    min-width: 25%;
-    width: 25%;
-    max-width: 50%;
   }
 
   &-commonHeight {

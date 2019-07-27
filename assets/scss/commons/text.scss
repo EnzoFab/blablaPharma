@@ -52,12 +52,19 @@
     font-size: 5vh;
     line-height: 1em;
     font-weight: 900;
-  }
 
-  &-section-small {
-    font-family: futura-light, light, Arial, sans-serif;
-    font-size: 3.2vh;
-    font-weight: 500;
-    letter-spacing: 0.05em;
+    &-small {
+      font-family: futura-light, light, Arial, sans-serif;
+      font-size: 3.2vh;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    &-huge {
+      font-family: raleway, sans-serif;
+      font-size: 6.6vh;
+      line-height: 1em;
+      font-weight: 900;
+    }
   }
 }

@@ -1,11 +1,12 @@
 <template>
   <div>
-    <v-parallax class="hidden-xs-only" :src="src" :height="maxHeight">
+    <v-parallax class="hidden-sm-and-up" :src="src" :height="minHeight">
       <div :class="{ 'overlay-white': userOverlay, overlay: userOverlay }">
         <slot name="default"></slot>
       </div>
     </v-parallax>
-    <v-parallax class="hidden-sm-and-up" :src="src" :height="minHeight">
+
+    <v-parallax class="hidden-xs-only" :src="src" :height="maxHeight">
       <div :class="{ 'overlay-white': userOverlay, overlay: userOverlay }">
         <slot name="default"></slot>
       </div>

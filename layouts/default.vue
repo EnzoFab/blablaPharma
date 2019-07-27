@@ -1,7 +1,7 @@
 <template>
   <v-app light>
     <v-toolbar
-      :scroll-threshold="150"
+      :scroll-threshold="300"
       app
       fixed
       flat

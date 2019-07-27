@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-0 pt-0" style="color:#868788">
+  <div class="mt-0 pt-0">
     <section>
       <responsive-parallax
         src="/banner.jpg"
@@ -13,12 +13,12 @@
             <v-flex offset-sm6 xs12>
               <v-card class="mt-4 pl-2" flat>
                 <v-card-title class="pa-3">
-                  <div class="text--baseColor title-main pt-3 ">
+                  <h1 class="text--baseColor title-main pt-3 ">
                     <span class="title-main-rail">Votre pharmacien<br /></span>
                     <span class="title-main-rail">en ligne<br /> </span>
                     <span class="title-main-rail">et à votre écoute</span>
                     <br />
-                  </div>
+                  </h1>
                 </v-card-title>
                 <v-card-text>
                   <span class="text-content text--baseColor"
@@ -56,9 +56,9 @@
       </responsive-parallax>
     </section>
     <section>
-      <v-layout class="my-5" align-center>
+      <v-layout class="py-5 white" align-center>
         <v-flex xs12>
-          <v-container grid-list-xl align-center fluid>
+          <v-container grid-list-xl fluid>
             <v-layout row wrap align-center class="px-2">
               <v-flex
                 v-for="presentation in presentations"
@@ -74,9 +74,9 @@
                   <v-card-text
                     class="justify-center content-center content-padded"
                   >
-                    <span class="title-section text--baseColor">{{
-                      presentation.title
-                    }}</span>
+                    <h2 class="title-section text--baseColor">
+                      {{ presentation.title }}
+                    </h2>
                     <div class="text--baseColor text--section mt-3">
                       {{ presentation.description }}
                     </div></v-card-text
@@ -150,7 +150,43 @@
         </v-container>
       </responsive-parallax>
     </section>
-    <section></section>
+    <section>
+      <v-container fluid grid-list-xl class="py-1 mb-4 pt-5">
+        <v-layout row wrap algin-center class="pt-3">
+          <v-flex sm5 xs12>
+            <v-img src="/contact.jpg">
+              <div class="overlay">
+                <v-container bg fill-height grid-list-md text-xs-center>
+                  <v-layout row wrap align-center>
+                    <v-flex offset-xs3 xs6>
+                      <v-icon size="125" color="lime lighten-1"
+                        >play_circle_filled</v-icon
+                      >
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </div>
+            </v-img>
+          </v-flex>
+          <v-flex sm7 xs12>
+            <h2 class="title-main-rail">
+              <span class="title-section-huge text--baseColor hidden-xs-only">
+                Retrouvez des videos utiles à votre traitement
+              </span>
+              <span class="title-section text--baseColor hidden-sm-and-up">
+                Retrouvez des videos utiles à votre traitement
+              </span>
+            </h2>
+            <div class="mt-5 text--section text--baseColor">
+              Le visiter le blog
+            </div>
+            <v-btn color="light-green lighten-1" ripple flat class="mt-5"
+              >visiter le blog</v-btn
+            >
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </section>
     <section>
       <responsive-parallax
         src="/contact.jpg"
