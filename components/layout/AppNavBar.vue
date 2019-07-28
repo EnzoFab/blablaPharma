@@ -85,7 +85,6 @@ export default {
           title: "Connexion",
           spacerBefore: true,
           action: () => {
-            console.log("click");
             this.connectionDialog = true;
           }
         }

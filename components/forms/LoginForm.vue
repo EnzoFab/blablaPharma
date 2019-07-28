@@ -1,9 +1,9 @@
 <template>
   <v-dialog :value="value" fullscreen full-width transition persistent>
-    <v-card style="background-color: rgba(255, 255, 255, 0.97);">
+    <v-card class="login">
       <v-card-text>
         <v-flex offset-sm10 sm2 offset-xs5 xs2>
-          <v-icon x-large @click="$emit('input', false)">close</v-icon>
+          <v-icon x-large @click="closeDialog">close</v-icon>
         </v-flex>
       </v-card-text>
       <v-card-title primary>
@@ -11,7 +11,7 @@
           Connexion
         </h1>
       </v-card-title>
-      <div class=" text--section content-center">
+      <div class="text--section content-center">
         <span class="text--baseColor">Pas encore de compte ?</span>
         <a
           class="text--section text-no-decoration blue-grey--text text--lighten-3"
@@ -22,7 +22,12 @@
       <v-container fluid>
         <v-layout row wrap>
           <v-flex sm4 offset-sm4 xs9 offset-xs1>
-            <v-form class="px-5 mt-4" ref="login">
+            <v-form
+              class="px-5 mt-4"
+              ref="login"
+              lazy-validation
+              @submit.prevent="connection"
+            >
               <v-text-field
                 v-model="mail"
                 label="Email"
@@ -43,13 +48,21 @@
                 color="blue-grey lighten-1"
                 dark
                 class="mt-4"
-                @click="connexion"
+                type="submit"
                 >Connexion</v-btn
               >
             </v-form>
           </v-flex>
+          <v-flex sm4 offset-sm4 xs9 offset-xs1 class="mt-3 content-center">
+            <a
+              class="text--section text-no-decoration blue-grey--text text--lighten-3"
+              @click=""
+              >Mot de passe oublié ?</a
+            >
+          </v-flex>
         </v-layout>
       </v-container>
+      <div class="content-center"></div>
     </v-card>
   </v-dialog>
 </template>
@@ -62,16 +75,21 @@ export default {
   },
   data() {
     return {
-      email: "",
+      mail: "",
       password: ""
     };
   },
   methods: {
-    gotoSignIn() {
-      this.$router.push({ path: "/sign-in" });
+    closeDialog() {
+      this.mail = "";
+      this.password = "";
       this.$emit("input", false);
     },
-    connexion() {
+    gotoSignIn() {
+      this.$router.push({ path: "/sign-in" });
+      this.closeDialog();
+    },
+    connection() {
       if (this.$refs.login.validate()) {
       }
       // todo call api login

@@ -35,7 +35,12 @@
             <v-container fluid>
               <v-layout row wrap align-center>
                 <v-flex xs12 sm8 offset-sm2>
-                  <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-form
+                    ref="form"
+                    v-model="valid"
+                    lazy-validation
+                    @submit.prevent="send"
+                  >
                     <v-text-field
                       v-model="name"
                       color="green darken-1"
@@ -76,7 +81,7 @@
                       color="light-green lighten-1"
                       class="mt-0"
                       :disabled="!valid"
-                      @click="send"
+                      type="submit"
                       >Envoyer</v-btn
                     >
                   </v-form>
