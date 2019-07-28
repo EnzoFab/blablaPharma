@@ -1,19 +1,6 @@
 <template>
   <v-app light>
-    <v-toolbar
-      :scroll-threshold="300"
-      app
-      fixed
-      flat
-      scroll-off-screen
-      color="grey lighten-5"
-    >
-      <v-toolbar-items>
-        <v-btn flat>Link One</v-btn>
-        <v-btn flat>Link Two</v-btn>
-        <v-btn flat>Link Three</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+    <app-nav-bar />
     <v-content>
       <nuxt />
     </v-content>
@@ -23,8 +10,10 @@
 
 <script>
 import AppFooter from "~/components/layout/AppFooter";
+import AppNavBar from "../components/layout/AppNavBar";
 export default {
   components: {
+    AppNavBar,
     AppFooter
   },
   data() {

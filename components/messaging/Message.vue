@@ -18,7 +18,7 @@
       />
       <span v-else>
         <span v-for="(word, i) in content.message.split('\n')">
-          <span v-if="word.length > 0">{{ word }}</span>
+          <span v-if="word.length > 0" class="text-breakline">{{ word }}</span>
           <br v-else />
         </span>
       </span>

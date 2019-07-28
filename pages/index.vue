@@ -11,7 +11,7 @@
           <v-layout row wrap>
             <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
             <v-flex offset-sm6 xs12>
-              <v-card class="mt-4 pl-2" flat>
+              <v-card class="mt-4 pl-2 pt-1 pb-3" flat>
                 <v-card-title class="pa-3">
                   <h1 class="text--baseColor title-main pt-3 ">
                     <span class="title-main-rail">Votre pharmacien<br /></span>
@@ -202,7 +202,7 @@
 
 <script>
 import ResponsiveParallax from "../components/ResponsiveParallax";
-import Contact from "../components/Contact";
+import Contact from "../components/forms/Contact";
 export default {
   components: { Contact, ResponsiveParallax },
   data() {

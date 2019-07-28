@@ -1,4 +1,8 @@
 .text {
+  &-breakline {
+    word-wrap: break-word;
+  }
+
   &-futura {
     font-family: futura-light, light, Arial, sans-serif !important;
   }
@@ -31,8 +35,9 @@
 
   &-main {
     font: normal normal 400 4vw/1.4em futura-light, light sans-serif;
-    font-size: 4vw;
+    font-size: 4.3vw;
     line-height: 0.9em;
+    font-weight: 900;
   }
 
   &-main-rail {
