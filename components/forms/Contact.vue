@@ -52,7 +52,7 @@
                       color="green darken-1"
                       type="mail"
                       label="Email"
-                      :rules="emailRules"
+                      :rules="$constraints.emailRules"
                       outline
                     ></v-text-field>
                     <v-text-field
@@ -60,11 +60,11 @@
                       color="green darken-1"
                       label="Sujet"
                       outline
-                      :rules="required"
+                      :rules="$constraints.required"
                     ></v-text-field>
                     <v-textarea
                       v-model="message"
-                      :rules="required"
+                      :rules="$constraints.required"
                       color="green darken-1"
                       no-resize
                       flat
@@ -120,10 +120,6 @@ export default {
         }
       ]
     };
-  },
-  computed: {
-    emailRules: () => [v => /.+@.+\..+/.test(v) || "E-mail non valide"],
-    required: () => [v => !!v || "Champs requis"]
   },
   methods: {
     send() {
