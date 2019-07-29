@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const jsonpAdapter = require("axios-jsonp");
 
 router.post("/send", (req, res) => {
   const key = process.env.LINK_PREVIEW_APIKEY;

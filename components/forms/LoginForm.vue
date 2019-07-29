@@ -119,6 +119,8 @@
 </template>
 
 <script>
+import { SET_JWT_TOKEN } from "../../store/modules/types";
+
 export default {
   name: "LoginForm",
   props: {
@@ -130,7 +132,9 @@ export default {
       mail: "",
       password: "",
       showResetPwd: false,
-      fromValid: true
+      fromValid: true,
+      errorLogin: null,
+      errorResetPwd: null
     };
   },
   methods: {
@@ -144,9 +148,11 @@ export default {
       this.$router.push({ path: "/sign-in" });
       this.closeDialog();
     },
-    connection() {
+    async connection() {
       if (this.$refs.login.validate()) {
-        // todo call api login
+        try {
+          await this.$store.dispatch(SET_JWT_TOKEN);
+        } catch (e) {}
       }
     }
   },

@@ -22,9 +22,11 @@
     "dotenv": "^8.0.0",
     "emoji-mart-vue": "^2.6.6",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "nuxt": "^2.0.0",
     "rest": "^2.0.0",
-    "vue-scrollto": "^2.15.0"
+    "vue-scrollto": "^2.15.0",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.27",

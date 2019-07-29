@@ -59,7 +59,12 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["~/plugins/axios", "~/plugins/constraints"],
+  plugins: [
+    "~/plugins/axios",
+    "~/plugins/constraints",
+    "~/plugins/auth",
+    { src: "~/plugins/localStorage.js", ssr: false }
+  ],
   /*
    ** Nuxt.js modules
    */
