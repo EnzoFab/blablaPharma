@@ -1,6 +1,6 @@
 <template>
   <v-dialog :value="value" fullscreen full-width transition persistent>
-    <v-card class="login">
+    <v-card class="lowOpacity">
       <v-card-text>
         <v-flex offset-sm10 sm2 offset-xs5 xs2>
           <v-icon x-large @click="closeDialog">close</v-icon>
@@ -26,6 +26,8 @@
               <v-form
                 class="px-5 mt-4"
                 ref="login"
+                v-model="formValid"
+                lazy-validation
                 @submit.prevent="connection"
               >
                 <v-text-field
@@ -33,6 +35,7 @@
                   label="Email"
                   color="blue-grey lighten-1"
                   type="mail"
+                  :loading="isProcessing"
                   :rules="[
                     ...$constraints.required,
                     ...$constraints.emailRules
@@ -44,6 +47,7 @@
                   color="blue-grey lighten-1"
                   class="mt-4"
                   type="password"
+                  :loading="isProcessing"
                   :rules="$constraints.required"
                 ></v-text-field>
                 <v-btn
@@ -54,6 +58,8 @@
                   dark
                   class="mt-4"
                   type="submit"
+                  :disabled="!formValid"
+                  :loading="isProcessing"
                   >Connexion</v-btn
                 >
               </v-form>
@@ -61,7 +67,7 @@
             <v-flex sm4 offset-sm4 xs9 offset-xs1 class="mt-3 content-center">
               <a
                 class="text--section text-no-decoration blue-grey--text text--lighten-3"
-                @click="showResetPwd = true"
+                @click="displayForgottenPwd"
                 >Mot de passe oublié ?</a
               >
             </v-flex>
@@ -91,6 +97,7 @@
                 ref="forgotPwd"
                 lazy-validation
                 @submit.prevent="resetPwd"
+                v-model="formValid"
               >
                 <v-text-field
                   v-model="mail"
@@ -98,15 +105,17 @@
                   color="blue-grey lighten-1"
                   type="mail"
                   :rules="$constraints.required"
+                  :loading="isProcessing"
                 ></v-text-field>
                 <v-btn
                   large
                   block
-                  depressed
                   color="blue-grey lighten-1"
                   dark
                   class="mt-4"
                   type="submit"
+                  :loading="isProcessing"
+                  :disabled="!formValid"
                   >Reinitialiser</v-btn
                 >
               </v-form>
@@ -114,6 +123,12 @@
           </v-layout>
         </v-container>
       </template>
+      <v-card-text
+        v-show="errorMessage != null"
+        class="content-center mt-0 pt-0"
+      >
+        <span class="red--text text--section">{{ errorMessage }}</span>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
@@ -133,27 +148,62 @@ export default {
       password: "",
       showResetPwd: false,
       fromValid: true,
-      errorLogin: null,
-      errorResetPwd: null
+      errorMessage: null,
+      isProcessing: false,
+      formValid: true
     };
   },
   methods: {
     closeDialog() {
+      // reset every
       this.mail = "";
       this.password = "";
       this.showResetPwd = false;
+      this.errorMessage = null;
+      this.formValid = true;
+      this.isProcessing = false;
       this.$emit("input", false);
+    },
+    displayForgottenPwd() {
+      this.errorMessage = null;
+      this.isProcessing = false;
+      this.showResetPwd = true;
+      this.formValid = true;
     },
     gotoSignIn() {
       this.$router.push({ path: "/sign-in" });
       this.closeDialog();
     },
     async connection() {
-      if (this.$refs.login.validate()) {
+      if (this.$refs.login.validate() && !this.isProcessing) {
+        this.errorMessage = null;
+        this.isProcessing = true;
         try {
+          // dispatch an action to try to connect
           await this.$store.dispatch(SET_JWT_TOKEN);
-        } catch (e) {}
+          this.hideLoader(() => this.closeDialog());
+          // todo only push if we are on a wrong page
+          //this.$router.push({ path: "/sign-in" });
+        } catch (e) {
+          await this.hideLoader();
+          this.errorMessage = "Identifiants non valides";
+        }
       }
+    },
+
+    async resetPwd() {},
+
+    /**
+     *
+     * @param {function }callback
+     */
+    hideLoader(callback = null) {
+      setTimeout(() => {
+        this.isProcessing = false;
+        if (callback) {
+          callback();
+        }
+      }, 1500);
     }
   },
   resetPwd() {

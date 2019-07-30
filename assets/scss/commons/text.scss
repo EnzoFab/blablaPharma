@@ -18,6 +18,10 @@
     color: $text-color;
   }
 
+  &--lighthover:hover {
+    color: $hover-color;
+  }
+
   &--section {
     font-family: roboto-thin, roboto, sans-serif;
     font-size: 1.1em;

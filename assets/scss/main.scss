@@ -1,11 +1,11 @@
 $text-color: #868788;
+$hover-color: #799999;
 
 @import "commons/content";
 @import "commons/fonts";
 @import "commons/text";
 @import "components/footer";
 @import "components/messaging";
-@import "components/login";
 
 /* Custom scrollbar */
 .scroll-y::-webkit-scrollbar {

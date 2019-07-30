@@ -8,15 +8,12 @@ Handle every authentication routes
 
 router.post("/login", (req, res, next) => {
   // todo maybe use passport
+  const user = {
+    name: "User test"
+  };
+  const accessToken = jwt.sign(user, process.env.JWT_SECRET);
 
-  const accessToken = jwt.sign(
-    {
-      name: "User test"
-    },
-    process.env.JWT_SECRET
-  );
-
-  res.status(400).send({ accessToken });
+  res.send({ accessToken, user });
 });
 
 router.post("/register", (req, res, next) => {});

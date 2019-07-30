@@ -4,7 +4,7 @@ export default ({ store }) => {
   window.onNuxtReady(() => {
     createPersistedState({
       key: "blablaPharma",
-      paths: ["token", "userLoggedIn", "loggedUser"]
+      paths: ["token", "connectedUser"]
     })(store);
   });
 };
