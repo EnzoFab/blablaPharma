@@ -38,7 +38,7 @@ export default {
           title: () => "Contacter un pharmacien",
           display_case: display_cases.EVERY,
           isLink: true,
-          nuxtLink: "/pharmaciens",
+          nuxtLink: "/contacter-un-pharmacien",
           spacerBefore: false
         },
         {

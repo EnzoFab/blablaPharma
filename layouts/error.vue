@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card flat>
+    <v-card flat color="transparent">
       <v-card-title class="title-main">
         <div
           class="content-center title-main-rail text--baseColor"

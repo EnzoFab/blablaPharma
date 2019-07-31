@@ -4,7 +4,7 @@
 }
 
 .divider {
-  height: 4px;
+  height: 3px;
   color: white;
   margin: auto;
   background: white;
@@ -15,5 +15,11 @@
   &-dark {
     color: darkgray;
     background-color: darkgray;
+  }
+
+  &-large {
+    width: 30% !important;
+    border-radius: 6px;
+    border: 1px solid transparent;
   }
 }

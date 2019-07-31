@@ -1,5 +1,5 @@
 <template>
-  <v-footer app absolute dark height="auto">
+  <v-footer dark height="auto">
     <div class="footer">
       <v-container grid-list-xl align-center>
         <v-layout row wrap align-center class="my-3 mx-3">

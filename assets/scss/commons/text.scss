@@ -1,4 +1,8 @@
 .text {
+  &-underline {
+    text-decoration: underline;
+  }
+
   &-breakline {
     word-wrap: break-word;
   }
