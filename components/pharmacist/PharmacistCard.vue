@@ -8,7 +8,7 @@
     }"
   >
     <v-layout row wrap align-center>
-      <v-flex xs8 sm3 align-center class="content-center">
+      <v-flex md8 lg3 align-center class="content-center">
         <v-avatar color="green" :size="size">
           <span v-if="!image" class="white--text display-2">{{
             initials
@@ -18,7 +18,6 @@
       </v-flex>
       <v-flex
         xs8
-        sm8
         :class="{
           'px-5 pt-4': !$vuetify.breakpoint.xs,
           'content-center': $vuetify.breakpoint.xs
@@ -39,7 +38,7 @@
             large
             depressed
             color="light-green lighten-1"
-            @click="$emit('pharmacist-card::contact', identifiant)"
+            @click="contact"
             >Contacter</v-btn
           >
         </div>
@@ -68,6 +67,15 @@ export default {
     },
     size() {
       return this.$vuetify.breakpoint.xs ? 120 : 195;
+    }
+  },
+  methods: {
+    contact() {
+      this.$emit("pharmacist-card::contact", {
+        id: this.identifiant,
+        firstName: this.firstName,
+        lastName: this.lastName
+      });
     }
   }
 };

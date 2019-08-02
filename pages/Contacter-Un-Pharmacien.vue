@@ -49,16 +49,52 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <message-dialog
+      :receiver-first-name="receiverFirstName"
+      :receiver-last-name="receiverLastName"
+      :receiver-id="receiverId"
+      v-model="showDialog"
+    />
   </div>
 </template>
 
 <script>
+import { SET_CONNEXION_DIALOG } from "../store/modules/types";
 import PharmacistCard from "../components/pharmacist/PharmacistCard";
+import MessageDialog from "../components/messaging/MessageDialog";
 export default {
   name: "Contacter-Un-Pharmacien",
-  components: { PharmacistCard },
+  components: { MessageDialog, PharmacistCard },
   data() {
     return {
+      receiverId: null,
+      receiverFirstName: null,
+      receiverLastName: null,
+      showDialog: false
+    };
+  },
+
+  methods: {
+    contactPharmacist({ id, firstName, lastName }) {
+      // if not connected show connection dialog
+      if (!this.$store.getters.isLoggedIn) {
+        this.$store.commit(SET_CONNEXION_DIALOG, true);
+      } else {
+        this.receiverId = id;
+        this.receiverFirstName = firstName;
+        this.receiverLastName = lastName;
+        this.showDialog = true;
+      }
+    }
+  },
+  /**
+   * When we want to execute some request before the components is created
+   * @param app
+   * @returns {{pharmacists: *[]}}
+   */
+  asyncData({ app }) {
+    return {
+      // todo fetch 3 most effective pharmacist
       pharmacists: [
         {
           id: 1234,
@@ -79,13 +115,6 @@ export default {
         }
       ]
     };
-  },
-
-  methods: {
-    contactPharmacist(id) {
-      // if not connected show connection dialog
-      console.log(id);
-    }
   }
 };
 </script>

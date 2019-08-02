@@ -1,8 +1,16 @@
 <template>
-  <div>
+  <div style="z-index: 10">
     <toolbar-mobile :display-toolbar="$vuetify.breakpoint.xs" :items="items" />
     <toolbar-computer v-show="!$vuetify.breakpoint.xs" :items="items" />
-    <login-form v-model="connectionDialog" />
+    <v-dialog
+      :value="connectionDialog"
+      fullscreen
+      full-width
+      transition
+      persistent
+    >
+      <login-form @login-form:close="connectionDialog = false" :padded="true" />
+    </v-dialog>
   </div>
 </template>
 

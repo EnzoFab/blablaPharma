@@ -4,7 +4,8 @@ import module_getters from "./modules/getters";
 
 export const state = () => ({
   token: null,
-  connectedUser: null
+  connectedUser: null,
+  contactPharmacistDialog: false
 });
 
 export const mutations = module_mutations;

@@ -18,6 +18,24 @@
 }
 
 .content {
+  &-align {
+    z-index: 1;
+    position: absolute;
+
+    &-center {
+      left: 30%;
+      right: 30%;
+    }
+
+    &-top {
+      top: 0;
+    }
+
+    &-middle {
+      top: 13%;
+    }
+  }
+
   &-pointer {
     cursor: pointer;
   }

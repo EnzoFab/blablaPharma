@@ -63,7 +63,8 @@
               <v-flex
                 v-for="presentation in presentations"
                 xs12
-                md4
+                md6
+                lg4
                 :key="presentation.title"
                 ><v-card flat class="transparent">
                   <v-card-text class="text-xs-center">
@@ -91,7 +92,7 @@
     <section class="mt-0">
       <responsive-parallax
         src="/engagement.jpg"
-        :max-height="500"
+        :max-height="550"
         :min-height="500"
         class="mt-0 pt-0"
         user-overlay
@@ -118,8 +119,8 @@
             <v-flex
               v-for="engagement in engagements"
               xs12
-              sm6
-              md3
+              md6
+              lg3
               :key="engagement.title"
             >
               <v-card class="pt-5 pb-3" flat height="350">
