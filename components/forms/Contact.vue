@@ -77,7 +77,7 @@
                       large
                       style="float: right"
                       dark
-                      flat
+                      depressed
                       color="light-green lighten-1"
                       class="mt-0"
                       :disabled="!valid"

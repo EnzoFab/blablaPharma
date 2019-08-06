@@ -121,6 +121,7 @@
                 block
                 color="blue-grey lighten-1"
                 dark
+                depressed
                 class="mt-4"
                 type="submit"
                 :loading="isProcessing"

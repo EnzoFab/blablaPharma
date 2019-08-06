@@ -24,25 +24,31 @@
                   <span class="text-content text--baseColor"
                     >Sentez-vous en sécurité avec votre traitement</span
                   >
-                  <v-container class="pa-0" fluid grid-list-xs>
+                  <v-container class="pa-0" fluid grid-list-sm>
                     <v-layout row wrap align-center>
-                      <v-flex sm6 xs12>
+                      <v-flex md6 sm12>
                         <v-btn
                           color="light-green lighten-1"
                           block
                           ripple
                           small
-                          flat
+                          depressed
+                          dark
+                          nuxt
+                          to="/contacter-un-pharmacien"
                           >Contacter un pharmacien</v-btn
                         >
                       </v-flex>
-                      <v-flex sm6 xs12>
+                      <v-flex md6 sm12>
                         <v-btn
                           color="light-green lighten-1"
                           block
                           ripple
                           small
-                          flat
+                          depressed
+                          dark
+                          nuxt
+                          to="/more"
                           >En savoir plus</v-btn
                         >
                       </v-flex>
@@ -181,7 +187,14 @@
             <div class="mt-5 text--section text--baseColor">
               Le visiter le blog
             </div>
-            <v-btn color="light-green lighten-1" ripple flat class="mt-5"
+            <v-btn
+              color="light-green lighten-1"
+              ripple
+              depressed
+              dark
+              class="mt-5"
+              nuxt
+              to="/blog"
               >visiter le blog</v-btn
             >
           </v-flex>

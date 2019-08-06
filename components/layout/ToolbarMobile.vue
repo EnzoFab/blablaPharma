@@ -113,9 +113,6 @@ export default {
         item.action();
       }
     }
-  },
-  mounted() {
-    console.log(this.$route.path);
   }
 };
 </script>

@@ -69,6 +69,7 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
+    ["@nuxtjs/moment", { locales: ["fr"] }],
     "@nuxtjs/vuetify",
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",

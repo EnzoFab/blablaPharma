@@ -40,7 +40,6 @@ export default {
 
   methods: {
     closeDialog() {
-      console.log("click");
       this.$store.commit(SET_CONNEXION_DIALOG, false);
     }
   }

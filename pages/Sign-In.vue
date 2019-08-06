@@ -1,8 +1,16 @@
 <template>
   <div>
-    <v-container fluid pa-0 grid-list-xs class="white">
-      <v-layout row wrap>
+    <v-container
+      v-if="!signInFinished"
+      fluid
+      pa-0
+      grid-list-xs
+      class="white"
+      fill-height
+    >
+      <v-layout row wrap align-center>
         <div
+          v-show="!signInType"
           :class="{
             'title-main title-main-rail content-align-top': !smallScreen,
             'headline text-futura content-align-middle': smallScreen,
@@ -13,7 +21,11 @@
             Rejoignez nous
           </div>
         </div>
-        <v-flex md6>
+        <v-flex
+          v-show="!signInType || isClient"
+          :md6="!isClient"
+          :md3="isClient"
+        >
           <v-img
             src="/signin.jpg"
             :height="imageHeight"
@@ -22,13 +34,30 @@
             <v-container fill-height fluid>
               <v-layout row wrap align-center>
                 <v-flex class="content-center mx-5">
-                  <v-btn depressed block large>Je suis client</v-btn>
+                  <v-btn
+                    v-show="!signInType"
+                    depressed
+                    block
+                    large
+                    @click="signInType = 'PATIENT'"
+                    >Je suis patient</v-btn
+                  >
+                  <div
+                    v-show="isClient"
+                    class="title-section-small text-futura white text--baseColor"
+                  >
+                    Patient
+                  </div>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-img>
         </v-flex>
-        <v-flex md6>
+        <v-flex
+          v-show="!signInType || isPharmacist"
+          :md6="!isPharmacist"
+          :md3="isPharmacist"
+        >
           <v-img
             :height="imageHeight"
             src="/banner.jpg"
@@ -37,30 +66,72 @@
             <v-container fluid fill-height>
               <v-layout row wrap align-center>
                 <v-flex class="content-center mx-5">
-                  <v-btn depressed block large color="blue-grey lighten-1" dark
+                  <v-btn
+                    v-show="!isPharmacist"
+                    depressed
+                    block
+                    large
+                    color="blue-grey lighten-1"
+                    dark
+                    @click="signInType = 'PHARMACIST'"
                     >Je suis pharmacien
-                    <v-icon right>far fa-laptop-medical</v-icon>
                   </v-btn>
+                  <div
+                    v-show="isPharmacist"
+                    class="title-section-small text-futura white text--baseColor"
+                  >
+                    Pharmacien
+                  </div>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-img>
         </v-flex>
+        <v-expand-transition>
+          <v-flex v-show="isClient" md9>
+            <sign-in-client
+              @signin-client::submit="signIn"
+              :loading="loading"
+            />
+          </v-flex>
+        </v-expand-transition>
+        <v-expand-transition>
+          <v-flex v-show="isPharmacist" md9>
+            <sign-in-pharmacist
+              @signin-pharmacist::register="signIn"
+              :loading="loading"
+            />
+          </v-flex>
+        </v-expand-transition>
       </v-layout>
     </v-container>
+    <div v-else class="content-center">
+      <span class="title-main title-main-rail text--baseColor">
+        Inscription complète
+      </span>
+      <div class="text--section text--baseColor mt-3">
+        Un mail a été envoyé sur votre boîte mail pour finaliser votre
+        inscription.
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import SignInClient from "../components/forms/SignInClient";
+import SignInPharmacist from "../components/forms/SignInPharmacist";
 export default {
   name: "Sign-In",
+  components: { SignInPharmacist, SignInClient },
   data() {
     return {
       errorMessage: null,
       isProcessing: false,
       formValid: true,
-      mail: "",
-      password: ""
+      // possible values PATIENT | PHARMACIST
+      signInType: null,
+      signInFinished: false,
+      loading: false
     };
   },
 
@@ -71,12 +142,28 @@ export default {
     },
     smallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
+    },
+
+    isClient() {
+      return this.signInType === "PATIENT";
+    },
+
+    isPharmacist() {
+      return this.signInType === "PHARMACIST";
     }
   },
   methods: {
-    signIn() {}
+    signIn(data) {
+      this.loading = true;
+
+      // todo axios request to save data
+
+      setTimeout(() => {
+        this.loading = false;
+        this.signInFinished = true;
+      }, 1500);
+      console.log(data);
+    }
   }
 };
 </script>
-
-<style scoped></style>
