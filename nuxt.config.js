@@ -59,23 +59,23 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    "~/plugins/axios",
-    "~/plugins/constraints",
-    "~/plugins/auth",
-    { src: "~/plugins/localStorage.js", ssr: false }
-  ],
+  plugins: ["~/plugins/axios", "~/plugins/constraints", "~/plugins/auth"],
   /*
    ** Nuxt.js modules
    */
   modules: [
-    ["@nuxtjs/moment", { locales: ["fr"] }],
     "@nuxtjs/vuetify",
+    "cookie-universal-nuxt",
+    ["@nuxtjs/moment", { locales: ["fr"] }],
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
     ["vue-scrollto/nuxt", { duration: 300 }]
   ],
+
+  router: {
+    middleware: ["cookieSetter"]
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

@@ -12,7 +12,8 @@ router.post("/login", (req, res, next) => {
     name: "User test"
   };
   const accessToken = jwt.sign(user, process.env.JWT_SECRET);
-
+  res.cookie("accessToken", accessToken);
+  res.cookie("userData", JSON.stringify(user));
   res.send({ accessToken, user });
 });
 

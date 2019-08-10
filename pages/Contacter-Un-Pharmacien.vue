@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { SET_CONNEXION_DIALOG } from "../store/modules/types";
+import { SET_CONNEXION_DIALOG } from "../store/types";
 import PharmacistCard from "../components/pharmacist/PharmacistCard";
 import MessageDialog from "../components/messaging/MessageDialog";
 export default {

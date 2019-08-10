@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { SET_CONNEXION_DIALOG } from "../../store/modules/types";
+import { SET_CONNEXION_DIALOG } from "../../store/types";
 import LoginForm from "../forms/LoginForm";
 
 export default {

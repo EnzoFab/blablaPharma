@@ -134,7 +134,6 @@ export default {
       loading: false
     };
   },
-
   computed: {
     imageHeight() {
       const isSmallScreen = this.$vuetify.breakpoint.smAndDown;
@@ -162,8 +161,8 @@ export default {
         this.loading = false;
         this.signInFinished = true;
       }, 1500);
-      console.log(data);
     }
-  }
+  },
+  middleware: "notConnected"
 };
 </script>

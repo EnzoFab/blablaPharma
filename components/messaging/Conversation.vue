@@ -1,25 +1,32 @@
 <template>
-  <v-container grid-list-xl class="conversation">
-    <v-layout row wrap pa-2 class="conversation-message-holder scroll-y">
-      <v-flex
-        v-for="message in messages"
-        md8
-        :key="message.id"
-        :offset-md4="$store.getters.isCurrentUserMessage(message.author)"
-        :offset-sm1="$store.getters.isCurrentUserMessage(message.author)"
-        sm11
-        xs12
-        px-3
-      >
-        <message
-          :author="message.author"
-          :content="message.content"
-          :id="'message' + message.id"
-        />
-      </v-flex>
-    </v-layout>
+  <v-container ma-0 pa-0 grid-list-xl class="conversation">
     <v-layout row wrap>
-      <v-flex xs12 mt-2
+      <v-flex xs12 v-if="loading" class="content-center">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-flex>
+      <v-flex xs12 v-else>
+        <v-container my-0 py-0 fluid grid-list-xl>
+          <v-layout row wrap class="conversation-message-holder scroll-y">
+            <v-flex
+              v-for="message in messages"
+              md8
+              :key="message.id"
+              :offset-md4="$store.getters.isCurrentUserMessage(message.author)"
+              :offset-sm1="$store.getters.isCurrentUserMessage(message.author)"
+              sm11
+              xs12
+              px-3
+            >
+              <message
+                :author="message.author"
+                :content="message.content"
+                :id="'message' + message.id"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-flex>
+      <v-flex xs12 mt-4 mb-0 pb-0 px-2 mx-2
         ><send-box @sendbox:messageSent="handleNewMessage"
       /></v-flex>
     </v-layout>
@@ -31,10 +38,16 @@ import Message from "./Message";
 import SendBox from "./SendBox";
 export default {
   name: "Conversation",
+  props: {
+    receiverId: { type: String }
+  },
   components: { SendBox, Message },
-  data() {
-    return {
-      messages: [
+  computed: {
+    loadedMessage() {
+      this.loading = true;
+      const receiverId = this.receiverId;
+      Promise.resolve(setTimeout(() => (this.loading = false), 1500));
+      return [
         {
           author: "enzo",
           content: {
@@ -45,6 +58,7 @@ export default {
           id: 1
         },
         {
+          userId: receiverId,
           author: "Pierre",
           content: {
             type: "url",
@@ -58,13 +72,22 @@ export default {
           },
           id: 2
         }
-      ]
+      ];
+    },
+    messages() {
+      return [...this.loadedMessage, ...this.newMessages];
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      newMessages: []
     };
   },
   methods: {
-    handleNewMessage(message) {
-      message.id = this.messages.length + 1;
-      this.messages = [...this.messages, message];
+    handleNewMessage(data) {
+      const message = { ...data, id: this.messages.length + 1 };
+      this.newMessages = [...this.newMessages, message];
 
       // todo save in BD, emit an event on socket io
 
@@ -80,5 +103,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

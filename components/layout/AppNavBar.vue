@@ -23,7 +23,7 @@ const display_cases = {
   LOGGED: "logged"
 };
 
-import { LOGOUT } from "../../store/modules/types";
+import { LOGOUT } from "../../store/types";
 import ToolbarComputer from "./ToolbarComputer";
 import ToolbarMobile from "./ToolbarMobile";
 
@@ -61,6 +61,13 @@ export default {
           display_case: display_cases.NOT_LOGGED,
           isLink: true,
           nuxtLink: "/sign-in",
+          spacerBefore: false
+        },
+        {
+          title: () => "Messages",
+          display_case: display_cases.LOGGED,
+          isLink: true,
+          nuxtLink: "/messages",
           spacerBefore: false
         },
         {

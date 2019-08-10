@@ -94,6 +94,16 @@
                   :rules="$constraints.required"
                 ></v-text-field>
               </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="fields.workplace"
+                  outline
+                  label="Nom de l'établissement"
+                  hint="Nom de l'établissement où vous travaillez"
+                  color="light-grey"
+                  :rules="$constraints.required"
+                ></v-text-field>
+              </v-flex>
               <v-flex xs12 class="content-center">
                 <v-btn
                   large
@@ -127,7 +137,9 @@ export default {
       step: 1,
       fields: {
         image: null,
+        // todo use autocomplete https://v15.vuetifyjs.com/en/components/autocompletes
         address: null,
+        workplace: null,
         rpps: null,
         profession: "pharmacist"
       },

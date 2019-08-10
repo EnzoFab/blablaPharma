@@ -1,3 +1,20 @@
+.active-conversation {
+  background-color: #f3f6f8 !important;
+  border-left: 4px solid #4e342e;
+}
+
+.aside-conversation {
+  border: 1px solid lightgray;
+  &-sender {
+    border-bottom: solid 1px lightgray;
+    background-color: white;
+    cursor: pointer;
+  }
+
+  &-sender:hover {
+    background-color: #f3f6f8;
+  }
+}
 .messaging-full {
   margin: auto;
 }

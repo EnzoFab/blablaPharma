@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { SET_JWT_TOKEN } from "../../store/modules/types";
+import { SET_JWT_TOKEN } from "../../store/types";
 
 export default {
   name: "LoginForm",
@@ -194,10 +194,12 @@ export default {
         this.isProcessing = true;
         try {
           // dispatch an action to try to connect
-          await this.$store.dispatch(SET_JWT_TOKEN);
+          await this.$store.dispatch("login");
           this.hideLoader(() => this.closeDialog());
           // todo only push if we are on a wrong page
-          //this.$router.push({ path: "/sign-in" });
+          if (["/sign-in"].includes(this.$route.path)) {
+            this.$router.push({ path: "/" });
+          }
         } catch (e) {
           await this.hideLoader();
           this.errorMessage = "Identifiants non valides";
