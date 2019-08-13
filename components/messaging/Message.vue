@@ -1,12 +1,16 @@
 <template>
   <div>
     <div
+      class="title-section-small text--baseColor text-capitalize font-weight-bold text-left ml-2"
+    >
+      {{ author }}
+    </div>
+    <div
       :class="{
         'pa-2': true,
         message: true,
         'message-sent': isMessageSent,
-        'message-received': !isMessageSent,
-        'elevation-1': true
+        'message-received': !isMessageSent
       }"
     >
       <url-preview
@@ -16,14 +20,22 @@
         :preview="content.image"
         :description="content.description"
       />
-      <span v-else>
-        <span v-for="(word, i) in content.message.split('\n')">
-          <span v-if="word.length > 0" class="text-breakline">{{ word }}</span>
+      <div v-else>
+        <div
+          v-for="(word, i) in content.message.split('\n')"
+          style="text-align: left"
+          :key="i"
+        >
+          <span
+            v-if="word.length > 0"
+            class="text-breakline text--section grey--text text--darken-1"
+            >{{ word }}</span
+          >
           <br v-else />
-        </span>
-      </span>
+        </div>
+      </div>
     </div>
-    <span class="caption font-italic" style="float: right">{{ author }}</span>
+    <span class="caption font-italic">{{ date }}</span>
   </div>
 </template>
 
@@ -35,7 +47,7 @@ export default {
   props: {
     content: Object,
     author: String,
-    date: Date
+    date: String
   },
 
   computed: {

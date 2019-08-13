@@ -1,49 +1,50 @@
 <template>
-  <v-container ma-0 pa-0 grid-list-xl class="conversation">
-    <v-layout row wrap>
-      <v-flex xs12 v-if="loading" class="content-center">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-      </v-flex>
-      <v-flex xs12 v-else>
-        <v-container my-0 py-0 fluid grid-list-xl>
-          <v-layout row wrap class="conversation-message-holder scroll-y">
-            <v-flex
-              v-for="message in messages"
-              md8
-              :key="message.id"
-              :offset-md4="$store.getters.isCurrentUserMessage(message.author)"
-              :offset-sm1="$store.getters.isCurrentUserMessage(message.author)"
-              sm11
-              xs12
-              px-3
-            >
-              <message
-                :author="message.author"
-                :content="message.content"
-                :id="'message' + message.id"
-              />
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-flex>
-      <v-flex xs12 mt-4 mb-0 pb-0 px-2 mx-2
-        ><send-box @sendbox:messageSent="handleNewMessage"
-      /></v-flex>
-    </v-layout>
-  </v-container>
+  <div>
+    <v-container my-0 pa-0 ml-1 grid-list-xl>
+      <div class="ml-2 py-1 title-section text--baseColor">
+        {{ receiverName }}
+      </div>
+
+      <v-layout row wrap>
+        <v-flex xs12 v-if="loading" class="content-center">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-flex>
+        <v-flex xs12 v-else>
+          <v-container my-0 py-0 fluid grid-list-xl>
+            <v-layout row wrap class="conversation-message-holder scroll-y">
+              <v-flex v-for="message in messages" xs9 px-3 :key="message.id">
+                <message
+                  :author="message.author"
+                  :content="message.content"
+                  :date="message.dateLabel"
+                  :id="'message' + message.id"
+                />
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-flex>
+        <v-flex xs12 mt-4 mb-0 pb-0 px-2 mx-2
+          ><send-box @sendbox:messageSent="handleNewMessage"
+        /></v-flex>
+      </v-layout>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import Message from "./Message";
 import SendBox from "./SendBox";
+import moment from "moment";
 export default {
   name: "Conversation",
   props: {
-    receiverId: { type: String }
+    receiverId: String,
+    receiverName: String
   },
   components: { SendBox, Message },
   computed: {
     loadedMessage() {
+      this.newMessages = [];
       this.loading = true;
       const receiverId = this.receiverId;
       Promise.resolve(setTimeout(() => (this.loading = false), 1500));
@@ -55,6 +56,7 @@ export default {
             message:
               "Salut les zinzins j'aime vous parler car je vous apprécie beaucoup j'espère que vous en êtes conscient"
           },
+          date: new Date(),
           id: 1
         },
         {
@@ -70,12 +72,35 @@ export default {
             url:
               "https://blog.kiprosh.com/using-url-previews-in-your-web-apps-using-javascript/"
           },
+          date: moment().subtract(2, "hours"),
           id: 2
         }
       ];
     },
     messages() {
-      return [...this.loadedMessage, ...this.newMessages];
+      const m = [...this.loadedMessage, ...this.newMessages];
+      return m.map(message => {
+        const date = moment(message.date);
+        const diff = moment().diff(date);
+        let dateLabel;
+
+        //less than 1 minute
+        if (diff < 60000) {
+          dateLabel = "Il y a quelques secondes";
+        }
+        // less than 1 hours
+        else if (diff < 3.6e6) {
+          dateLabel = `il y a ${Math.ceil(diff / (60 * 1000))} minute(s)`;
+        }
+        // less than 1 day
+        else if (diff < 8.64e7) {
+          dateLabel = `il y a ${Math.ceil(diff / (60 * 60 * 1000))} heure(s)`;
+        } else {
+          dateLabel = "Le " + date.locale("fr").format("Do MMMM YYYY");
+        }
+
+        return { ...message, dateLabel };
+      });
     }
   },
   data() {

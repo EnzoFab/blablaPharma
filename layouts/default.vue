@@ -5,6 +5,9 @@
       <nuxt />
     </v-content>
     <login-dialog />
+    <no-ssr>
+      <fresh-chat />
+    </no-ssr>
     <app-footer />
   </v-app>
 </template>
@@ -13,14 +16,13 @@
 import AppFooter from "~/components/layout/AppFooter";
 import AppNavBar from "../components/layout/AppNavBar";
 import LoginDialog from "../components/messaging/LoginDialog";
+import FreshChat from "../components/layout/FreshChat";
 export default {
   components: {
+    FreshChat,
     LoginDialog,
     AppNavBar,
     AppFooter
-  },
-  data() {
-    return {};
   }
 };
 </script>

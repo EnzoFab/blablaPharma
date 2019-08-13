@@ -1,0 +1,12 @@
+This file needs to be renamed .env with the following variables
+remove everything except the variables
+
+#BASE_URL for the api server
+BASE_URL=127.0.0.1
+
+#Port the server hosting the current application
+PORT=3000
+
+#will be removed and used in the api server
+LINK_PREVIEW_APIKEY=
+JWT_SECRET=secret

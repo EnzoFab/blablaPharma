@@ -105,8 +105,8 @@ export default {
     sendMessage() {
       this.$emit("sendbox:messageSent", {
         content: { type: "text", message: this.text },
-        author: "enzo",
-        data: new Date()
+        author: this.$store.getters.connectedUser.name,
+        date: new Date()
       });
 
       this.text = "";

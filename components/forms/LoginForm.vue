@@ -196,7 +196,8 @@ export default {
           // dispatch an action to try to connect
           await this.$store.dispatch("login");
           this.hideLoader(() => this.closeDialog());
-          // todo only push if we are on a wrong page
+
+          // if we are on a page that require a none connected user
           if (["/sign-in"].includes(this.$route.path)) {
             this.$router.push({ path: "/" });
           }
