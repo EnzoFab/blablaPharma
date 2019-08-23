@@ -91,6 +91,7 @@
           <v-flex v-show="isClient" md9>
             <sign-in-client
               @signin-client::submit="signIn"
+              :error-message="errorMessage"
               :loading="loading"
             />
           </v-flex>
@@ -99,13 +100,14 @@
           <v-flex v-show="isPharmacist" md9>
             <sign-in-pharmacist
               @signin-pharmacist::register="signIn"
+              :error-message="errorMessage"
               :loading="loading"
             />
           </v-flex>
         </v-expand-transition>
       </v-layout>
     </v-container>
-    <div v-else class="content-center">
+    <v-container v-else class="content-center">
       <span class="title-main title-main-rail text--baseColor">
         Inscription complète
       </span>
@@ -113,11 +115,14 @@
         Un mail a été envoyé sur votre boîte mail pour finaliser votre
         inscription.
       </div>
-    </div>
+    </v-container>
   </div>
 </template>
 
 <script>
+import flatMap from "lodash.flatmap";
+import merge from "lodash.merge";
+
 import SignInClient from "../components/forms/SignInClient";
 import SignInPharmacist from "../components/forms/SignInPharmacist";
 export default {
@@ -152,15 +157,30 @@ export default {
     }
   },
   methods: {
-    signIn(data) {
+    async signIn(data) {
       this.loading = true;
+      this.errorMessage = null;
 
-      // todo axios request to save data
+      const flatData = merge(...flatMap(data));
 
-      setTimeout(() => {
-        this.loading = false;
+      try {
+        // todo axios request to save data
+        // todo flat field / split request according to the type of user
+        if (data.professionalData) {
+          await this.$auth.registerPharmacist(flatData);
+          // user is a pharmacist
+        } else {
+          await this.$auth.registerPatient(flatData);
+        }
         this.signInFinished = true;
-      }, 1500);
+      } catch {
+        this.errorMessage =
+          "Une erreur est survenue, veuillez réessayer plus tard";
+      } finally {
+        setTimeout(() => {
+          this.loading = false;
+        }, 1500);
+      }
     }
   },
   middleware: "notConnected"

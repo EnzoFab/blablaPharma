@@ -1,9 +1,19 @@
 <template>
   <div>
-    <div
-      class="title-section-small text--baseColor text-capitalize font-weight-bold text-left ml-2"
-    >
-      {{ author }}
+    <div class="pb-1">
+      <v-avatar color="light-grey" size="40">
+        <v-img v-if="picture && picture.length > 0" :src="picture"></v-img>
+        <v-icon v-else size="38" dark color="green">person_pin</v-icon>
+      </v-avatar>
+      <span
+        :class="{
+          'text--baseColor': !isMessageSent,
+          'title-section-small font-weight-bold text-left ml-2 text-truncate': true
+        }"
+      >
+        {{ authorFullname }}
+      </span>
+      <span class="text--tiny font-italic mt-2 ml-2"> {{ date }}</span>
     </div>
     <div
       :class="{
@@ -28,14 +38,13 @@
         >
           <span
             v-if="word.length > 0"
-            class="text-breakline text--section grey--text text--darken-1"
+            class="text-breakline text--normal grey--text text--darken-1"
             >{{ word }}</span
           >
           <br v-else />
         </div>
       </div>
     </div>
-    <span class="caption font-italic">{{ date }}</span>
   </div>
 </template>
 
@@ -46,13 +55,15 @@ export default {
   components: { UrlPreview },
   props: {
     content: Object,
-    author: String,
-    date: String
+    authorFullname: String,
+    authorId: String,
+    date: String,
+    picture: String
   },
 
   computed: {
     isMessageSent() {
-      return this.$store.getters.isCurrentUserMessage(this.author);
+      return this.$store.getters.isCurrentUserMessage(this.authorId);
     }
   },
   methods: {}

@@ -9,10 +9,10 @@
   >
     <v-layout row wrap align-center>
       <v-flex md8 lg3 align-center class="content-center">
-        <v-avatar color="green" :size="size">
-          <span v-if="!image" class="white--text display-2">{{
-            initials
-          }}</span>
+        <v-avatar color="light-grey" :size="size">
+          <v-icon v-if="!image" :size="size" dark color="green"
+            >person_pin</v-icon
+          >
           <v-img v-else :src="image" aspect-ratio="3.75"></v-img>
         </v-avatar>
       </v-flex>
@@ -25,10 +25,10 @@
       >
         <div class="title-section-huge text--baseColor">{{ fullName }}</div>
 
-        <div class="display-1 red--text text--darken-1 text-futura mt-4">
-          {{ address }}
+        <div class="headline  text-futura mt-4">
+          {{ fullAddress }}
         </div>
-        <div class="headline text--baseColor text-futura mt-3 ">
+        <div class="title text--baseColor text-futura mt-3 ">
           {{ workplace }}
         </div>
         <div class="mt-3">
@@ -53,7 +53,7 @@ export default {
   props: {
     firstName: String,
     lastName: String,
-    address: String,
+    fullAddress: String,
     workplace: String,
     image: String,
     identifiant: String | Number

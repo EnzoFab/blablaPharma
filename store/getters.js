@@ -1,6 +1,7 @@
 export default {
   // todo return true if the connected user sent this message
-  isCurrentUserMessage: state => author => author === state.connectedUser.name,
+  isCurrentUserMessage: state => authorId =>
+    authorId === state.connectedUser.userId,
   isLoggedIn: state => {
     return state.connectedUser != null;
   },
@@ -10,6 +11,6 @@ export default {
       return "anonymous";
     }
 
-    return state.connectedUser.type === "Pharmacist" ? "Pharmacist" : "Patient";
+    return state.connectedUser.professionalId ? "Pharmacist" : "Patient";
   }
 };

@@ -28,9 +28,18 @@
 
   &--section {
     font-family: roboto-thin, roboto, sans-serif;
-    font-size: 1.1em;
+    font-size: 1.1rem;
     text-align: -moz-center;
     line-height: 1.7em;
+  }
+
+  &--normal {
+    font-family: roboto-thin, roboto, sans-serif;
+    font-size: 1.1vw;
+  }
+
+  &--tiny {
+    font-size: 0.8rem;
   }
 
   &-no-decoration {

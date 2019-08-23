@@ -201,6 +201,13 @@ export default {
           if (["/sign-in"].includes(this.$route.path)) {
             this.$router.push({ path: "/" });
           }
+
+          if (
+            this.$store.getters.userType === "Pharmacist" &&
+            ["/contacter-un-pharmacien"].includes(this.$route.path)
+          ) {
+            this.$router.push({ path: "/" });
+          }
         } catch (e) {
           await this.hideLoader();
           this.errorMessage = "Identifiants non valides";

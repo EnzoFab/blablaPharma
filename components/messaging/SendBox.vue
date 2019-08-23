@@ -16,6 +16,7 @@
       background-color="white"
       placeholder="Écrire votre message"
       class="sendBox"
+      @keydown.enter.exact.prevent="sendMessage"
     >
       <div slot="append">
         <template v-if="textEmppty(text)">
@@ -103,9 +104,10 @@ export default {
     },
 
     sendMessage() {
+      const connectedUser = this.$store.getters.connectedUser;
       this.$emit("sendbox:messageSent", {
         content: { type: "text", message: this.text },
-        author: this.$store.getters.connectedUser.name,
+        ...connectedUser,
         date: new Date()
       });
 

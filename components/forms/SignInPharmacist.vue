@@ -26,37 +26,9 @@
         >
           <v-container fluid>
             <v-layout row wrap align-center>
-              <v-flex xs4 class="content-center">
-                <button
-                  v-if="!previewImageUrl"
-                  class="no-outline"
-                  @click.prevent="$refs.photo.click()"
-                >
-                  <v-icon large color="black">photo_camera</v-icon>
-                  <div class="text-content text--baseColor">
-                    Ajouter une photo
-                  </div>
-                </button>
-                <v-badge v-else color="red">
-                  <template v-slot:badge
-                    ><v-icon @click="resetImage" dark>close</v-icon></template
-                  >
-                  <v-avatar size="100" class="mb-3">
-                    <v-img aspect-ratio="3.75" :src="previewImageUrl"></v-img>
-                  </v-avatar>
-                </v-badge>
-
-                <input
-                  v-show="false"
-                  type="file"
-                  ref="photo"
-                  accept="image/*"
-                  @change="loadImage"
-                />
-              </v-flex>
               <v-flex xs12>
                 <v-radio-group
-                  v-model="fields.profession"
+                  v-model="fields.professionLabel"
                   label="Profession :"
                   row
                   mandatory
@@ -76,7 +48,7 @@
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="fields.rpps"
+                  v-model.trim="fields.professionalId"
                   hint="Numéro RPPS ou numero etudiant"
                   color="light-grey"
                   outline
@@ -84,25 +56,54 @@
                   :rules="$constraints.required"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs12>
+              <v-flex sm4 xs12>
                 <v-text-field
-                  v-model="fields.address"
+                  v-model="fields.postalCode"
+                  type="number"
                   color="light-grey"
-                  label="Adresse professionnelle"
-                  hint="Adresse de la pharmacie ou de la factulté"
+                  label="Code postal"
+                  hint="Code postal de la pharmacie ou de la faculté. ex: '34000'"
+                  outline
+                  :rules="[
+                    ...$constraints.required,
+                    ...$constraints.postalCodeRules
+                  ]"
+                ></v-text-field>
+              </v-flex>
+              <v-flex sm7 offset-sm1 xs12>
+                <v-text-field
+                  v-model.trim="fields.city"
+                  color="light-grey"
+                  label="Ville"
+                  hint="Ville de la pharmacie ou de la faculté. Exemple: 'Montpellier'"
                   outline
                   :rules="$constraints.required"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="fields.workplace"
+                  v-model.trim="fields.address"
+                  color="light-grey"
+                  label="Adresse professionnelle"
+                  hint="Adresse de la pharmacie ou de la faculté. Exemple: '120, rue des lilas'"
+                  outline
+                  :rules="$constraints.required"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model.trim="fields.institutionName"
                   outline
                   label="Nom de l'établissement"
                   hint="Nom de l'établissement où vous travaillez"
                   color="light-grey"
                   :rules="$constraints.required"
                 ></v-text-field>
+              </v-flex>
+              <v-flex xs12 class="content-center" v-if="errorMessage">
+                <span class="red--text text--lighten-2">{{
+                  errorMessage
+                }}</span>
               </v-flex>
               <v-flex xs12 class="content-center">
                 <v-btn
@@ -130,21 +131,22 @@ export default {
   name: "SignInPharmacist",
   components: { SignInClient },
   props: {
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    errorMessage: String
   },
   data() {
     return {
       step: 1,
       fields: {
-        image: null,
-        // todo use autocomplete https://v15.vuetifyjs.com/en/components/autocompletes
         address: null,
-        workplace: null,
-        rpps: null,
-        profession: "pharmacist"
+        postalCode: null,
+        city: null,
+        institutionName: null,
+        professionalId: null,
+        professionLabel: "pharmacist"
       },
-      personalData: null,
-      previewImageUrl: null
+
+      personalData: null
     };
   },
   methods: {
@@ -152,22 +154,9 @@ export default {
       this.personalData = data;
       this.step++;
     },
-    loadImage(e) {
-      const file = e.target.files[0];
-      if (file.type.includes("image/")) {
-        // only accept image
-        this.previewImageUrl = URL.createObjectURL(file);
-        this.fields.image = file;
-      } else {
-        this.resetImage();
-      }
-    },
-    resetImage() {
-      this.fields.image = null;
-      this.previewImageUrl = null;
-    },
+
     register() {
-      if (this.$refs.professionalForm.validate) {
+      if (this.$refs.professionalForm.validate()) {
         this.$emit("signin-pharmacist::register", {
           ...this.personalData,
           professionalData: this.fields

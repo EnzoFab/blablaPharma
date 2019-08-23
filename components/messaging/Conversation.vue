@@ -1,29 +1,65 @@
 <template>
   <div>
-    <v-container my-0 pa-0 ml-1 grid-list-xl>
-      <div class="ml-2 py-1 title-section text--baseColor">
-        {{ receiverName }}
-      </div>
+    <v-toolbar
+      v-show="!hideTitle"
+      color="grey lighten-5"
+      collapse
+      flat
+      class="ml-2 mb-2 pa-1 title-section text--baseColor"
+      style="border-radius: 6px"
+    >
+      <v-btn
+        v-show="showBackArrow"
+        icon
+        large
+        outline
+        color="grey"
+        @click="$emit('conversation::back')"
+      >
+        <v-icon size="40" color="grey">arrow_back </v-icon>
+      </v-btn>
+      <v-toolbar-title class="text-truncate">{{
+        receiverName
+      }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click="">
+        <v-icon color="grey darken-1" small>fas fa-ellipsis-h</v-icon>
+      </v-btn>
+    </v-toolbar>
 
+    <v-container my-0 pa-0 ml-1 grid-list-xl>
       <v-layout row wrap>
         <v-flex xs12 v-if="loading" class="content-center">
           <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-flex>
-        <v-flex xs12 v-else>
-          <v-container my-0 py-0 fluid grid-list-xl>
-            <v-layout row wrap class="conversation-message-holder scroll-y">
-              <v-flex v-for="message in messages" xs9 px-3 :key="message.id">
+        <v-flex mx-0 px-0 xs12 v-else>
+          <v-container ma-0 py-0 fluid grid-list-xl>
+            <v-layout
+              row
+              wrap
+              :class="{
+                'conversation-message-holder scroll-y': true,
+                'conversation-normal': !embed,
+                'conversation-small': embed
+              }"
+              :id="'conversation' + conversationId"
+            >
+              <v-flex v-for="message in messages" xs11 :key="message.id">
                 <message
-                  :author="message.author"
+                  :author-fullname="message.authorFullName"
+                  :author-id="message.userId"
                   :content="message.content"
                   :date="message.dateLabel"
-                  :id="'message' + message.id"
+                  :id="
+                    'conversation' + conversationId + '-message' + message.id
+                  "
+                  :picture="message.picture"
                 />
               </v-flex>
             </v-layout>
           </v-container>
         </v-flex>
-        <v-flex xs12 mt-4 mb-0 pb-0 px-2 mx-2
+        <v-flex xs12 mt-1 mb-0 pb-0 px-2 mx-2
           ><send-box @sendbox:messageSent="handleNewMessage"
         /></v-flex>
       </v-layout>
@@ -38,30 +74,43 @@ import moment from "moment";
 export default {
   name: "Conversation",
   props: {
-    receiverId: String,
-    receiverName: String
+    conversationId: { type: String | Number },
+    receiverName: String,
+    // only show the back arrow when the screen is small
+    showBackArrow: { type: Boolean, default: false },
+    hideTitle: { type: Boolean, default: false },
+
+    // conversation is embed into a drawer
+    embed: { type: Boolean, default: false }
   },
   components: { SendBox, Message },
-  computed: {
-    loadedMessage() {
+  // todo async calls within computed functions
+  asyncComputed: {
+    async loadedMessage() {
       this.newMessages = [];
       this.loading = true;
-      const receiverId = this.receiverId;
+      const conversationId = this.conversationId;
       Promise.resolve(setTimeout(() => (this.loading = false), 1500));
       return [
         {
-          author: "enzo",
+          conversationId: conversationId,
+          firstName: "Pierre",
+          lastName: "Kiroul",
+          userId: "ieriei",
           content: {
             type: "text",
-            message:
-              "Salut les zinzins j'aime vous parler car je vous apprécie beaucoup j'espère que vous en êtes conscient"
+            message: "Ok mec j'ai envie de tester qqch je peux ?"
           },
           date: new Date(),
           id: 1
         },
         {
-          userId: receiverId,
-          author: "Pierre",
+          conversationId: conversationId,
+          userId: "superId",
+          firstName: "Max",
+          lastName: "Ime",
+          picture:
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/An_up-close_picture_of_a_curious_male_domestic_shorthair_tabby_cat.jpg",
           content: {
             type: "url",
             title: "Using URL previews in your web apps using JavaScript",
@@ -76,9 +125,12 @@ export default {
           id: 2
         }
       ];
-    },
+    }
+  },
+  computed: {
     messages() {
-      const m = [...this.loadedMessage, ...this.newMessages];
+      const loadedMessage = this.loadedMessage;
+      const m = [...loadedMessage, ...this.newMessages];
       return m.map(message => {
         const date = moment(message.date);
         const diff = moment().diff(date);
@@ -98,8 +150,9 @@ export default {
         } else {
           dateLabel = "Le " + date.locale("fr").format("Do MMMM YYYY");
         }
+        const authorFullName = `${message.firstName} ${message.lastName}`;
 
-        return { ...message, dateLabel };
+        return { ...message, dateLabel, authorFullName };
       });
     }
   },
@@ -122,8 +175,12 @@ export default {
     },
 
     scrollToNewMessage(newMessage) {
-      const option = { container: ".conversation-message-holder" };
-      this.$scrollTo(`#message${newMessage.id}`, 300, option);
+      const option = { container: `#conversation${this.conversationId}` };
+      this.$scrollTo(
+        `#conversation${this.conversationId}-message${newMessage.id}`,
+        300,
+        option
+      );
     }
   }
 };

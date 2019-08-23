@@ -1,4 +1,4 @@
-const BASE_URL = "/auth/";
+const BASE_URL = "auth/";
 
 export default function({ app, $axios }, inject) {
   // IOT use $auth which will contains auth methods
@@ -8,8 +8,12 @@ export default function({ app, $axios }, inject) {
       return $axios.post(`${BASE_URL}login`, { mail, password });
     },
 
-    registerUser() {},
+    registerPatient(payload) {
+      return $axios.post("/register/basic", payload);
+    },
 
-    registerPharmacist() {}
+    registerPharmacist(payload) {
+      return $axios.post("/register/pharmacist", payload);
+    }
   });
 }

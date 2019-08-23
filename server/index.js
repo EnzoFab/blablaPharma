@@ -6,8 +6,8 @@ const app = express();
 
 // Import and Set Nuxt.js options
 require("dotenv").config();
-const config = require("../nuxt.config.js");
-config.dev = !(process.env.NODE_ENV === "production");
+//const config = require("../nuxt.config.js");
+//config.dev = !(process.env.NODE_ENV === "production");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -15,7 +15,9 @@ app.use(cookieParser());
 
 app.use("/api", require("./routes"));
 
-async function start() {
+app.listen(3000);
+
+/*async function start() {
   // Init Nuxt.js
   const nuxt = new Nuxt(config);
 
@@ -40,3 +42,5 @@ async function start() {
   });
 }
 start();
+
+ */

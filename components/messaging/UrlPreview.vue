@@ -1,7 +1,7 @@
 <template>
   <v-card flat :href="url" target="_blank" color="white">
     <v-card-title primary class="text-truncate">
-      <span class="text-uppercase font-weight-bold body-1mb-0 text-truncate">
+      <span class="text-uppercase font-weight-bold body-1 mb-0 text-truncate">
         {{ title }}
       </span></v-card-title
     >

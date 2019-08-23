@@ -37,10 +37,18 @@
 .conversation {
   &-message-holder {
     display: block;
-    min-height: 20vh;
-    max-height: 60vh;
     overflow-y: scroll;
     width: 100%;
+  }
+
+  &-normal {
+    min-height: 10vh;
+    max-height: 60vh;
+  }
+
+  &-small {
+    min-height: 10vh;
+    max-height: 30vh;
   }
 }
 
@@ -48,14 +56,6 @@
   border: solid 1px transparent;
   border-radius: 6px;
   text-align: center;
-
-  &-sent {
-    background-color: #dbe1e3;
-  }
-
-  &-received {
-    background-color: white;
-  }
 }
 
 .sendbox {
@@ -66,4 +66,30 @@
   min-height: 30px;
   max-height: 90px;
   max-width: 100%;
+}
+
+.floating-conversations {
+  &-container {
+    position: fixed;
+    left: 5%;
+    bottom: 0;
+    width: 90%;
+    margin: auto;
+    color: white;
+    z-index: 100;
+  }
+
+  &-holder {
+    background-color: rgba(241, 245, 242, 0.5);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 10px;
+    position: relative;
+  }
+
+  &-holder2 {
+    position: absolute;
+    bottom: 15%;
+    width: 100%;
+  }
 }

@@ -38,12 +38,12 @@
           mb-4
         >
           <pharmacist-card
-            :address="pharmacist.address"
+            :full-address="getFullAddress(pharmacist)"
             :first-name="pharmacist.firstName"
-            :image="pharmacist.image"
+            :image="pharmacist.picture"
             :last-name="pharmacist.lastName"
-            :workplace="pharmacist.workplace"
-            :identifiant="pharmacist.id"
+            :workplace="pharmacist.institutionName"
+            :identifiant="pharmacist.professionalId"
             @pharmacist-card::contact="contactPharmacist"
           />
         </v-flex>
@@ -85,6 +85,11 @@ export default {
         this.receiverLastName = lastName;
         this.showDialog = true;
       }
+    },
+    getFullAddress(pharmacist) {
+      return `${pharmacist.address}, ${pharmacist.postalCode} ${
+        pharmacist.city
+      }`;
     }
   },
   /**
@@ -97,21 +102,25 @@ export default {
       // todo fetch 3 most effective pharmacist
       pharmacists: [
         {
-          id: 1234,
+          professionalId: 1234,
           firstName: "Michel",
           lastName: "Simons",
+          postalCode: "34095",
+          city: "Montpellier",
           address: "127, avenue de Toulouse",
-          workplace: "D.U PlanetArium",
-          image:
+          institutionName: "D.U PlanetArium",
+          picture:
             "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
         },
         {
-          id: 123,
+          professionalId: 123,
           firstName: "John",
           lastName: "Fitzpatrick",
+          postalCode: "34000",
+          city: "Anywhere",
           address: "Somewhere",
-          workplace: "D.U PlanetArium",
-          image: null
+          institutionName: "D.U PlanetArium",
+          picture: null
         }
       ]
     };

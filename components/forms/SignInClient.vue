@@ -7,10 +7,38 @@
   >
     <v-container fluid grid-list-xl>
       <v-layout row wrap>
+        <v-flex xs4 class="content-center">
+          <button
+            v-if="!previewImageUrl"
+            class="no-outline"
+            @click.prevent="$refs.photo.click()"
+          >
+            <v-icon large color="black">photo_camera</v-icon>
+            <div class="text-content text--baseColor">
+              Ajouter une photo
+            </div>
+          </button>
+          <v-badge v-else color="red">
+            <template v-slot:badge
+              ><v-icon @click="resetImage" dark>close</v-icon></template
+            >
+            <v-avatar size="100" class="mb-3">
+              <v-img aspect-ratio="3.75" :src="previewImageUrl"></v-img>
+            </v-avatar>
+          </v-badge>
+
+          <input
+            v-show="false"
+            type="file"
+            ref="photo"
+            accept="image/*"
+            @change="loadImage"
+          />
+        </v-flex>
         <v-flex mb-0 pb-0 xs12>
           <v-text-field
             outline
-            v-model="fields.mail"
+            v-model="fields.email"
             color="grey darken-1"
             type="mail"
             label="Email"
@@ -19,7 +47,7 @@
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
           <v-text-field
-            v-model="fields.firstName"
+            v-model.trim="fields.firstName"
             outline
             color="grey darken-1"
             label="Prenom"
@@ -28,7 +56,7 @@
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
           <v-text-field
-            v-model="fields.lastName"
+            v-model.trim="fields.lastName"
             outline
             color="grey darken-1"
             label="Nom"
@@ -37,13 +65,14 @@
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
           <v-text-field
-            v-model="fields.password"
+            v-model.trim="fields.password"
             :append-icon="showPassword ? 'visibility' : 'visibility_off'"
             :type="showPassword ? 'text' : 'password'"
             outline
             color="grey darken-1"
             label="Mot de passe"
             placeholder="Mot de passe"
+            hint="Les espaces ne sont pas pris en compte"
             loading
             :rules="[...$constraints.passwordRules, ...$constraints.required]"
             @click:append="showPassword = !showPassword"
@@ -61,7 +90,7 @@
         </v-flex>
         <v-flex sm6 xs12 mb-0 pb-0>
           <v-text-field
-            v-model="fields.confirmPassword"
+            v-model.trim="fields.confirmPassword"
             :append-icon="showPassword2 ? 'visibility' : 'visibility_off'"
             :type="showPassword2 ? 'text' : 'password'"
             outline
@@ -78,7 +107,7 @@
         <v-flex xs12 mt-0 pt-0>
           <v-radio-group
             row
-            v-model="fields.sex"
+            v-model="fields.gender"
             label="Sexe:"
             class="ml-5"
             mandatory
@@ -88,15 +117,15 @@
               class="ml-5 pl-5 mr-4"
               color="light-grey"
               label="Homme"
-              value="man"
+              value="male"
             ></v-radio>
             <v-radio
               class="mr-4"
               color="light-grey"
               label="Femme"
-              value="woman"
+              value="female"
             ></v-radio>
-            <v-radio color="light-grey" label="Autre" value="other"></v-radio>
+            <v-radio color="light-grey" label="Autre" value="another"></v-radio>
           </v-radio-group>
         </v-flex>
         <v-flex mb-0 pb-0 xs12>
@@ -124,7 +153,7 @@
             </template>
             <v-date-picker
               ref="picker"
-              v-model="fields.birthday"
+              v-model="fields.birthdayDate"
               :max="maxDate"
               locale="fr-Fr"
               color="blue-grey lighten-1"
@@ -139,6 +168,9 @@
               @change="saveBirthDay"
             ></v-date-picker>
           </v-menu>
+        </v-flex>
+        <v-flex xs12 class="content-center" v-if="errorMessage">
+          <span class="red--text text--lighten-2">{{ errorMessage }}</span>
         </v-flex>
         <v-flex mb-0 pb-0 xs12 class="content-center">
           <v-btn
@@ -163,21 +195,24 @@ export default {
   name: "SignInClient",
   props: {
     submitButtonText: { type: String, default: "S'inscrire" },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    errorMessage: String
   },
   data() {
     return {
       showMenu: false,
       showPassword: false,
       showPassword2: false,
+      previewImageUrl: null,
       fields: {
-        mail: null,
+        picture: null,
+        email: null,
         firstName: null,
         lastName: null,
-        sex: null,
+        gender: null,
         password: null,
         confirmPassword: null,
-        birthday: null
+        birthdayDate: null
       }
     };
   },
@@ -233,14 +268,15 @@ export default {
     },
 
     dateFr() {
-      return this.fields.birthday
-        ? moment(this.fields.birthday)
+      return this.fields.birthdayDate
+        ? moment(this.fields.birthdayDate)
             .locale("fr")
             .format("Do MMMM YYYY")
         : "";
     },
 
     maxDate() {
+      // minimum 17 years ago
       return moment()
         .subtract(17, "years")
         .format();
@@ -253,8 +289,23 @@ export default {
     },
     sendForm() {
       if (this.$refs.signInClient.validate()) {
+        this.fields.email = this.fields.email.toLocaleLowerCase();
         this.$emit("signin-client::submit", { personalData: this.fields });
       }
+    },
+    loadImage(e) {
+      const file = e.target.files[0];
+      if (file.type.includes("image/")) {
+        // only accept image
+        this.previewImageUrl = URL.createObjectURL(file);
+        this.fields.pciture = file;
+      } else {
+        this.resetImage();
+      }
+    },
+    resetImage() {
+      this.fields.picture = null;
+      this.previewImageUrl = null;
     }
   }
 };

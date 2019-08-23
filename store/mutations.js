@@ -1,7 +1,8 @@
 import {
   SET_JWT_TOKEN,
   SET_CONNECTED_USER,
-  SET_CONNEXION_DIALOG
+  SET_CONNEXION_DIALOG,
+  REMOVE_CONVERSATION_FROM_BAR
 } from "./types";
 
 export default {
@@ -31,5 +32,11 @@ export default {
    */
   [SET_CONNEXION_DIALOG]: (state, active = false) => {
     state.contactPharmacistDialog = active;
+  },
+
+  [REMOVE_CONVERSATION_FROM_BAR]: (state, conversationId) => {
+    state.activeConversations = state.activeConversations.filter(
+      element => element.conversationId !== conversationId
+    );
   }
 };

@@ -1,14 +1,11 @@
 const colors = require("vuetify/es5/util/colors").default;
 const env = require("dotenv").config();
+
 //const mode = process.env.NODE_ENV === "development" ? "spa" : "universal";
 
 module.exports = {
   mode: "universal",
   env: env.parsed,
-
-  server: {
-    port: env.PORT
-  },
   /*
    ** Headers of the page
    */
@@ -62,7 +59,7 @@ module.exports = {
    */
   plugins: [
     "~/plugins/axios",
-    "~/plugins/constraints",
+    "~/plugins/commons",
     "~/plugins/auth",
     { src: "~plugins/vue-cookie-law.js", ssr: false }
   ],
@@ -75,10 +72,15 @@ module.exports = {
     ["@nuxtjs/moment", { locales: ["fr"] }],
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
+    "@nuxtjs/proxy",
+
     "@nuxtjs/pwa",
     ["vue-scrollto/nuxt", { duration: 300 }]
   ],
 
+  /*
+    beforeach route calls cookie setter middleware
+   */
   router: {
     middleware: ["cookieSetter"]
   },
@@ -86,7 +88,17 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    proxy: true,
+    prefix: "/api/"
+  },
+
+  proxy: {
+    "/api/": {
+      target: env.parsed.API_URL,
+      pathRewrite: { "^/api/": "/" }
+    }
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -102,6 +114,39 @@ module.exports = {
       success: colors.green.accent3
     }
   },
+
+  polyfill: {
+    features: [
+      /*
+              Feature with detect:
+
+              Detection is better because the polyfill will not be
+              loaded, parsed and executed if it's not necessary.
+          */
+      {
+        require: "intersection-observer",
+        detect: () => "IntersectionObserver" in window
+      },
+      /*
+              Feature with detect & install:
+
+              Some polyfills require a installation step
+              Hence you could supply a install function which accepts the require result
+          */
+      {
+        require: "smoothscroll-polyfill",
+
+        // Detection found in source: https://github.com/iamdustan/smoothscroll/blob/master/src/smoothscroll.js
+        detect: () =>
+          "scrollBehavior" in document.documentElement.style &&
+          window.__forceSmoothScrollPolyfill__ !== true,
+
+        // Optional install function called client side after the package is required:
+        install: smoothscroll => smoothscroll.polyfill()
+      }
+    ]
+  },
+
   /*
    ** Build configuration
    */
