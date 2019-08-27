@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { SET_CONNEXION_DIALOG } from "../store/types";
+import { TOGGLE_CONNECTION_DIALOG } from "../store/types";
 import PharmacistCard from "../components/pharmacist/PharmacistCard";
 import MessageDialog from "../components/messaging/MessageDialog";
 export default {
@@ -78,7 +78,7 @@ export default {
     contactPharmacist({ id, firstName, lastName }) {
       // if not connected show connection dialog
       if (!this.$store.getters.isLoggedIn) {
-        this.$store.commit(SET_CONNEXION_DIALOG, true);
+        this.$store.commit(TOGGLE_CONNECTION_DIALOG, true);
       } else {
         this.receiverId = id;
         this.receiverFirstName = firstName;

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { SET_CONNEXION_DIALOG } from "../../store/types";
+import { TOGGLE_CONNECTION_DIALOG } from "../../store/types";
 import LoginForm from "../forms/LoginForm";
 
 export default {
@@ -32,15 +32,15 @@ export default {
         return this.$store.state.contactPharmacistDialog;
       },
       set(value) {
-        // when the value changes
-        this.$store.commit(SET_CONNEXION_DIALOG, value);
+        // when the value changes to keep a track in the store
+        this.$store.commit(TOGGLE_CONNECTION_DIALOG, value);
       }
     }
   },
 
   methods: {
     closeDialog() {
-      this.$store.commit(SET_CONNEXION_DIALOG, false);
+      this.$store.commit(TOGGLE_CONNECTION_DIALOG, false);
     }
   }
 };

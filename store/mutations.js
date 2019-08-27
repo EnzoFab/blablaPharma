@@ -1,7 +1,7 @@
 import {
   SET_JWT_TOKEN,
   SET_CONNECTED_USER,
-  SET_CONNEXION_DIALOG,
+  TOGGLE_CONNECTION_DIALOG,
   REMOVE_CONVERSATION_FROM_BAR
 } from "./types";
 
@@ -30,7 +30,7 @@ export default {
    * @param {object} state
    * @param {boolean} active
    */
-  [SET_CONNEXION_DIALOG]: (state, active = false) => {
+  [TOGGLE_CONNECTION_DIALOG]: (state, active = false) => {
     state.contactPharmacistDialog = active;
   },
 

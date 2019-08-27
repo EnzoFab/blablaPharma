@@ -96,7 +96,9 @@ module.exports = {
   proxy: {
     "/api/": {
       target: env.parsed.API_URL,
-      pathRewrite: { "^/api/": "/" }
+      pathRewrite: { "^/api/": "/" },
+      changeOrigin: true,
+      secure: false
     }
   },
   /*

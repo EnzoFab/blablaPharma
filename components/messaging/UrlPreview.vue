@@ -39,9 +39,9 @@ export default {
     }
   },
   mounted() {
-    this.$axios.post("/messages/send").then(result => {
+    /* this.$axios.post("/messages/send").then(result => {
       this.src = result.data.image;
-    });
+    });*/
   }
 };
 </script>

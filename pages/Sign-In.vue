@@ -115,6 +115,10 @@
         Un mail a été envoyé sur votre boîte mail pour finaliser votre
         inscription.
       </div>
+      <div class="content-center text--section text--baseColor mt-3">
+        Je n'ai pas reçu le mail d'activation ?
+        <resend-activation-mail />
+      </div>
     </v-container>
   </div>
 </template>
@@ -125,9 +129,10 @@ import merge from "lodash.merge";
 
 import SignInClient from "../components/forms/SignInClient";
 import SignInPharmacist from "../components/forms/SignInPharmacist";
+import ResendActivationMail from "../components/forms/ResendActivationMail";
 export default {
   name: "Sign-In",
-  components: { SignInPharmacist, SignInClient },
+  components: { ResendActivationMail, SignInPharmacist, SignInClient },
   data() {
     return {
       errorMessage: null,
@@ -164,8 +169,6 @@ export default {
       const flatData = merge(...flatMap(data));
 
       try {
-        // todo axios request to save data
-        // todo flat field / split request according to the type of user
         if (data.professionalData) {
           await this.$auth.registerPharmacist(flatData);
           // user is a pharmacist

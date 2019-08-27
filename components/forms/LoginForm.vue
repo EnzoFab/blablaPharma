@@ -194,7 +194,10 @@ export default {
         this.isProcessing = true;
         try {
           // dispatch an action to try to connect
-          await this.$store.dispatch("login");
+          await this.$store.dispatch("login", {
+            email: this.mail,
+            password: this.password
+          });
           this.hideLoader(() => this.closeDialog());
 
           // if we are on a page that require a none connected user

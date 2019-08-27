@@ -54,6 +54,7 @@
                     'conversation' + conversationId + '-message' + message.id
                   "
                   :picture="message.picture"
+                  :embed="embed"
                 />
               </v-flex>
             </v-layout>

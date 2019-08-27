@@ -1,7 +1,7 @@
 export default {
   // todo return true if the connected user sent this message
   isCurrentUserMessage: state => authorId =>
-    authorId === state.connectedUser.userId,
+    state.connectedUser && authorId === state.connectedUser.id,
   isLoggedIn: state => {
     return state.connectedUser != null;
   },
