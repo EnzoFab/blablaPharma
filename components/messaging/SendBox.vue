@@ -104,7 +104,11 @@ export default {
     },
 
     sendMessage() {
-      const connectedUser = this.$store.getters.connectedUser;
+      const connectedUser = { ...this.$store.getters.connectedUser };
+
+      connectedUser.userId = connectedUser.id;
+      delete connectedUser.id;
+
       this.$emit("sendbox:messageSent", {
         content: { type: "text", message: this.text },
         ...connectedUser,

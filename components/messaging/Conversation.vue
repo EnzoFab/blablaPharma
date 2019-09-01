@@ -60,7 +60,7 @@
             </v-layout>
           </v-container>
         </v-flex>
-        <v-flex xs12 mt-1 mb-0 pb-0 px-2 mx-2
+        <v-flex xs12 mt-1 mb-0 pb-0 px-2 mx-2 align-self-end
           ><send-box @sendbox:messageSent="handleNewMessage"
         /></v-flex>
       </v-layout>

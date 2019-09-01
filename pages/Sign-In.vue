@@ -126,6 +126,7 @@
 <script>
 import flatMap from "lodash.flatmap";
 import merge from "lodash.merge";
+import { TOGGLE_SNACKBAR } from "../store/types";
 
 import SignInClient from "../components/forms/SignInClient";
 import SignInPharmacist from "../components/forms/SignInPharmacist";
@@ -176,6 +177,10 @@ export default {
           await this.$auth.registerPatient(flatData);
         }
         this.signInFinished = true;
+        this.$store.commit(
+          TOGGLE_SNACKBAR,
+          `Votre inscription est complète, un mail de confirmation vous a été envoyé`
+        );
       } catch {
         this.errorMessage =
           "Une erreur est survenue, veuillez réessayer plus tard";

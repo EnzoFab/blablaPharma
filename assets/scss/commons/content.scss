@@ -18,6 +18,12 @@
 }
 
 .content {
+  &--left {
+    float: left;
+  }
+  &--right {
+    float: right;
+  }
   &-align {
     z-index: 1;
     position: absolute;

@@ -14,11 +14,8 @@ export default function({ $axios, store, env }) {
   $axios.onRequest(config => {
     //config.baseURL += `api`;
     //config.baseURL = env.BASE_URL;
-    /* if (store.state.token) {
-      config.headers.common["Authorization"] = `Bearer ${
-        store.getters["auth/token"]
-      }`;
-    } */
-    // todo add access token
+    if (store.state.token) {
+      config.headers.common["Authorization"] = `Bearer ${store.state.token}`;
+    }
   });
 }

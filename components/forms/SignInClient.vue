@@ -64,35 +64,13 @@
           ></v-text-field>
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
-          <v-text-field
-            v-model.trim="fields.password"
-            :append-icon="showPassword ? 'visibility' : 'visibility_off'"
-            :type="showPassword ? 'text' : 'password'"
-            outline
-            color="grey darken-1"
-            label="Mot de passe"
-            placeholder="Mot de passe"
-            hint="Les espaces ne sont pas pris en compte"
-            loading
-            :rules="[...$constraints.passwordRules, ...$constraints.required]"
-            @click:append="showPassword = !showPassword"
-          >
-            <template v-slot:progress>
-              <v-progress-linear
-                v-show="showProgressBar"
-                class="mt-2"
-                :value="progressBarLength"
-                :color="progressBarColor"
-                height="4"
-              ></v-progress-linear>
-            </template>
-          </v-text-field>
+          <password-field v-model="fields.password" />
         </v-flex>
         <v-flex sm6 xs12 mb-0 pb-0>
           <v-text-field
             v-model.trim="fields.confirmPassword"
-            :append-icon="showPassword2 ? 'visibility' : 'visibility_off'"
-            :type="showPassword2 ? 'text' : 'password'"
+            :append-icon="showPassword ? 'visibility' : 'visibility_off'"
+            :type="showPassword ? 'text' : 'password'"
             outline
             color="grey darken-1"
             label="Confirmation"
@@ -101,7 +79,7 @@
               ...$constraints.confirmationPasswordRule(fields.password),
               ...$constraints.required
             ]"
-            @click:append="showPassword2 = !showPassword2"
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
         </v-flex>
         <v-flex xs12 mt-0 pt-0>
@@ -191,8 +169,10 @@
 
 <script>
 import moment from "moment";
+import PasswordField from "./PasswordField";
 export default {
   name: "SignInClient",
+  components: { PasswordField },
   props: {
     submitButtonText: { type: String, default: "S'inscrire" },
     loading: { type: Boolean, default: false },
@@ -202,7 +182,6 @@ export default {
     return {
       showMenu: false,
       showPassword: false,
-      showPassword2: false,
       previewImageUrl: null,
       fields: {
         picture: null,
@@ -229,44 +208,6 @@ export default {
         this.showMenu = val;
       }
     },
-    showProgressBar() {
-      const pwd = this.fields.password;
-      return pwd && pwd.length > 0;
-    },
-
-    progressBarColor() {
-      const pwd = this.fields.password || "";
-
-      if (pwd.length <= 3) {
-        return "red";
-      }
-
-      if (pwd.length <= 5) {
-        return "orange";
-      }
-
-      if (pwd.length <= 7) {
-        return "yellow";
-      }
-
-      if (pwd.length <= 10) {
-        return "light-green accent-1";
-      }
-
-      return "light-green accent-3";
-    },
-
-    progressBarLength() {
-      const pwd = this.fields.password;
-
-      if (!pwd || pwd.length === 0) {
-        return 0;
-      }
-      const length = (pwd.length * 100) / 12;
-
-      return length < 100 ? length : 100;
-    },
-
     dateFr() {
       return this.fields.birthdayDate
         ? moment(this.fields.birthdayDate)

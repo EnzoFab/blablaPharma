@@ -2,7 +2,9 @@ import {
   SET_JWT_TOKEN,
   SET_CONNECTED_USER,
   TOGGLE_CONNECTION_DIALOG,
-  REMOVE_CONVERSATION_FROM_BAR
+  REMOVE_CONVERSATION_FROM_BAR,
+  TOGGLE_SNACKBAR,
+  HIDE_SNACKBAR
 } from "./types";
 
 export default {
@@ -18,10 +20,14 @@ export default {
   /**
    *
    * @param {object} state
-   * @param {object} user
+   * @param {object} userData
    */
-  [SET_CONNECTED_USER]: (state, user) => {
-    state.connectedUser = user;
+  [SET_CONNECTED_USER]: (state, userData) => {
+    const { account, pharmacist } = userData
+      ? userData
+      : { account: null, pharmacist: null };
+    state.connectedUser = account;
+    state.pharmacist = pharmacist;
   },
 
   /**
@@ -38,5 +44,12 @@ export default {
     state.activeConversations = state.activeConversations.filter(
       element => element.conversationId !== conversationId
     );
-  }
+  },
+
+  [TOGGLE_SNACKBAR]: (state, text) => {
+    state.snackBarVisible = true;
+    state.snackbarText = text;
+  },
+
+  [HIDE_SNACKBAR]: state => (state.snackBarVisible = false)
 };

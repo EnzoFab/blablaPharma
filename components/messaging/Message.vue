@@ -58,7 +58,7 @@
           <span
             :class="{
               'text--baseColor': !isMessageSent,
-              'title-section-small font-weight-bold text-left ml-2 text-truncate': true
+              ' font-weight-bold text-left ml-2 text-truncate': true
             }"
           >
             {{ authorFullname }}
@@ -84,6 +84,7 @@
               <div
                 v-for="(word, i) in content.message.split('\n')"
                 style="text-align: left"
+                class="content-center"
                 :key="i"
               >
                 <span

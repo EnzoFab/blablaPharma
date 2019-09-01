@@ -1,0 +1,12 @@
+.profile {
+  &--section-general-information {
+    height: 25vh;
+  }
+  &--section-image {
+    height: 35vh;
+
+    &--small {
+      height: 15vh;
+    }
+  }
+}

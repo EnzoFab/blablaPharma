@@ -16,7 +16,7 @@
 
 <script>
 import LoginForm from "../forms/LoginForm";
-import { LOGOUT } from "../../store/types";
+import { LOGOUT, TOGGLE_SNACKBAR } from "../../store/types";
 import ToolbarComputer from "./ToolbarComputer";
 import ToolbarMobile from "./ToolbarMobile";
 // allow to know in which case the toolbar item will be displayed
@@ -148,5 +148,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

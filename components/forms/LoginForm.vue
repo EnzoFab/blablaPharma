@@ -5,7 +5,16 @@
         <v-icon x-large @click="closeDialog">close</v-icon>
       </v-flex>
     </v-card-text>
-    <template v-if="!showResetPwd">
+    <template v-if="resendAccountActivation">
+      <v-container class="content-center">
+        <v-layout row wrap>
+          <v-flex offset-xs2 xs8>
+            <resend-activation-mail hide-button with-title />
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </template>
+    <template v-else-if="!showResetPwd">
       <v-card-title primary>
         <h1 class="title-main title-main-rail content-center text--baseColor">
           {{ loginTitle }}
@@ -82,7 +91,6 @@
           </v-flex>
         </v-layout>
       </v-container>
-      <div class="content-center"></div>
     </template>
     <template v-else>
       <v-card-title primary>
@@ -113,7 +121,7 @@
                 label="Email"
                 color="blue-grey lighten-1"
                 type="mail"
-                :rules="$constraints.required"
+                :rules="$constraints.emailRules"
                 :loading="isProcessing"
               ></v-text-field>
               <v-btn
@@ -133,31 +141,64 @@
         </v-layout>
       </v-container>
     </template>
-    <v-card-text v-show="errorMessage != null" class="content-center mt-0 pt-0">
-      <span class="red--text text--section">{{ errorMessage }}</span>
+    <v-card-text
+      v-show="errorMessage != null && !isProcessing && !resendAccountActivation"
+      class="mt-0 pt-0"
+    >
+      <div class="red--text text--section content-center">
+        {{ errorMessage }}
+      </div>
+      <v-container
+        grid-list-xs
+        fluid
+        fill-height
+        pa-0
+        ma-0
+        v-if="!showResetPwd"
+      >
+        <v-layout align-center row wrap pa-0 ma-0>
+          <v-flex offset-xs4 xs1>
+            <v-icon size="30" color="grey darken-2" style="float: right"
+              >error_outline</v-icon
+            >
+          </v-flex>
+          <v-flex xs3>
+            <span
+              class="pl-2 light-green--text text--accent-3 font-weight-bold content-pointer"
+              @click="resendAccountActivation = true"
+              >Avez-vous pensé à activer votre compte ?</span
+            >
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { SET_JWT_TOKEN } from "../../store/types";
+import to from "await-to-js";
+import { TOGGLE_SNACKBAR } from "../../store/types";
+import ResendActivationMail from "./ResendActivationMail";
 
 export default {
   name: "LoginForm",
+  components: { ResendActivationMail },
   props: {
+    // add a padding  within the component
     padded: { type: Boolean, default: false },
     // change the title of the form on when there is a login
     customLoginTitle: { type: String, default: null }
   },
   data() {
     return {
-      mail: "",
-      password: "",
+      mail: null,
+      password: null,
       showResetPwd: false,
       fromValid: true,
       errorMessage: null,
       isProcessing: false,
-      formValid: true
+      formValid: true,
+      resendAccountActivation: false
     };
   },
   computed: {
@@ -169,13 +210,14 @@ export default {
   },
   methods: {
     closeDialog() {
-      // reset every
+      // reset every fields and close the dialog
       this.mail = "";
       this.password = "";
       this.showResetPwd = false;
       this.errorMessage = null;
       this.formValid = true;
       this.isProcessing = false;
+      this.resendAccountActivation = false;
       this.$emit("login-form:close", false);
     },
     displayForgottenPwd() {
@@ -200,25 +242,31 @@ export default {
           });
           this.hideLoader(() => this.closeDialog());
 
-          // if we are on a page that require a none connected user
-          if (["/sign-in"].includes(this.$route.path)) {
-            this.$router.push({ path: "/" });
-          }
-
-          if (
-            this.$store.getters.userType === "Pharmacist" &&
-            ["/contacter-un-pharmacien"].includes(this.$route.path)
-          ) {
-            this.$router.push({ path: "/" });
-          }
+          // if we are on a page which requires a user not connected
+          this.handleRouteRedirect();
         } catch (e) {
-          await this.hideLoader();
+          this.hideLoader();
           this.errorMessage = "Identifiants non valides";
         }
       }
     },
 
-    async resetPwd() {},
+    handleRouteRedirect() {
+      const path = "/" + this.$route.path.split("/")[1];
+
+      if (
+        ["/sign-in", "/account-activation", "/forgot-password"].includes(path)
+      ) {
+        this.$router.push({ path: "/" });
+      }
+
+      if (
+        this.$store.getters.userType === "Pharmacist" &&
+        ["/contacter-un-pharmacien", "/profil"].includes(this.$route.path)
+      ) {
+        this.$router.push({ path: "/" });
+      }
+    },
 
     /**
      *
@@ -231,14 +279,34 @@ export default {
           callback();
         }
       }, 1500);
-    }
-  },
-  resetPwd() {
-    if (this.$refs.forgotPwd.validate()) {
-      // todo call reset Api
+    },
+    async resetPwd() {
+      if (this.$refs.forgotPwd.validate() && !this.isProcessing) {
+        this.errorMessage = null;
+        this.isProcessing = true;
+
+        const [err] = await to(this.$auth.passwordForgotten(this.mail));
+
+        if (err) {
+          this.errorMessage =
+            "Une erreur est survenue. Veuillez réessayer plus tard";
+          this.hideLoader();
+        } else {
+          const mail = this.mail;
+
+          const toogleSnackBar = () =>
+            this.$store.commit(
+              TOGGLE_SNACKBAR,
+              `un mail a été envoyé à ${mail}, vous permettant de modifier votre mot de passe`
+            );
+
+          this.hideLoader(() => {
+            this.closeDialog();
+            toogleSnackBar();
+          });
+        }
+      }
     }
   }
 };
 </script>
-
-<style scoped></style>

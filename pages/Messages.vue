@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-xl class="white" fill-height>
-    <v-layout row wrap align-center>
+    <v-layout row wrap align-start>
       <v-flex sm12 md3 pa-0 ma-0 v-show="!displayConversation">
         <v-text-field
           v-model="searchWord"
