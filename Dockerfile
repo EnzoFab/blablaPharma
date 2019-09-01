@@ -14,5 +14,9 @@ COPY . .
 EXPOSE 3000 443
 EXPOSE 3000 80
 
+FROM bash:4.4
+COPY build.sh /
+CMD ["bash", "/build.sh"]
+
 #CMD ["node", "server/index.js"]
-CMD ["nuxt", "build", "&&", "nuxt", "start"]
+#CMD ["nuxt", "build", "&&", "nuxt", "start"]
