@@ -98,7 +98,7 @@ module.exports = {
       target: env.parsed.API_URL,
       pathRewrite: { "^/api/": "/" },
       changeOrigin: true,
-      secure: false
+      secure: true
     }
   },
   /*
