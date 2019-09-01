@@ -1,6 +1,8 @@
 const colors = require("vuetify/es5/util/colors").default;
 const env = require("dotenv").config();
 
+console.log("API_URL", process.env.API_URL);
+
 //const mode = process.env.NODE_ENV === "development" ? "spa" : "universal";
 
 module.exports = {
