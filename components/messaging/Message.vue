@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="embed">
-      <div>
+      <div v-if="!hideAuthorName">
         <v-avatar color="light-grey" size="40">
           <v-img v-if="picture && picture.length > 0" :src="picture"></v-img>
           <v-icon v-else size="38" dark color="green">person_pin</v-icon>
@@ -18,25 +18,25 @@
       </div>
       <div
         :class="{
-          'pa-2': true,
-          message: true,
+          'message ml-3': true,
           'message-sent': isMessageSent,
           'message-received': !isMessageSent
         }"
       >
         <url-preview
-          v-if="content.type == 'url'"
+          v-if="content.type === 'url'"
           :url="content.url"
           :title="content.title"
           :preview="content.image"
           :description="content.description"
         />
-        <div v-else class="mx-5">
-          <div
-            v-for="(word, i) in content.message.split('\n')"
-            style="text-align: left"
-            :key="i"
-          >
+        <v-img
+          v-else-if="content.type === 'image'"
+          :src="content.message"
+          aspect-ratio="1.75"
+        ></v-img>
+        <div v-else>
+          <div v-for="(word, i) in content.message.split('\n')" :key="i">
             <span
               v-if="word.length > 0"
               class="text-breakline text--normal grey--text text--darken-1"
@@ -48,57 +48,90 @@
       </div>
     </template>
 
-    <v-container v-else grid-list-xs fluid fill-height>
-      <v-layout row wrap>
-        <v-flex md3 sm12 class="content-center" ma-0 pa-0>
-          <v-avatar color="light-grey" size="40">
-            <v-img v-if="picture && picture.length > 0" :src="picture"></v-img>
-            <v-icon v-else size="38" dark color="green">person_pin</v-icon>
-          </v-avatar>
-          <span
-            :class="{
-              'text--baseColor': !isMessageSent,
-              ' font-weight-bold text-left ml-2 text-truncate': true
-            }"
+    <v-hover v-else>
+      <v-container
+        slot-scope="{ hover }"
+        py-0
+        my-0
+        grid-list-xs
+        fluid
+        fill-height
+      >
+        <v-layout row wrap>
+          <v-flex
+            md3
+            sm12
+            class="content-center"
+            mx-1
+            :my-1="hideAuthorName"
+            :my-0="!hideAuthorName"
+            pa-0
           >
-            {{ authorFullname }}
-          </span>
-        </v-flex>
-        <v-flex md8 sm8 offset-sm2 ma-0 pa-0>
-          <div
-            :class="{
-              'pa-2': true,
-              message: true,
-              'message-sent': isMessageSent,
-              'message-received': !isMessageSent
-            }"
-          >
-            <url-preview
-              v-if="content.type == 'url'"
-              :url="content.url"
-              :title="content.title"
-              :preview="content.image"
-              :description="content.description"
-            />
-            <div v-else class="mx-5">
-              <div
-                v-for="(word, i) in content.message.split('\n')"
-                style="text-align: left"
-                class="content-center"
-                :key="i"
+            <template v-if="!hideAuthorName">
+              <v-avatar color="light-grey" size="40">
+                <v-img
+                  v-if="picture && picture.length > 0"
+                  :src="picture"
+                ></v-img>
+                <v-icon v-else size="38" dark color="green">person_pin</v-icon>
+              </v-avatar>
+              <span
+                :class="{
+                  'text--baseColor': !isMessageSent,
+                  ' font-weight-bold text-left ml-2 text-truncate': true
+                }"
               >
-                <span
-                  v-if="word.length > 0"
-                  class="text-breakline text--normal grey--text text--darken-1"
-                  >{{ word }}</span
+                {{ authorFullname }}
+              </span>
+            </template>
+          </v-flex>
+          <v-flex md6 sm6 offset-sm2 ma-0 pa-0>
+            <div
+              :class="{
+                'pa-2': true,
+                message: true,
+                'message-sent': isMessageSent,
+                'message-received': !isMessageSent
+              }"
+            >
+              <url-preview
+                v-if="content.type === 'url'"
+                :url="content.url"
+                :title="content.title"
+                :preview="content.image"
+                :description="content.description"
+              />
+              <v-img
+                v-else-if="content.type === 'image'"
+                :src="content.message"
+                aspect-ratio="1.75"
+              ></v-img>
+
+              <div v-else>
+                <div
+                  v-for="(word, i) in content.message.split('\n')"
+                  style="text-align: left"
+                  class="content-center"
+                  :key="i"
                 >
-                <br v-else />
+                  <span
+                    v-if="word.length > 0"
+                    class="text-breakline text--normal grey--text text--darken-1"
+                    >{{ word }}</span
+                  >
+                  <br v-else />
+                </div>
               </div>
             </div>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
+          </v-flex>
+          <v-flex md2 sm1 v-show="hover">
+            <span class="text--tiny text--baseColor font-weight-bold">{{
+              date
+            }}</span>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-hover>
   </div>
 </template>
 
@@ -110,10 +143,11 @@ export default {
   props: {
     content: Object,
     authorFullname: String,
-    authorId: String,
+    authorId: String | Number,
     date: String,
     picture: String,
-    embed: { type: Boolean, default: false }
+    embed: { type: Boolean, default: false },
+    hideAuthorName: { type: Boolean, default: false }
   },
 
   computed: {
@@ -123,5 +157,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

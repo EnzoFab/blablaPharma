@@ -44,12 +44,21 @@
               }"
               :id="'conversation' + conversationId"
             >
-              <v-flex v-for="message in messages" xs11 :key="message.id">
+              <v-flex
+                v-for="message in messages"
+                xs11
+                :key="message.id"
+                :pt-3="!message.grouped"
+                :pt-0="message.grouped"
+                :mt-3="!message.grouped"
+                :mt-0="message.grouped"
+              >
                 <message
                   :author-fullname="message.authorFullName"
                   :author-id="message.userId"
                   :content="message.content"
                   :date="message.dateLabel"
+                  :hide-author-name="message.grouped"
                   :id="
                     'conversation' + conversationId + '-message' + message.id
                   "
@@ -132,7 +141,7 @@ export default {
     messages() {
       const loadedMessage = this.loadedMessage;
       const m = [...loadedMessage, ...this.newMessages];
-      return m.map(message => {
+      return m.map((message, index, currentArray) => {
         const date = moment(message.date);
         const diff = moment().diff(date);
         let dateLabel;
@@ -153,7 +162,14 @@ export default {
         }
         const authorFullName = `${message.firstName} ${message.lastName}`;
 
-        return { ...message, dateLabel, authorFullName };
+        const previousMessage = index > 0 ? currentArray[index - 1] : null;
+        const grouped =
+          previousMessage && this.$store.getters.connectedUser
+            ? previousMessage.userId === this.$store.getters.connectedUser.id &&
+              date.diff(moment(previousMessage.date)) < 60 * 3 * 1000
+            : false;
+
+        return { ...message, dateLabel, authorFullName, grouped };
       });
     }
   },
