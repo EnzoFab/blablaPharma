@@ -2,7 +2,7 @@ export default {
   emailRules: [v => /.+@.+\..+/.test(v) || "E-mail non valide"],
   required: [
     v => !!v || "Champs requis",
-    v => (typeof v === "string" ? v.trim().length > 0 || "Champs réquis" : true)
+    v => (typeof v === "string" ? v.trim().length > 0 || "Champs requis" : true)
   ],
   passwordRules: [
     v => (v && v.length >= 8) || "Minimum 8 charactères",

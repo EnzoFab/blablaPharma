@@ -35,12 +35,19 @@
                 @updategeneralinformation::updated="handleUpdate"
                 @updategeneralinformation::error="handleError"
               />
+              <update-email
+                v-else-if="tab.key === 'mail'"
+                @updateemail::error="handleError"
+                @updateemail::updated="handleUpdate"
+                :user-id="connectedUserId"
+              />
+
               <update-pharmacist-information
                 @updatepharmacistinformation::error="handleError"
                 @updatepharmacistinformation::updated="handleUpdate"
                 v-else-if="tab.key === 'pharmacist'"
               />
-              <div v-else-if="tab.key === 'mail'">Else</div>
+
               <v-card-text v-if="errorMessage" class="content-center">
                 <span class="red--text">{{ errorMessage }}</span>
               </v-card-text>
@@ -59,10 +66,12 @@ import GeneralInformation from "../components/profile/GeneralInformation";
 import UpdatePassword from "../components/profile/UpdatePassword";
 import UpdateGeneralInformation from "../components/profile/UpdateGeneralInformation";
 import UpdatePharmacistInformation from "../components/profile/UpdatePharmacistInformation";
+import UpdateEmail from "../components/profile/UpdateEmail";
 export default {
   name: "Profile",
   middleware: "connected",
   components: {
+    UpdateEmail,
     UpdatePharmacistInformation,
     UpdateGeneralInformation,
     UpdatePassword,
