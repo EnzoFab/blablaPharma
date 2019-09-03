@@ -17,7 +17,7 @@ EXPOSE 3000 80
 COPY ./entrypoint.sh /
 RUN chmod +x entrypoint.sh
 #ENTRYPOINT ["/entrypoint.sh"]
-#CMD ["./entrypoint.sh"]
+CMD ["./entrypoint.sh"]
 
 #CMD ["node", "server/index.js"]
 #CMD ["nuxt", "build", "&&", "nuxt", "start"]
