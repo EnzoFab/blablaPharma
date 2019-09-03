@@ -35,6 +35,11 @@
                 @updategeneralinformation::updated="handleUpdate"
                 @updategeneralinformation::error="handleError"
               />
+              <update-pharmacist-information
+                @updatepharmacistinformation::error="handleError"
+                @updatepharmacistinformation::updated="handleUpdate"
+                v-else-if="tab.key === 'pharmacist'"
+              />
               <div v-else-if="tab.key === 'mail'">Else</div>
               <v-card-text v-if="errorMessage" class="content-center">
                 <span class="red--text">{{ errorMessage }}</span>
@@ -53,10 +58,16 @@ import { mapState } from "vuex";
 import GeneralInformation from "../components/profile/GeneralInformation";
 import UpdatePassword from "../components/profile/UpdatePassword";
 import UpdateGeneralInformation from "../components/profile/UpdateGeneralInformation";
+import UpdatePharmacistInformation from "../components/profile/UpdatePharmacistInformation";
 export default {
   name: "Profile",
   middleware: "connected",
-  components: { UpdateGeneralInformation, UpdatePassword, GeneralInformation },
+  components: {
+    UpdatePharmacistInformation,
+    UpdateGeneralInformation,
+    UpdatePassword,
+    GeneralInformation
+  },
   data() {
     return {
       updateInformation: false,

@@ -214,7 +214,6 @@ export default {
             "updategeneralinformation::updated",
             "Les informations ont été mises à jour avec succès"
           );
-
           this.$store.dispatch("updateAccount", res);
         }
       }

@@ -64,4 +64,8 @@ export default function({ app, $axios }, inject) {
   inject("account", {
     update: (id, payload) => $axios.put(`/accounts/${id}`, payload)
   });
+
+  inject("pharmacist", {
+    update: (id, payload) => $axios.put(`/pharmacist/${id}`, payload)
+  });
 }

@@ -33,11 +33,24 @@ export default {
     logUserIn(this.app, commit, token, { account, pharmacist });
   },
 
+  /**
+   * Update the account
+   * @param {object}commit
+   * @param {object} state
+   * @param {object }account
+   */
   updateAccount({ commit, state }, account) {
     const pharmacist = state.pharmacist;
     commit(SET_CONNECTED_USER, { account, pharmacist });
     this.app.$cookies.remove("userData");
-    this.app.$cookies.set("userData", account);
+    this.app.$cookies.set("userData", { account, pharmacist });
+  },
+
+  updatePharmacist({ commit, state }, pharmacist) {
+    const account = state.account;
+    commit(SET_CONNECTED_USER, { account, pharmacist });
+    this.app.$cookies.remove("userData");
+    this.app.$cookies.set("userData", { account, pharmacist });
   },
 
   [LOGOUT]({ commit }) {

@@ -1,4 +1,4 @@
-#!/usr/sh
+#!/bin/bash
 echo "Try to build files..."
 if npm run build ; then
   echo "Project files successfully built"
