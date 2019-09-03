@@ -1,23 +1,20 @@
 FROM mhart/alpine-node:11
 
-RUN mkdir /client
+RUN apk add --update nodejs npm
 
-# build client and run client
+ENV API_URL https://api.blalapharma.fr
+
+RUN mkdir /client
 
 WORKDIR /client
 
 COPY package.json .
 RUN npm install
+
 COPY . .
-#RUN npm run build
+RUN npm run build
 
 EXPOSE 3000 443
 EXPOSE 3000 80
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-#RUN chmod +x entrypoint.sh
-#ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash", "/usr/local/bin/entrypoint.sh"]
-
-#CMD ["node", "server/index.js"]
-#CMD ["nuxt", "build", "&&", "nuxt", "start"]
+CMD ["npm" "start"]
