@@ -97,7 +97,9 @@ export default {
         if (!e && res) {
           this.$emit(
             "updateemail::updated",
-            "Les informations ont été mises à jour avec succès"
+            `Un mail a été envoyé à ${
+              this.fields.newEmail
+            } pour valider le changement d'adresse mail`
           );
           this.$store.dispatch("updateAccount", res);
         }

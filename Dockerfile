@@ -20,9 +20,11 @@ RUN npm run build
 EXPOSE 3000 443
 EXPOSE 3000 80
 
+#version with script
+# uncoment the two following lines and coment the line 18 and 28
 #RUN chmod a+x entrypoint.sh
 #CMD entrypoint.sh
 
+CMD ["npm", "start"]
 #CMD ["node", "server/index.js"]
 #CMD ["nuxt", "build", "&&", "nuxt", "start"]
-CMD ["npm", "start"]
