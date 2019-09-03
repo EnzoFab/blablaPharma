@@ -11,7 +11,9 @@
         color="white"
         scroll-off-screen
       >
-        <v-toolbar-title>Title</v-toolbar-title>
+        <v-toolbar-title class="mt-5">
+          <blablapharma-logo />
+        </v-toolbar-title>
         <template v-if="displayToolbar" v-slot:extension>
           <v-spacer></v-spacer>
 
@@ -87,8 +89,10 @@
 </template>
 
 <script>
+import BlablapharmaLogo from "./BlablapharmaLogo";
 export default {
   name: "ToolbarMobile",
+  components: { BlablapharmaLogo },
   props: {
     items: Array,
     displayToolbar: Boolean

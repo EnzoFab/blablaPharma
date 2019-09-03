@@ -74,9 +74,12 @@
                 :key="presentation.title"
                 ><v-card flat class="transparent">
                   <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2"
-                      >color_lens</v-icon
-                    >
+                    <v-avatar tile size="130">
+                      <v-img
+                        :src="presentation.image"
+                        :alt="presentation.alt"
+                      ></v-img>
+                    </v-avatar>
                   </v-card-text>
                   <v-card-text
                     class="justify-center content-center content-padded"
@@ -223,19 +226,22 @@ export default {
     return {
       presentations: [
         {
-          image: "",
+          image: "/network_icon.png",
+          alt: "icone réseau",
           title: "Un réseau de pharmaciens",
           description:
             "Soucieux de votre santé et près à vous accompagner sur votre traitements ou vos pathologies."
         },
         {
-          image: "",
+          image: "/fiability_icon.png",
+          alt: "icone fiabilité",
           title: "Des réponses fiables",
           description:
             "et personnalisées à vos questions grâce à un service de messagerie instantanée."
         },
         {
-          image: "",
+          image: "/articles_icon.png",
+          alt: "icone articles et vidéos",
           title: "Des articles et des vidéos",
           description:
             "Du contenu ludique et interactif pur mieux comprendre votre traitement."

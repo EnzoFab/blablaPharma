@@ -6,11 +6,12 @@
       fixed
       flat
       scroll-off-screen
-      dense
       color="white"
-      class="px-2 py-2 pl-5"
+      class="px-2 py-2"
     >
-      <v-toolbar-title class="ml-5 pl-3">Title</v-toolbar-title>
+      <v-toolbar-title class="pl-3">
+        <blablapharma-logo />
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <template v-for="item in items">
@@ -75,8 +76,10 @@
 </template>
 
 <script>
+import BlablapharmaLogo from "./BlablapharmaLogo";
 export default {
   name: "ToolbarComputer",
+  components: { BlablapharmaLogo },
   props: {
     items: Array
   }

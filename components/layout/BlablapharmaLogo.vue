@@ -1,0 +1,41 @@
+<template>
+  <nuxt-link to="/">
+    <no-ssr>
+      <img
+        v-if="!mobileScreen"
+        :src="src"
+        :alt="alt"
+        :class="{
+          'blabla-logo--large': smallScreen,
+          'blabla-logo--medium': largeScreen
+        }"
+      />
+      <img v-else :alt="alt" :src="srcMobile" class="blabla-logo--small" />
+    </no-ssr>
+  </nuxt-link>
+</template>
+
+<script>
+export default {
+  name: "BlablapharmaLogo",
+  data() {
+    return {
+      src: "/logo_navbar.png",
+      alt: "BlablaPharma logo",
+      srcMobile: "/logo_fav.png"
+    };
+  },
+  computed: {
+    smallScreen() {
+      return this.$vuetify.breakpoint.md || this.$vuetify.breakpoint.sm;
+    },
+    largeScreen() {
+      return this.$vuetify.breakpoint.lgAndUp;
+    },
+
+    mobileScreen() {
+      return this.$vuetify.breakpoint.xs;
+    }
+  }
+};
+</script>

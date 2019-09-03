@@ -10,7 +10,11 @@
               <v-card flat class="transparent">
                 <v-card-title primary-title class="layout justify-center">
                   <div class="headline text-xs-center">
-                    [BlaBlaPHARMA image]
+                    <img
+                      src="/logo_footer.png"
+                      alt="footer icon"
+                      class="blabla-logo--small"
+                    />
                   </div>
                 </v-card-title>
                 <v-card-text class="justify-center text-xs-center"

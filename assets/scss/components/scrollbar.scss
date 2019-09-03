@@ -1,0 +1,13 @@
+/* Custom scrollbar */
+.scroll-y::-webkit-scrollbar {
+  width: 3px;
+  background-color: transparent;
+  border-radius: 5px;
+}
+.scroll-y::-webkit-scrollbar-thumb {
+  background-color: $text-color;
+  border-radius: 5px;
+}
+.scroll-y::-webkit-scrollbar-track {
+  background-color: transparent;
+}
