@@ -115,6 +115,8 @@ export default {
       app.$auth.checkResetPasswordToken(params.resetPasswordToken)
     );
 
+    console.log({ err, result });
+
     const tokenIsValid = !err && result;
 
     return { tokenIsValid };

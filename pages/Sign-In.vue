@@ -124,6 +124,8 @@
 </template>
 
 <script>
+import to from "await-to-js";
+import get from "lodash.get";
 import flatMap from "lodash.flatmap";
 import merge from "lodash.merge";
 import { TOGGLE_SNACKBAR } from "../store/types";
@@ -169,26 +171,29 @@ export default {
 
       const flatData = merge(...flatMap(data));
 
-      try {
-        if (data.professionalData) {
-          await this.$auth.registerPharmacist(flatData);
-          // user is a pharmacist
-        } else {
-          await this.$auth.registerPatient(flatData);
-        }
+      const [e, result] = data.professionalData
+        ? await to(this.$auth.registerPharmacist(flatData))
+        : await to(this.$auth.registerPatient(flatData));
+
+      if (e) {
+        this.errorMessage =
+          get(e, "error.error") === "E_UNIQUE"
+            ? "L'adresse mail est déjà utilisé pour un autre compte"
+            : "Une erreur est survenue, veuillez réessayer plus tard";
+      }
+
+      if (!e && result) {
+        // the register is made with success
         this.signInFinished = true;
         this.$store.commit(
           TOGGLE_SNACKBAR,
           `Votre inscription est complète, un mail de confirmation vous a été envoyé`
         );
-      } catch {
-        this.errorMessage =
-          "Une erreur est survenue, veuillez réessayer plus tard";
-      } finally {
-        setTimeout(() => {
-          this.loading = false;
-        }, 1500);
       }
+
+      setTimeout(() => {
+        this.loading = false;
+      }, 1500);
     }
   },
   middleware: "notConnected"

@@ -47,19 +47,28 @@ export default {
   },
 
   updatePharmacist({ commit, state }, pharmacist) {
-    const account = state.account;
+    const account = state.connectedUser;
     commit(SET_CONNECTED_USER, { account, pharmacist });
     this.app.$cookies.remove("userData");
     this.app.$cookies.set("userData", { account, pharmacist });
   },
 
-  [LOGOUT]({ commit }) {
+  [LOGOUT]({ commit }, payload) {
     this.app.$cookies.remove("accessToken");
     this.app.$cookies.remove("userData");
     commit(SET_JWT_TOKEN, null);
     commit(SET_CONNECTED_USER, null);
-    this.$router.push({ path: "/" });
 
-    commit(TOGGLE_SNACKBAR, "A bientôt");
+    const { withRedirect = true, message = "À bientôt" } = payload
+      ? payload
+      : { width: true, message: "A bientôt" };
+
+    if (withRedirect) {
+      this.$router.push({ path: "/" });
+    }
+
+    if (message) {
+      commit(TOGGLE_SNACKBAR, message);
+    }
   }
 };

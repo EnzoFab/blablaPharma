@@ -43,7 +43,7 @@
             :disabled="pharmacistData.verified"
             placeholder="Numéro RPPS ou numéro etudiant"
             label="Identifiant professionnel"
-            :rules="$constraints.required"
+            :rules="$constraints.rppsRules"
           ></v-text-field>
         </v-flex>
         <v-flex offset-md2 md3 offset-sm2 sm8>
@@ -154,6 +154,7 @@ export default {
   },
   mounted() {
     this.fields = { ...this.pharmacistData };
+    delete this.fields.verified;
   }
 };
 </script>

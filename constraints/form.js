@@ -1,4 +1,11 @@
 export default {
+  rppsRules: [
+    v => (v && v.length === 11) || "11 charactères attendu",
+    v =>
+      /[0-9]{11}/.test(v) ||
+      /[a-zA-Z]{11}/.test(v) ||
+      "11 chiffres ou 11 lettres"
+  ],
   emailRules: [v => /.+@.+\..+/.test(v) || "E-mail non valide"],
   required: [
     v => !!v || "Champs requis",

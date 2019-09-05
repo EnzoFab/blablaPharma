@@ -14,10 +14,10 @@
                 Vous voulez en savoir plus sur l'aventure
               </div>
               <div class="text--section">
-                BlaBlaPHARMA N'hésitez pas à vous abonnés à la
+                BlaBlaPHARMA N'hésitez pas à vous abonner à la
               </div>
               <div class="text--section">
-                newsletter pour être informé xxxxx
+                newsletter pour être informé
               </div>
               <div class="content-center mt-2">
                 <a
@@ -69,7 +69,7 @@
                       no-resize
                       flat
                       height="100"
-                      label="message"
+                      label="Message"
                       outline
                       required
                     ></v-textarea>

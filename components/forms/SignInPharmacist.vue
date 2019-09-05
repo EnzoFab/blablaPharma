@@ -53,7 +53,7 @@
                   color="light-grey"
                   outline
                   label="Identifiant professionnel"
-                  :rules="$constraints.required"
+                  :rules="$constraints.rppsRules"
                 ></v-text-field>
               </v-flex>
               <v-flex sm4 xs12>

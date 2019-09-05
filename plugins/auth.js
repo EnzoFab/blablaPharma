@@ -46,7 +46,7 @@ export default function({ app, $axios }, inject) {
      * @returns {Promise<*>}
      */
     passwordForgotten: email =>
-      $axios.put("/forgot-password/send-mail", { email }),
+      $axios.post("/forgot-password/send-mail", { email }),
 
     checkResetPasswordToken: token =>
       $axios.get(`/forgot-password/verify-token/${token}`),
@@ -62,7 +62,9 @@ export default function({ app, $axios }, inject) {
   });
 
   inject("account", {
-    update: (id, payload) => $axios.put(`/accounts/${id}`, payload)
+    update: (id, payload) => $axios.put(`/accounts/${id}`, payload),
+    validateNewEmail: (id, token) =>
+      $axios.put(`/accounts/${id}/confirm-email/${token}`)
   });
 
   inject("pharmacist", {

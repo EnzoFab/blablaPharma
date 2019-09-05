@@ -102,6 +102,7 @@ export default {
             } pour valider le changement d'adresse mail`
           );
           this.$store.dispatch("updateAccount", res);
+          this.readOnly = true;
         }
       }
     },

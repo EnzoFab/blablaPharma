@@ -169,7 +169,11 @@
                 <v-container bg fill-height grid-list-md text-xs-center>
                   <v-layout row wrap align-center>
                     <v-flex offset-xs3 xs6>
-                      <v-icon size="125" color="lime lighten-1"
+                      <v-icon
+                        size="125"
+                        color="lime lighten-1"
+                        class="content-pointer"
+                        @click="$router.push({ path: '/blog' })"
                         >play_circle_filled</v-icon
                       >
                     </v-flex>
@@ -180,16 +184,16 @@
           </v-flex>
           <v-flex sm7 xs12>
             <h2 class="title-main-rail">
-              <span class="title-section-huge text--baseColor hidden-xs-only">
-                Retrouvez des videos utiles à votre traitement
+              <span
+                class="title-main-rail title-main text--baseColor hidden-xs-only"
+              >
+                Retrouvez des vidéos utiles à votre traitement
               </span>
               <span class="title-section text--baseColor hidden-sm-and-up">
-                Retrouvez des videos utiles à votre traitement
+                Retrouvez des vidéos utiles à votre traitement
               </span>
             </h2>
-            <div class="mt-5 text--section text--baseColor">
-              Le visiter le blog
-            </div>
+
             <v-btn
               color="light-green lighten-1"
               ripple
@@ -230,7 +234,7 @@ export default {
           alt: "icone réseau",
           title: "Un réseau de pharmaciens",
           description:
-            "Soucieux de votre santé et près à vous accompagner sur votre traitements ou vos pathologies."
+            "Soucieux de votre santé et prêt à vous accompagner sur votre traitement ou vos pathologies."
         },
         {
           image: "/fiability_icon.png",
@@ -244,7 +248,7 @@ export default {
           alt: "icone articles et vidéos",
           title: "Des articles et des vidéos",
           description:
-            "Du contenu ludique et interactif pur mieux comprendre votre traitement."
+            "Du contenu ludique et interactif pour mieux comprendre votre traitement."
         }
       ],
       engagements: [
