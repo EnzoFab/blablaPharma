@@ -2,40 +2,113 @@
   <div>
     <cookie-banner />
     <v-footer dark height="auto">
-      <div class="footer">
-        <v-container grid-list-xl align-center>
-          <v-layout row wrap align-center class="my-3 mx-3">
-            <v-flex offset-sm1 sm2 xs12>mec</v-flex>
-            <v-flex sm6 xs12>
-              <v-card flat class="transparent">
-                <v-card-title primary-title class="layout justify-center">
-                  <div class="headline text-xs-center">
-                    <img
-                      src="/logo_footer.png"
-                      alt="footer icon"
-                      class="blabla-logo--small"
-                    />
-                  </div>
-                </v-card-title>
-                <v-card-text class="justify-center text-xs-center"
-                  >La plateforme qui vous permet de discuter directement avec un
-                  pharmacien proche de chez vous !</v-card-text
+      <div class="footer text-futura">
+        <v-container grid-list-xs>
+          <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp">
+            <v-flex
+              offset-xs2
+              xs8
+              v-show="$vuetify.breakpoint.smAndUp"
+              class="text-xs-center"
+            >
+              <img
+                src="/logo_footer.png"
+                alt="footer icon"
+                class="blabla-logo--small"
+              />
+            </v-flex>
+            <v-flex sm3 xs12 :pl-5="$vuetify.breakpoint.smAndUp">
+              <div
+                v-for="element in leftSectionElements"
+                :class="{
+                  'mb-2 title-section-small text-futura': true,
+                  'text-xs-center': $vuetify.breakpoint.xs
+                }"
+              >
+                <nuxt-link
+                  v-if="element.nuxtLink"
+                  :to="element.href"
+                  class="text-no-decoration white--text"
+                  >{{ element.text }}</nuxt-link
                 >
-              </v-card>
-              <v-card-text class="text-xs-center">
-                <hr class="divider" />
+                <a
+                  v-else
+                  :href="element.href"
+                  class="text-no-decoration white--text"
+                  >{{ element.text }}</a
+                >
+              </div>
+            </v-flex>
+            <v-flex
+              sm6
+              xs12
+              :px-4="$vuetify.breakpoint.smAndUp"
+              :pt-4="$vuetify.breakpoint.xs"
+            >
+              <div class="content-center">
+                <img
+                  v-show="$vuetify.breakpoint.xs"
+                  src="/logo_footer.png"
+                  alt="footer icon"
+                  class="blabla-logo--small"
+                />
+
+                <div
+                  class="text-xs-center title-section-small text-futura white--text"
+                >
+                  La plateforme qui vous permet de discuter directement avec un
+                  pharmacien proche de chez vous !
+                </div>
+              </div>
+              <div class="text-xs-center title-section-small text-futura">
+                <hr class="divider my-2" />
                 <div class="pt-2">+33 (0)6 37 39 85 43</div>
-                <div>contact@blablapharma.fr</div>
+                <a
+                  href="mailto:contact@blablapharma.fr"
+                  class="white--text text-no-decoration"
+                  >contact@blablapharma.fr</a
+                >
                 <div class="pt-3">
                   <span v-for="icon in icons" :key="icon.name" class="pr-3">
                     <v-icon large>fab fa-{{ icon.name }}</v-icon>
                   </span>
                 </div>
-              </v-card-text>
+              </div>
             </v-flex>
-            <v-flex sm2 xs12
-              ><span class="text--titlesection">Title</span>ok</v-flex
+            <v-flex
+              sm3
+              xs12
+              :class="{
+                'mb-2 title-section-small text-futura': true,
+                'text-xs-center pt-4': $vuetify.breakpoint.xs,
+                'text-xs-right': $vuetify.breakpoint.smAndUp
+              }"
+              :pr-5="$vuetify.breakpoint.smAndUp"
             >
+              <div
+                v-for="element in rightSectionElements"
+                class="mb-2 title-section-small text-futura"
+              >
+                <nuxt-link
+                  v-if="element.nuxtLink"
+                  :to="element.href"
+                  class="text-no-decoration white--text"
+                  >{{ element.text }}</nuxt-link
+                >
+
+                <a
+                  v-else
+                  :href="element.href"
+                  class="text-no-decoration white--text"
+                  :target="element.blank ? '_blank' : ''"
+                  >{{ element.text }}</a
+                >
+              </div>
+            </v-flex>
+            <v-flex offset-xs2 xs8 class="content-center" mt-4
+              >Copyright © BlaBlaPHAMA 2019, Tous droits réservés -
+              BlaBlaPHARMA.fr - Montpellier xxxxx
+            </v-flex>
           </v-layout>
         </v-container>
       </div>
@@ -55,6 +128,30 @@ export default {
         { name: "instagram", href: "" },
         { name: "linkedin-in", href: "" },
         { name: "youtube", href: "" }
+      ],
+      leftSectionElements: [
+        { text: "Qui sommes nous ?", href: "", nuxtLink: true },
+        { text: "Vous êtes pharmacien ?", href: "" },
+        { text: "Vous êtes journaliste ?", href: "" },
+        { text: "Blog", href: "/blog", nuxtLink: true },
+        { text: "F.A.Q", href: "" },
+        { text: "Contact", href: "" }
+      ],
+      rightSectionElements: [
+        { text: "Droits des patients", href: "" },
+        { text: "Protection de vos données", href: "" },
+        { text: "Mention légales", href: "" },
+        { text: "Politique de confidentialité", href: "" },
+        {
+          text: "Conditions générales de services",
+          href: "/files/general_terms_of_use.pdf",
+          blank: true
+        },
+        {
+          text: "Gestion des cookies",
+          href: "/files/cookie_chart.pdf",
+          blank: true
+        }
       ]
     };
   }
