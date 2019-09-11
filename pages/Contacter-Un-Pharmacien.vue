@@ -18,35 +18,76 @@
     </v-img>
     <v-container fluid class="px-4 pt-3">
       <v-layout row wrap>
-        <v-flex offset-xs2 xs8 offset-sm2 sm4>
-          <v-text-field
-            color="transparent"
-            placeholder="Bientôt la possibilité de rechercher un pharmacien..."
-            box
-            disabled
-            flat
-            solo
-          ></v-text-field>
-        </v-flex>
-        <v-flex
-          v-for="pharmacist in pharmacists"
-          offset-sm1
-          sm10
-          offset-md2
-          md6
-          :key="pharmacist.id"
-          mb-4
-        >
-          <pharmacist-card
-            :full-address="getFullAddress(pharmacist)"
-            :first-name="pharmacist.firstName"
-            :image="pharmacist.picture"
-            :last-name="pharmacist.lastName"
-            :workplace="pharmacist.institutionName"
-            :identifiant="pharmacist.professionalId"
-            @pharmacist-card::contact="contactPharmacist"
+        <v-flex offset-xs2 xs8 offset-sm2 sm6>
+          <pharmacist-autocomplete-field
+            @pharmacistautocompletefield::search="search"
           />
         </v-flex>
+        <v-flex v-if="isLoading" xs12 class="content-center">
+          <v-progress-circular
+            indeterminate
+            size="300"
+            color="green"
+          ></v-progress-circular>
+        </v-flex>
+        <template v-else-if="autocompletePharmacist != null">
+          <v-flex xs12>
+            <v-btn flat color="red" @click="autocompletePharmacist = null">
+              <v-icon left>fas fa-trash</v-icon>
+              annuler la recherche
+            </v-btn>
+          </v-flex>
+
+          <v-flex
+            v-if="autocompletePharmacist.length === 0"
+            offset-xs2
+            xs8
+            class="text-xs-center title-section text--baseColor"
+          >
+            <h2>Aucun résultats</h2>
+          </v-flex>
+
+          <v-flex
+            v-for="pharmacist in autocompletePharmacist"
+            offset-sm1
+            sm10
+            offset-md2
+            md6
+            :key="pharmacist.id"
+            mb-4
+          >
+            <pharmacist-card
+              :full-address="getFullAddress(pharmacist)"
+              :first-name="pharmacist.firstName"
+              :image="pharmacist.picture"
+              :last-name="pharmacist.lastName"
+              :workplace="pharmacist.institutionName"
+              :identifiant="pharmacist.professionalId"
+              @pharmacist-card::contact="contactPharmacist"
+            />
+          </v-flex>
+        </template>
+        <template v-else>
+          <v-flex
+            v-for="pharmacist in pharmacists"
+            offset-sm1
+            sm10
+            offset-md2
+            md6
+            :key="pharmacist.id"
+            mb-4
+          >
+            <pharmacist-card
+              :full-address="getFullAddress(pharmacist)"
+              :first-name="pharmacist.firstName"
+              :image="pharmacist.picture"
+              :last-name="pharmacist.lastName"
+              :workplace="pharmacist.institutionName"
+              :identifiant="pharmacist.professionalId"
+              @pharmacist-card::contact="contactPharmacist"
+            />
+          </v-flex>
+        </template>
       </v-layout>
     </v-container>
     <message-dialog
@@ -60,17 +101,20 @@
 
 <script>
 import { TOGGLE_CONNECTION_DIALOG } from "../store/types";
-import PharmacistCard from "../components/pharmacist/PharmacistCard";
+import PharmacistCard from "../components/contact_pharmacist/PharmacistCard";
 import MessageDialog from "../components/messaging/MessageDialog";
+import PharmacistAutocompleteField from "../components/contact_pharmacist/PharmacistAutocompleteField";
 export default {
   name: "Contacter-Un-Pharmacien",
-  components: { MessageDialog, PharmacistCard },
+  components: { PharmacistAutocompleteField, MessageDialog, PharmacistCard },
   data() {
     return {
+      autocompletePharmacist: null,
       receiverId: null,
       receiverFirstName: null,
       receiverLastName: null,
-      showDialog: false
+      showDialog: false,
+      isLoading: false
     };
   },
 
@@ -90,6 +134,14 @@ export default {
       return `${pharmacist.address}, ${pharmacist.postalCode} ${
         pharmacist.city
       }`;
+    },
+    search(pharmacists) {
+      this.isLoading = true;
+      this.autocompletePharmacist = pharmacists;
+
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1500);
     }
   },
   /**
@@ -127,5 +179,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

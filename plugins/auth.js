@@ -1,3 +1,4 @@
+import reduce from "lodash.reduce";
 export default function({ app, $axios }, inject) {
   // IOT use $auth which will contains auth methods
   // inject in the global scope several function use to authenticate
@@ -58,7 +59,7 @@ export default function({ app, $axios }, inject) {
      * @returns {Promise<*>}
      */
     updatePassword: (token, password) =>
-      $axios.put(`/forgot-password/reset/${token}`, { password })
+      $axios.post(`/forgot-password/reset/${token}`, { password })
   });
 
   inject("account", {
@@ -68,6 +69,15 @@ export default function({ app, $axios }, inject) {
   });
 
   inject("pharmacist", {
-    update: (id, payload) => $axios.put(`/pharmacist/${id}`, payload)
+    update: (id, payload) => $axios.put(`/pharmacists/${id}`, payload),
+    autocomplete: filters => {
+      const queryParams = reduce(
+        filters,
+        (result, value, key) => `${result}&${key}=${value}`,
+        "?lite=true"
+      );
+      return $axios(`/pharmacists/search${queryParams}`);
+    },
+    search: filters => {}
   });
 }

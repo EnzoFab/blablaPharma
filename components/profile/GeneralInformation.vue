@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-md pa-2 ma-2>
+  <v-container fluid grid-list-md pa-3 mt-4>
     <v-layout row wrap>
       <v-flex
         md4
@@ -56,7 +56,11 @@
               <span class="ml-1"> {{ user.email }} </span>
             </div>
 
-            // date naissance à venir
+            <div>
+              <v-icon color="grey lighten-1">fas fa-birthday-cake</v-icon>
+              <span class="ml-1"> {{ birthdayDate }} </span>
+            </div>
+
             <div>
               <v-icon color="grey lighten-1">{{ gender.icon }}</v-icon>
               <span class="ml-1">{{ gender.label }}</span>
@@ -102,6 +106,7 @@
 
 <script>
 import moment from "moment";
+import get from "lodash.get";
 import { mapGetters } from "vuex";
 export default {
   name: "GeneralInformation",
@@ -139,6 +144,11 @@ export default {
         "student"
         ? "Numéro étudiant"
         : "Numéro RPPS";
+    },
+
+    birthdayDate() {
+      const birthday = get(this.user, "birthDayDate");
+      return this.format(birthday);
     },
     ...mapGetters({
       user: "connectedUser",

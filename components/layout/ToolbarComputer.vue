@@ -9,7 +9,7 @@
       color="white"
       class="px-2 py-2"
     >
-      <v-toolbar-title class="pl-3">
+      <v-toolbar-title class="pl-1">
         <blablapharma-logo />
       </v-toolbar-title>
       <v-spacer></v-spacer>

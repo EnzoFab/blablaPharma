@@ -49,7 +49,7 @@
                   color="blue-grey lighten-1"
                   dark
                   :loading="loading"
-                  >Mettre à jour mot de passe</v-btn
+                  >Mettre à jour</v-btn
                 >
               </v-flex>
             </v-layout>
@@ -62,7 +62,7 @@
           <span class="red--text text--section">{{ errorMessage }}</span>
         </v-card-text>
       </template>
-      <div v-else class="content-center">
+      <div v-else class="content-center pt-3">
         <h1 class="title-main title-main-rail text--baseColor">
           Ce lien n'est pas valide
         </h1>
@@ -114,8 +114,6 @@ export default {
     const [err, result] = await to(
       app.$auth.checkResetPasswordToken(params.resetPasswordToken)
     );
-
-    console.log({ err, result });
 
     const tokenIsValid = !err && result;
 

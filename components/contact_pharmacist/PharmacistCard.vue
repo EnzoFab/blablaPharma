@@ -56,12 +56,11 @@ export default {
     fullAddress: String,
     workplace: String,
     image: String,
-    identifiant: String | Number
+    identifiant: String | Number,
+    gender: String
+    // todo add gender on the card
   },
   computed: {
-    initials() {
-      return `${this.firstName[0]}.${this.lastName[0]}`.toUpperCase();
-    },
     fullName() {
       return `${this.firstName} ${this.lastName}`;
     },
@@ -80,5 +79,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

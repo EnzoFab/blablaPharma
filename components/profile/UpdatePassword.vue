@@ -7,11 +7,17 @@
     <v-container fluid>
       <v-layout row wrap>
         <v-flex offset-xs2 xs8>
-          <password-field
+          <v-text-field
             v-model="fields.oldPassword"
+            outline
+            color="grey darken-1"
             label="Ancien mot de passe"
             placeholder="Ancien mot de passe"
-          />
+            :rules="$constraints.required"
+            @click:append="showOldPassword = !showOldPassword"
+            :append-icon="showOldPassword ? 'visibility' : 'visibility_off'"
+            :type="showOldPassword ? 'text' : 'password'"
+          ></v-text-field>
         </v-flex>
         <v-flex offset-xs2 xs8>
           <password-field
@@ -63,7 +69,8 @@ export default {
         newPassword: null,
         confirmPassword: null
       },
-      showPassword: false
+      showPassword: false,
+      showOldPassword: false
     };
   },
   methods: {

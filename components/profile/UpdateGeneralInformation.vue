@@ -105,7 +105,7 @@
                   </template>
                   <v-date-picker
                     ref="picker"
-                    v-model="fields.birthdayDate"
+                    v-model="fields.birthDayDate"
                     :max="maxDate"
                     locale="fr-Fr"
                     color="blue-grey lighten-1"
@@ -156,7 +156,7 @@ export default {
         lastName: null,
         picture: null,
         gender: null,
-        birthdayDate: null
+        birthDayDate: null
       }
     };
   },
@@ -175,8 +175,8 @@ export default {
       }
     },
     dateFr() {
-      return this.fields.birthdayDate
-        ? moment(this.fields.birthdayDate)
+      return this.fields.birthDayDate
+        ? moment(this.fields.birthDayDate)
             .locale("fr")
             .format("Do MMMM YYYY")
         : "";

@@ -31,6 +31,7 @@ export default {
       password
     );
     logUserIn(this.app, commit, token, { account, pharmacist });
+    this.$router.push({ path: "/" });
   },
 
   /**

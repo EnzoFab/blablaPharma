@@ -32,7 +32,7 @@
             :rules="$constraints.emailRules"
             @click="handleClick"
           ></v-text-field>
-          <v-flex offset-xs3 xs6>
+          <v-flex offset-sm2 sm6 offset-xs1 xs10>
             <v-btn
               :disabled="newEmail && fields.newEmail === newEmail"
               large
@@ -81,7 +81,6 @@ export default {
     async updateEmail() {
       if (
         this.$refs.updateEmailForm.validate() &&
-        this.newEmail &&
         this.fields.newEmail !== this.newEmail
       ) {
         const [e, res] = await to(

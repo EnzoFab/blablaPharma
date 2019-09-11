@@ -67,7 +67,7 @@
               <v-layout row wrap align-center>
                 <v-flex class="content-center mx-5">
                   <v-btn
-                    v-show="!isPharmacist"
+                    v-if="!isPharmacist"
                     depressed
                     block
                     large
@@ -77,7 +77,7 @@
                     >Je suis pharmacien
                   </v-btn>
                   <div
-                    v-show="isPharmacist"
+                    v-else
                     class="title-section-small text-futura white text--baseColor"
                   >
                     Pharmacien
@@ -142,6 +142,7 @@ export default {
       isProcessing: false,
       formValid: true,
       // possible values PATIENT | PHARMACIST
+      // if PATIENT toggle PATIENT sign in otherwise PHARMACIST sign in
       signInType: null,
       signInFinished: false,
       loading: false
@@ -149,11 +150,17 @@ export default {
   },
   computed: {
     imageHeight() {
-      const isSmallScreen = this.$vuetify.breakpoint.smAndDown;
-      return isSmallScreen ? 240 : 600;
+      if (this.$vuetify.breakpoint.xs) {
+        return 240;
+      }
+
+      if (this.$vuetify.breakpoint.sm) {
+        return 360;
+      }
+      return 600;
     },
     smallScreen() {
-      return this.$vuetify.breakpoint.smAndDown;
+      return this.$vuetify.breakpoint.xs;
     },
 
     isClient() {
