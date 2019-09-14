@@ -1,59 +1,125 @@
 <template>
-  <v-autocomplete
-    v-model="selectedValue"
-    cache-items
-    clearable
-    dense
-    flat
-    hide-no-data
-    solo-inverted
-    return-object
-    append-icon="search"
-    hint="Rechercher par adresse et/ou nom"
-    item-text="searchWord"
-    label="Rechercher des pharmaciens proche de chez vous"
-    :filter="filterItems"
-    :items="items"
-    :loading="isLoading"
-    :search-input.sync="search"
-    @click:append="searchPharmacists"
-    @keyup.enter.native="searchPharmacists"
-    @change="handleChange"
-  >
-    <template v-slot:item="{ item }">
-      <v-list-tile-avatar color="green">
-        <v-img v-if="item.picture" :src="item.picture"></v-img>
-        <v-icon v-else dark medium>person</v-icon>
-      </v-list-tile-avatar>
+  <v-container grid-list-xs fluid fill-height>
+    <v-layout row wrap align-top>
+      <v-flex xs9>
+        <v-autocomplete
+          clearable
+          dense
+          flat
+          hide-no-data
+          return-object
+          solo-inverted
+          append-icon="search"
+          hint="ex: Marie Dupont Montpellier"
+          item-text="searchWord"
+          label="Rechercher des pharmaciens proche de chez vous"
+          :filter="filterItems"
+          :items="filteredItems"
+          :loading="isLoading"
+          :search-input.sync="search"
+          @click:append="searchPharmacists"
+          @keyup.enter.native="searchPharmacists"
+          @change="handleChange"
+        >
+          <template v-slot:item="{ item }">
+            <v-list-tile-avatar color="green">
+              <v-img v-if="item.picture" :src="item.picture"></v-img>
+              <v-icon v-else dark medium>person</v-icon>
+            </v-list-tile-avatar>
 
-      <v-list-tile-content>
-        <v-list-tile-title v-text="item.fullName"></v-list-tile-title>
-        <v-list-tile-sub-title
-          v-text="item.completeAddress"
-        ></v-list-tile-sub-title>
-      </v-list-tile-content>
-    </template>
-  </v-autocomplete>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.fullName"></v-list-tile-title>
+              <v-list-tile-sub-title
+                v-text="item.completeAddress"
+              ></v-list-tile-sub-title>
+            </v-list-tile-content>
+          </template>
+        </v-autocomplete>
+      </v-flex>
+      <v-flex xs3 class="text-xs-left">
+        <v-btn color="blue" flat small @click="showFilters = !showFilters">
+          {{ showFilters ? "-" : "+" }} filtres</v-btn
+        >
+      </v-flex>
+      <v-flex xs9>
+        <v-slide-y-transition>
+          <v-container
+            v-show="showFilters"
+            ma-0
+            pa-0
+            grid-list-xs
+            fluid
+            style="border: solid 1px grey"
+          >
+            <v-layout row wrap>
+              <v-flex xs6>
+                <v-select
+                  v-model="filters.gender"
+                  solo
+                  flat
+                  clearable
+                  hide-details
+                  :items="genders"
+                  item-text="name"
+                  item-value="value"
+                  label="Sexe"
+                ></v-select>
+              </v-flex>
+              <v-flex xs6>
+                <v-select
+                  v-model="filters.professionLabel"
+                  clearable
+                  flat
+                  hide-details
+                  solo
+                  :items="pharmacistLabels"
+                  item-text="name"
+                  item-value="value"
+                  label="Statut"
+                ></v-select>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-slide-y-transition>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import to from "await-to-js";
 import words from "lodash.words";
+import uniqueBy from "lodash.uniqby";
 export default {
   name: "PharmacistAutocompleteField",
   data() {
     return {
-      searchWord: "",
+      filters: {
+        gender: null,
+        limit: 100,
+        q: "",
+        page: 0,
+        professionLabel: null
+      },
+      genders: [
+        { name: "Homme", value: "male" },
+        { name: "Femme", value: "female" },
+        { name: "Non précisé", value: "another" }
+      ],
       items: [],
       isLoading: false,
-      selectedValue: null
+      pharmacistLabels: [
+        { name: "Pharmacien", value: "pharmacist" },
+        { name: "Etudiant", value: "student" }
+      ],
+      showFilters: false
     };
   },
 
   asyncComputed: {
     async autoCompleteItems() {
       const [e, result] = await to(
-        this.$pharmacist.autocomplete({ q: this.searchWord.trim() || "" })
+        this.$pharmacist.search({ ...this.filters })
       );
 
       return result ? result : this.items;
@@ -62,22 +128,18 @@ export default {
   computed: {
     search: {
       get() {
-        return this.searchWord;
+        return this.filters.q;
       },
       set(value) {
-        if (!value) {
+        if (!value || value.trim().length < 1) {
           return;
         }
 
-        if (this.isLoading) {
-          // don't fetch new items if we are already fetching items
-          return;
-        }
-        this.searchWord = value;
+        this.filters.q = value;
 
-        // first we look into items to see if there is an item that match the searchWord
+        // first we look into items to see if there is an item that match the filters.q
         const el = this.items.find(item =>
-          words(this.searchWord.trim()).some(word =>
+          words(this.filters.q.trim()).some(word =>
             item.searchWord.includes(word)
           )
         );
@@ -98,26 +160,36 @@ export default {
           return { ...pharmacist, completeAddress, fullName, searchWord };
         };
 
-        this.items = this.items.concat(
-          this.autoCompleteItems.map(formatPharmacist)
+        this.items = uniqueBy(
+          this.items.concat(this.autoCompleteItems.map(formatPharmacist)),
+          "id"
         );
 
         setTimeout(() => {
           this.isLoading = false;
         }, 250);
       }
+    },
+    filteredItems() {
+      return this.items.filter(item => {
+        const matchGender =
+          !this.filters.gender || item.gender === this.filters.gender;
+
+        const matchStatus =
+          !this.filters.professionLabel ||
+          item.professionLabel === this.filters.professionLabel;
+
+        return matchGender && matchStatus;
+      });
     }
   },
   methods: {
     async searchPharmacists() {
-      if (this.searchWord && this.searchWord.trim().length > 0) {
-        const [e, result] = await to(
-          this.$pharmacist.autocomplete({ q: this.searchWord.trim() || "" })
-        );
+      const [e, result] = await to(this.$pharmacist.search(this.filters));
 
-        const data = result ? result : [];
-        this.$emit("pharmacistautocompletefield::search", data);
-      }
+      const data = result ? result : [];
+      this.$emit("pharmacistautocompletefield::search", data);
+      this.filters.q = "";
     },
     filterItems(item, queryText, itemText) {
       // override the filter method

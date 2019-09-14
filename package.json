@@ -36,6 +36,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.reduce": "^4.6.0",
     "lodash.take": "^4.1.1",
+    "lodash.uniqby": "^4.7.0",
     "lodash.words": "^4.2.0",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",

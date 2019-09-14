@@ -70,14 +70,13 @@ export default function({ app, $axios }, inject) {
 
   inject("pharmacist", {
     update: (id, payload) => $axios.put(`/pharmacists/${id}`, payload),
-    autocomplete: filters => {
+    search: filters => {
       const queryParams = reduce(
         filters,
-        (result, value, key) => `${result}&${key}=${value}`,
+        (result, value, key) => (value ? `${result}&${key}=${value}` : result),
         "?lite=true"
       );
       return $axios(`/pharmacists/search${queryParams}`);
-    },
-    search: filters => {}
+    }
   });
 }

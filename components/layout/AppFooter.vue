@@ -130,7 +130,7 @@ export default {
         { name: "youtube", href: "" }
       ],
       leftSectionElements: [
-        { text: "Qui sommes nous ?", href: "", nuxtLink: true },
+        { text: "Qui sommes nous ?", href: "/more", nuxtLink: true },
         { text: "Vous êtes pharmacien ?", href: "" },
         { text: "Vous êtes journaliste ?", href: "" },
         { text: "Blog", href: "/blog", nuxtLink: true },

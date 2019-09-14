@@ -16,7 +16,7 @@
         </v-layout>
       </v-container>
     </v-img>
-    <v-container fluid class="px-4 pt-3">
+    <v-container fluid grid-list-xs>
       <v-layout row wrap>
         <v-flex offset-xs2 xs8 offset-sm2 sm6>
           <pharmacist-autocomplete-field
@@ -50,11 +50,10 @@
           <v-flex
             v-for="pharmacist in autocompletePharmacist"
             offset-sm1
+            offset-md1
             sm10
-            offset-md2
-            md6
+            md5
             :key="pharmacist.id"
-            mb-4
           >
             <pharmacist-card
               :full-address="getFullAddress(pharmacist)"
@@ -63,31 +62,44 @@
               :last-name="pharmacist.lastName"
               :workplace="pharmacist.institutionName"
               :identifiant="pharmacist.professionalId"
+              :gender="pharmacist.gender"
+              :status="pharmacist.professionLabel"
               @pharmacist-card::contact="contactPharmacist"
             />
           </v-flex>
         </template>
-        <template v-else>
-          <v-flex
-            v-for="pharmacist in pharmacists"
-            offset-sm1
-            sm10
-            offset-md2
-            md6
-            :key="pharmacist.id"
-            mb-4
-          >
-            <pharmacist-card
-              :full-address="getFullAddress(pharmacist)"
-              :first-name="pharmacist.firstName"
-              :image="pharmacist.picture"
-              :last-name="pharmacist.lastName"
-              :workplace="pharmacist.institutionName"
-              :identifiant="pharmacist.professionalId"
-              @pharmacist-card::contact="contactPharmacist"
-            />
-          </v-flex>
-        </template>
+        <v-container
+          grid-list-xs
+          mt-0
+          fluid
+          class="scroll-y"
+          style="max-height: 600px; min-height: 10px"
+          v-else
+        >
+          <v-layout row wrap>
+            <v-flex
+              v-for="pharmacist in pharmacists"
+              offset-sm1
+              offset-md1
+              sm10
+              md5
+              mb-4
+              :key="pharmacist.id"
+            >
+              <pharmacist-card
+                :full-address="getFullAddress(pharmacist)"
+                :first-name="pharmacist.firstName"
+                :image="pharmacist.picture"
+                :last-name="pharmacist.lastName"
+                :workplace="pharmacist.institutionName"
+                :identifiant="pharmacist.professionalId"
+                :gender="pharmacist.gender"
+                :status="pharmacist.professionLabel"
+                @pharmacist-card::contact="contactPharmacist"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-layout>
     </v-container>
     <message-dialog
@@ -100,7 +112,9 @@
 </template>
 
 <script>
+import to from "await-to-js";
 import { TOGGLE_CONNECTION_DIALOG } from "../store/types";
+
 import PharmacistCard from "../components/contact_pharmacist/PharmacistCard";
 import MessageDialog from "../components/messaging/MessageDialog";
 import PharmacistAutocompleteField from "../components/contact_pharmacist/PharmacistAutocompleteField";
@@ -117,7 +131,6 @@ export default {
       isLoading: false
     };
   },
-
   methods: {
     contactPharmacist({ id, firstName, lastName }) {
       // if not connected show connection dialog
@@ -131,7 +144,7 @@ export default {
       }
     },
     getFullAddress(pharmacist) {
-      return `${pharmacist.address}, ${pharmacist.postalCode} ${
+      return `${pharmacist.address}, ${pharmacist.postalCode}, ${
         pharmacist.city
       }`;
     },
@@ -149,10 +162,16 @@ export default {
    * @param app
    * @returns {{pharmacists: *[]}}
    */
-  asyncData({ app }) {
+  async asyncData({ app, query }) {
+    // todo improve, handle query, pagination, number on page
+    const [e, res] = await to(
+      app.$pharmacist.search({ limit: 10, page: 0, ...query })
+    );
+
+    const pharmacists = !e && res ? res : [];
     return {
-      // todo fetch 3 most effective pharmacist
-      pharmacists: [
+      pharmacists
+      /*pharmacists: [
         {
           professionalId: 1234,
           firstName: "Michel",
@@ -162,7 +181,7 @@ export default {
           address: "127, avenue de Toulouse",
           institutionName: "D.U PlanetArium",
           picture:
-            "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            "https://img.freepik.com/photos-gratuite/portrait-homme-blanc-isole_53876-40306.jpg?size=626&ext=jpg"
         },
         {
           professionalId: 123,
@@ -174,7 +193,7 @@ export default {
           institutionName: "D.U PlanetArium",
           picture: null
         }
-      ]
+      ] */
     };
   }
 };
