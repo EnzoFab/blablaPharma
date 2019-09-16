@@ -73,7 +73,7 @@ export default {
       return `${this.firstName} ${this.lastName}`;
     },
     size() {
-      return this.$vuetify.breakpoint.xs ? 120 : 195;
+      return this.$vuetify.breakpoint.xs ? 55 : 90;
     },
     pharmacistGender() {
       switch (this.gender) {
@@ -86,7 +86,14 @@ export default {
       }
     },
     pharmacistStatus() {
-      return this.status === "student" ? "Etudiant" : "Pharmacien";
+      switch (this.status) {
+        case "student":
+          return "Etudiant";
+        case "pharmacistBlablapharma":
+          return "Pharmacien BlablaPharma";
+        default:
+          return "Pharmacien";
+      }
     }
   },
   methods: {

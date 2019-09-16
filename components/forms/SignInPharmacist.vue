@@ -27,24 +27,17 @@
           <v-container fluid>
             <v-layout row wrap align-center>
               <v-flex xs12>
-                <v-radio-group
+                <v-select
                   v-model="fields.professionLabel"
-                  label="Profession :"
-                  row
-                  mandatory
+                  outline
+                  flat
+                  label="Profession"
+                  item-text="label"
+                  item-value="value"
+                  color="light-grey"
+                  :items="professions"
                   :rules="$constraints.required"
-                >
-                  <v-radio
-                    label="Je suis pharmacien"
-                    value="pharmacist"
-                    color="light-grey"
-                  ></v-radio>
-                  <v-radio
-                    label="Je suis étudiant"
-                    value="student"
-                    color="light-grey"
-                  ></v-radio>
-                </v-radio-group>
+                ></v-select>
               </v-flex>
               <v-flex xs12>
                 <v-text-field
@@ -145,8 +138,12 @@ export default {
         professionalId: null,
         professionLabel: "pharmacist"
       },
-
-      personalData: null
+      personalData: null,
+      professions: [
+        { label: "Pharmacien", value: "pharmacist" },
+        { label: "Etudiant", value: "student" },
+        { label: "Pharmacien blablapharma", value: "pharmacistBlablapharma" }
+      ]
     };
   },
   methods: {
@@ -166,5 +163,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>

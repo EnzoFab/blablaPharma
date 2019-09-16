@@ -10,6 +10,7 @@
       <fresh-chat />
     </no-ssr>
     <floating-conversations />
+    <admin-button />
     <app-footer />
   </v-app>
 </template>
@@ -21,8 +22,10 @@ import LoginDialog from "../components/messaging/LoginDialog";
 import FreshChat from "../components/layout/FreshChat";
 import FloatingConversations from "../components/layout/FloatingConversations";
 import SnackBar from "../components/layout/SnackBar";
+import AdminButton from "../components/layout/AdminButton";
 export default {
   components: {
+    AdminButton,
     SnackBar,
     FloatingConversations,
     FreshChat,

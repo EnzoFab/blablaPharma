@@ -1,0 +1,11 @@
+.pharmacists {
+  &-holder {
+    border: solid 1px grey;
+    border-radius: 4px;
+    max-height: 60vh;
+    min-height: 5vh;
+  }
+
+  max-height: 40vh;
+  min-height: 5vh;
+}

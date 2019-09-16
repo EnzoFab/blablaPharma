@@ -4,6 +4,8 @@ export default {
 
   isLoggedIn: state => state.token != null,
 
+  isAdmin: state => state.connectedUser && state.connectedUser.role === "admin",
+
   connectedUser: state => state.connectedUser || null,
 
   pharmacistData: state => state.pharmacist,

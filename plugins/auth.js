@@ -65,18 +65,27 @@ export default function({ app, $axios }, inject) {
   inject("account", {
     update: (id, payload) => $axios.put(`/accounts/${id}`, payload),
     validateNewEmail: (id, token) =>
-      $axios.put(`/accounts/${id}/confirm-email/${token}`)
+      $axios.put(`/accounts/${id}/confirm-email/${token}`),
+    delete: id => $axios.delete(`/accounts/${id}`)
   });
 
   inject("pharmacist", {
-    update: (id, payload) => $axios.put(`/pharmacists/${id}`, payload),
     search: filters => {
       const queryParams = reduce(
         filters,
-        (result, value, key) => (value ? `${result}&${key}=${value}` : result),
+        (result, value, key) =>
+          value || value === false ? `${result}&${key}=${value}` : result,
         "?lite=true"
       );
       return $axios(`/pharmacists/search${queryParams}`);
-    }
+    },
+    update: (id, payload) => $axios.put(`/pharmacists/${id}`, payload),
+
+    /**
+     * Send a mail to the pharmacist to warn that is professional isn't conform
+     * @param {string} id
+     * @returns {Promise<*>}
+     */
+    warn: id => $axios.put(`/pharmacists/${id}/warn`)
   });
 }

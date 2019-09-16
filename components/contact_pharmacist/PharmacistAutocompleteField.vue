@@ -90,6 +90,7 @@
 import to from "await-to-js";
 import words from "lodash.words";
 import uniqueBy from "lodash.uniqby";
+import pickby from "lodash.pickby";
 export default {
   name: "PharmacistAutocompleteField",
   data() {
@@ -110,7 +111,8 @@ export default {
       isLoading: false,
       pharmacistLabels: [
         { name: "Pharmacien", value: "pharmacist" },
-        { name: "Etudiant", value: "student" }
+        { name: "Etudiant", value: "student" },
+        { name: "Pharmacien blablaPharma", value: "pharmacistBlablapharma" }
       ],
       showFilters: false
     };
@@ -122,7 +124,7 @@ export default {
         this.$pharmacist.search({ ...this.filters })
       );
 
-      return result ? result : this.items;
+      return !e && result ? result : this.items;
     }
   },
   computed: {
@@ -185,10 +187,16 @@ export default {
   },
   methods: {
     async searchPharmacists() {
-      const [e, result] = await to(this.$pharmacist.search(this.filters));
+      const [e, result] = await to(
+        this.$pharmacist.search({ ...this.filters, verified: true })
+      );
 
       const data = result ? result : [];
       this.$emit("pharmacistautocompletefield::search", data);
+      this.$router.push({
+        path: "/contacter-un-pharmacien",
+        query: pickby(this.filters)
+      });
       this.filters.q = "";
     },
     filterItems(item, queryText, itemText) {
@@ -203,6 +211,10 @@ export default {
     handleChange(data) {
       if (data) {
         this.$emit("pharmacistautocompletefield::search", [data]);
+        this.$router.push({
+          path: "/contacter-un-pharmacien",
+          query: pickby(this.filters)
+        });
       }
     }
   }

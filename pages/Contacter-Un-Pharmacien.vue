@@ -30,52 +30,49 @@
             color="green"
           ></v-progress-circular>
         </v-flex>
-        <template v-else-if="autocompletePharmacist != null">
-          <v-flex xs12>
-            <v-btn flat color="red" @click="autocompletePharmacist = null">
-              <v-icon left>fas fa-trash</v-icon>
-              annuler la recherche
-            </v-btn>
+        <template v-else-if="pharmacistsBlablapharma != null">
+          <v-flex xs12 pb-2>
+            <h2 class="text--baseColor title-section-small">
+              Pharmaciens BlablaPharma
+            </h2>
+          </v-flex>
+
+          <v-flex v-if="pharmacistsBlablapharma.length === 0" offset-xs2 xs8>
+            <h3 class="text-xs-center text-content  text--baseColor">
+              Aucun résultats
+            </h3>
           </v-flex>
 
           <v-flex
-            v-if="autocompletePharmacist.length === 0"
-            offset-xs2
-            xs8
-            class="text-xs-center title-section text--baseColor"
-          >
-            <h2>Aucun résultats</h2>
-          </v-flex>
-
-          <v-flex
-            v-for="pharmacist in autocompletePharmacist"
+            v-for="pharma in pharmacistsBlablapharma"
             offset-sm1
             offset-md1
             sm10
             md5
-            :key="pharmacist.id"
+            :key="pharma.id"
           >
             <pharmacist-card
-              :full-address="getFullAddress(pharmacist)"
-              :first-name="pharmacist.firstName"
-              :image="pharmacist.picture"
-              :last-name="pharmacist.lastName"
-              :workplace="pharmacist.institutionName"
-              :identifiant="pharmacist.professionalId"
-              :gender="pharmacist.gender"
-              :status="pharmacist.professionLabel"
+              :full-address="getFullAddress(pharma)"
+              :first-name="pharma.firstName"
+              :image="pharma.picture"
+              :last-name="pharma.lastName"
+              :workplace="pharma.institutionName"
+              :identifiant="pharma.professionalId"
+              :gender="pharma.gender"
+              :status="pharma.professionLabel"
               @pharmacist-card::contact="contactPharmacist"
             />
           </v-flex>
         </template>
-        <v-container
-          grid-list-xs
-          mt-0
-          fluid
-          class="scroll-y"
-          style="max-height: 600px; min-height: 10px"
-          v-else
-        >
+        <v-flex xs12>
+          <h2 class="text--baseColor title-section-small">Pharmaciens</h2>
+        </v-flex>
+        <v-flex v-if="pharmacists.length === 0" offset-xs2 xs8>
+          <h3 class="text-xs-center text-content  text--baseColor">
+            Aucun résultats
+          </h3>
+        </v-flex>
+        <v-container grid-list-xs mt-0 fluid class="scroll-y pharmacists">
           <v-layout row wrap>
             <v-flex
               v-for="pharmacist in pharmacists"
@@ -123,7 +120,6 @@ export default {
   components: { PharmacistAutocompleteField, MessageDialog, PharmacistCard },
   data() {
     return {
-      autocompletePharmacist: null,
       receiverId: null,
       receiverFirstName: null,
       receiverLastName: null,
@@ -150,7 +146,7 @@ export default {
     },
     search(pharmacists) {
       this.isLoading = true;
-      this.autocompletePharmacist = pharmacists;
+      this.pharmacists = pharmacists;
 
       setTimeout(() => {
         this.isLoading = false;
@@ -165,12 +161,22 @@ export default {
   async asyncData({ app, query }) {
     // todo improve, handle query, pagination, number on page
     const [e, res] = await to(
-      app.$pharmacist.search({ limit: 10, page: 0, ...query })
+      app.$pharmacist.search({ limit: 10, page: 0, ...query, verified: true })
     );
 
     const pharmacists = !e && res ? res : [];
+
+    const [error, result] = await to(
+      app.$pharmacist.search({
+        professionLabel: "pharmacistBlablapharma"
+      })
+    );
+
+    const pharmacistsBlablapharma = !error && result ? result : [];
+
     return {
-      pharmacists
+      pharmacists,
+      pharmacistsBlablapharma
       /*pharmacists: [
         {
           professionalId: 1234,
