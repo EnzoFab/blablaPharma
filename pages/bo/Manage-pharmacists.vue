@@ -36,7 +36,10 @@
             <div class="text--baseColor pa-3" style="border: solid 1px grey">
               <div class="content-center">
                 <v-avatar v-if="pharmacist.picture" size="80">
-                  <v-img :src="pharmacist.picture"></v-img>
+                  <v-img
+                    :src="pharmacist.picture"
+                    alt="Pharmacist photo"
+                  ></v-img>
                 </v-avatar>
               </div>
               <v-container pa-0 ma-0 fluid grid-list-xs fill-height>

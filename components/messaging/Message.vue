@@ -3,7 +3,11 @@
     <template v-if="embed">
       <div v-if="!hideAuthorName">
         <v-avatar color="light-grey" size="40">
-          <v-img v-if="picture && picture.length > 0" :src="picture"></v-img>
+          <v-img
+            v-if="picture && picture.length > 0"
+            :src="picture"
+            alt="conversation message"
+          ></v-img>
           <v-icon v-else size="38" dark color="green">person_pin</v-icon>
         </v-avatar>
         <span
@@ -34,6 +38,7 @@
           v-else-if="content.type === 'image'"
           :src="content.message"
           aspect-ratio="1.75"
+          alt="Conversation image"
         ></v-img>
         <div v-else>
           <div v-for="(word, i) in content.message.split('\n')" :key="i">
@@ -72,6 +77,7 @@
                 <v-img
                   v-if="picture && picture.length > 0"
                   :src="picture"
+                  alt="Author image"
                 ></v-img>
                 <v-icon v-else size="38" dark color="green">person_pin</v-icon>
               </v-avatar>
@@ -105,6 +111,7 @@
                 v-else-if="content.type === 'image'"
                 :src="content.message"
                 aspect-ratio="1.75"
+                alt="Url Preview image"
               ></v-img>
 
               <div v-else>

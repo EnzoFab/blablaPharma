@@ -3,7 +3,11 @@
     <v-card flat>
       <div class="content-center" v-if="image">
         <v-avatar :size="size">
-          <v-img aspect-ratio="2.75" :src="image"></v-img>
+          <v-img
+            aspect-ratio="2.75"
+            :src="image"
+            alt="Photo du pharmaciens"
+          ></v-img>
         </v-avatar>
       </div>
 

@@ -8,7 +8,9 @@
           >Gestion des pharmaciens</v-btn
         >
         <v-btn flat nuxt to="/bo/manage-blog">Gestion du blog</v-btn>
-        <v-btn flat>Recherche utilisateurs</v-btn>
+        <v-btn block flat nuxt to="/bo/manage-research"
+          >Recherche utilisateurs</v-btn
+        >
       </v-toolbar-items>
     </v-toolbar>
 

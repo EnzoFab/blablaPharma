@@ -23,7 +23,11 @@
               ><v-icon @click="resetImage" dark>close</v-icon></template
             >
             <v-avatar size="100" class="mb-3">
-              <v-img aspect-ratio="3.75" :src="previewImageUrl"></v-img>
+              <v-img
+                aspect-ratio="3.75"
+                :src="previewImageUrl"
+                alt="Preview image"
+              ></v-img>
             </v-avatar>
           </v-badge>
 

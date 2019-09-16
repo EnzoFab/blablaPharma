@@ -30,6 +30,7 @@
             src="/signin.jpg"
             :height="imageHeight"
             gradient="to top right, rgba(255,255,255,0.12), rgba(120,120,120,.14)"
+            alt="Sign-in patient image"
           >
             <v-container fill-height fluid>
               <v-layout row wrap align-center>
@@ -62,6 +63,7 @@
             :height="imageHeight"
             src="/banner.jpg"
             gradient="to top right, rgba(200,215,255,0.22), rgba(5,20,120,.14)"
+            alt="Sign-in Pharmacist"
           >
             <v-container fluid fill-height>
               <v-layout row wrap align-center>

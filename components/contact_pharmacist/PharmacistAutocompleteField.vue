@@ -23,7 +23,11 @@
         >
           <template v-slot:item="{ item }">
             <v-list-tile-avatar color="green">
-              <v-img v-if="item.picture" :src="item.picture"></v-img>
+              <v-img
+                v-if="item.picture"
+                :src="item.picture"
+                alt="thumbnail"
+              ></v-img>
               <v-icon v-else dark medium>person</v-icon>
             </v-list-tile-avatar>
 

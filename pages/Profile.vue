@@ -69,6 +69,22 @@ import UpdatePharmacistInformation from "../components/profile/UpdatePharmacistI
 import UpdateEmail from "../components/profile/UpdateEmail";
 export default {
   name: "Profile",
+  head() {
+    const connectedUser = this.$store.getters.connectedUser;
+    const fullName = connectedUser
+      ? `${connectedUser.firstName} ${connectedUser.lastName}`
+      : "Profile";
+    return {
+      title: `${fullName}`,
+      meta: [
+        {
+          hid: "Profile",
+          name: "Profile",
+          content: `Profil de ${fullName}, utilisateur sur BlablaPharma`
+        }
+      ]
+    };
+  },
   middleware: "connected",
   components: {
     UpdateEmail,

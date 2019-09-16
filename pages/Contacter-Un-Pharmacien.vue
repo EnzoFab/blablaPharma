@@ -4,6 +4,7 @@
       src="/contact-pharmacist.jpg"
       aspect-ratio="2.35"
       gradient="to top right, rgba(150,150,150,0.12), rgba(220,230,130,.14)"
+      alt="Contacter un pharmacien image de présentation"
     >
       <v-container bg fluid fill-height>
         <v-layout row wrap align-center>
@@ -117,6 +118,19 @@ import MessageDialog from "../components/messaging/MessageDialog";
 import PharmacistAutocompleteField from "../components/contact_pharmacist/PharmacistAutocompleteField";
 export default {
   name: "Contacter-Un-Pharmacien",
+  head() {
+    return {
+      title: "Contacter Un Pharmacien",
+      meta: [
+        {
+          hid: "Contacter un pharmacien",
+          name: "contacter un pharmacien",
+          content: "Contacter un pharmacien sur blablapharma"
+        }
+      ]
+    };
+  },
+
   components: { PharmacistAutocompleteField, MessageDialog, PharmacistCard },
   data() {
     return {

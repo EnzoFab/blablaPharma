@@ -5,7 +5,12 @@
         {{ title }}
       </span></v-card-title
     >
-    <v-img v-if="preview" :src="preview" aspect-ratio="2.75"></v-img>
+    <v-img
+      v-if="preview"
+      :src="preview"
+      aspect-ratio="2.75"
+      alt="Preview link"
+    ></v-img>
     <v-card-text class="grey--text caption text-truncate">
       <v-tooltip top dark>
         <template v-slot:activator="{ on }">

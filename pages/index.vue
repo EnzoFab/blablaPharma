@@ -10,10 +10,10 @@
         <v-container fluid>
           <v-layout row wrap>
             <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
-            <v-flex offset-sm6 xs12>
-              <v-card class="mt-4 pl-2 pt-1 pb-3" flat>
+            <v-flex offset-sm5 sm7 xs12>
+              <v-card class=" pl-2 pt-1 pb-3" flat>
                 <v-card-title class="pa-3">
-                  <h1 class="text--baseColor title-main pt-3 ">
+                  <h1 class="text--baseColor title-main pt-2 ">
                     <span class="title-main-rail">Votre pharmacien<br /></span>
                     <span class="title-main-rail">en ligne<br /> </span>
                     <span class="title-main-rail">et à votre écoute</span>
@@ -164,7 +164,7 @@
       <v-container fluid grid-list-xl class="py-1 mb-4 pt-5">
         <v-layout row wrap algin-center class="pt-3">
           <v-flex sm5 xs12>
-            <v-img src="/contact.jpg">
+            <v-img src="/contact.jpg" alt="Contact image">
               <div class="overlay">
                 <v-container bg fill-height grid-list-md text-xs-center>
                   <v-layout row wrap align-center>
@@ -225,6 +225,19 @@
 import ResponsiveParallax from "../components/ResponsiveParallax";
 import Contact from "../components/forms/Contact";
 export default {
+  head() {
+    return {
+      title: "BlablaPharma",
+      meta: [
+        {
+          hid: "Page d'accueil",
+          name: "Home",
+          content:
+            "BlablaPharma permet de mettre en relation des utilisateurs et des pharmaciens"
+        }
+      ]
+    };
+  },
   components: { Contact, ResponsiveParallax },
   data() {
     return {
