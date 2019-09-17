@@ -29,6 +29,18 @@ import to from "await-to-js";
 import ResendActivationMail from "../../components/forms/ResendActivationMail";
 import { TOGGLE_CONNECTION_DIALOG } from "../../store/types";
 export default {
+  head() {
+    return {
+      title: "Activation du compte",
+      meta: [
+        {
+          hid: "Sign-in",
+          name: "sign-in",
+          content: "Valider son inscription sur Blablapharma"
+        }
+      ]
+    };
+  },
   components: { ResendActivationMail },
   middleware: "notConnected",
   methods: {

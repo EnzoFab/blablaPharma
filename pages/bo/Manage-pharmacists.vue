@@ -72,7 +72,8 @@
                       <v-icon>warning</v-icon>
                       <span
                         >Ce pharmacien a été averti le
-                        {{ format(pharmacist.warn) }}</span
+                        {{ format(pharmacist.warn) }}, il a 3 jours pour
+                        modifier son RPPS</span
                       >
                     </div>
                   </v-flex>

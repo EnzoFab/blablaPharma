@@ -129,6 +129,12 @@ export default {
   methods: {
     async updateInformation() {
       if (this.$refs.updatePharmacistInformationForm.validate()) {
+        const verified = this.pharmacistData.verified;
+
+        if (verified) {
+          // we can update the professionnalId if the user has been updated
+          delete this.fields.professionalId;
+        }
         const [e, res] = await to(
           this.$pharmacist.update(this.pharmacistData.id, this.fields)
         );

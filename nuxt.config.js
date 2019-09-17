@@ -179,7 +179,7 @@ module.exports = {
 
   proxy: {
     "/api/": {
-      target: process.env.API_URL,
+      target: process.env.API_URL || "http://localhost:1337/",
       pathRewrite: { "^/api/": "/" },
       changeOrigin: true,
       secure: true

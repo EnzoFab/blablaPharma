@@ -137,6 +137,18 @@ import SignInPharmacist from "../components/forms/SignInPharmacist";
 import ResendActivationMail from "../components/forms/ResendActivationMail";
 export default {
   name: "Sign-In",
+  head() {
+    return {
+      title: "Inscription",
+      meta: [
+        {
+          hid: "Sign-in",
+          name: "sign-in",
+          content: "S'inscrire sur blablapharma"
+        }
+      ]
+    };
+  },
   components: { ResendActivationMail, SignInPharmacist, SignInClient },
   data() {
     return {
@@ -186,8 +198,10 @@ export default {
 
       if (e) {
         this.errorMessage =
-          get(e, "error.error") === "E_UNIQUE"
+          get(e, "error.error") === "E_UNIQUE_EMAIL"
             ? "L'adresse mail est déjà utilisé pour un autre compte"
+            : get(e, "error.error") === "E_UNIQUE_PROFESSIONAL_ID"
+            ? "Le RPPS ou numéro étudiant est déjà utilisé"
             : "Une erreur est survenue, veuillez réessayer plus tard";
       }
 
