@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img
-      src="/contact-pharmacist.jpg"
+      src="/images/contact-pharmacist.jpg"
       aspect-ratio="2.35"
       gradient="to top right, rgba(150,150,150,0.12), rgba(220,230,130,.14)"
       alt="Contacter un pharmacien image de présentation"
@@ -111,6 +111,8 @@
 
 <script>
 import to from "await-to-js";
+import pickby from "lodash.pickby";
+
 import { TOGGLE_CONNECTION_DIALOG } from "../store/types";
 
 import PharmacistCard from "../components/contact_pharmacist/PharmacistCard";
@@ -158,9 +160,14 @@ export default {
         pharmacist.city
       }`;
     },
-    search(pharmacists) {
+    search({ pharmacists, filters }) {
       this.isLoading = true;
       this.pharmacists = pharmacists;
+
+      this.$router.push({
+        path: "/contacter-un-pharmacien",
+        query: pickby(filters)
+      });
 
       setTimeout(() => {
         this.isLoading = false;

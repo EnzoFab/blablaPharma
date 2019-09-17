@@ -2,7 +2,7 @@
   <div class="mt-0 pt-0">
     <section>
       <responsive-parallax
-        src="/banner.jpg"
+        src="/images/banner.jpg"
         :min-height="370"
         :max-height="500"
         user-overlay
@@ -100,7 +100,7 @@
     </section>
     <section class="mt-0">
       <responsive-parallax
-        src="/engagement.jpg"
+        src="/images/engagement.jpg"
         :max-height="550"
         :min-height="500"
         class="mt-0 pt-0"
@@ -164,7 +164,7 @@
       <v-container fluid grid-list-xl class="py-1 mb-4 pt-5">
         <v-layout row wrap algin-center class="pt-3">
           <v-flex sm5 xs12>
-            <v-img src="/contact.jpg" alt="Contact image">
+            <v-img src="/images/contact.jpg" alt="Contact image">
               <div class="overlay">
                 <v-container bg fill-height grid-list-md text-xs-center>
                   <v-layout row wrap align-center>
@@ -210,7 +210,7 @@
     </section>
     <section>
       <responsive-parallax
-        src="/contact.jpg"
+        src="/images/contact.jpg"
         :min-height="700"
         :max-height="700"
         user-overlay
@@ -257,7 +257,7 @@ export default {
             "et personnalisées à vos questions grâce à un service de messagerie instantanée."
         },
         {
-          image: "/articles_icon.png",
+          image: "/images/articles-icon.png",
           alt: "icone articles et vidéos",
           title: "Des articles et des vidéos",
           description:

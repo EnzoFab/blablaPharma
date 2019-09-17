@@ -20,9 +20,9 @@ export default {
   name: "BlablapharmaLogo",
   data() {
     return {
-      src: "/logo_navbar.png",
+      src: "/images/logo-navbar.png",
       alt: "BlablaPharma logo",
-      srcMobile: "/logo_fav.png"
+      srcMobile: "/images/logo-fav.png"
     };
   },
   computed: {

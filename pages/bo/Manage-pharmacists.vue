@@ -1,37 +1,28 @@
 <template>
   <v-container fluid pt-4>
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex pt-1 xs12>
         <h1 class="content-center title-main-rail text--baseColor">
           Gestion des pharmaciens
         </h1>
       </v-flex>
       <v-flex offset-xs2 xs8>
-        <v-text-field
-          v-model="searchWord"
-          :loading="loading"
-          outline
-          label="Recherche d'un pharmacien"
-          append-icon="search"
-          @click:append="searchPharmacists"
-          @keyup.enter.native="searchPharmacists"
-        ></v-text-field>
+        <pharmacist-autocomplete-field
+          :verified="false"
+          @pharmacistautocompletefield::search="search"
+        />
       </v-flex>
 
       <v-flex v-if="errorMessage" xs12 pa-2>
         <div class="content-center red--text">{{ errorMessage }}</div>
       </v-flex>
       <v-flex mt-3 pa-3 xs10 offset-xs1 class="scroll-y pharmacists-holder">
-        <v-flex v-if="filteredPharmacist.length === 0" xs12>
+        <v-flex v-if="pharmacists.length === 0" xs12>
           <h3 class="content-center text--baseColor title-main-rail">
             Aucun résultat
           </h3>
         </v-flex>
-        <v-flex
-          mb-2
-          v-for="pharmacist in filteredPharmacist"
-          :key="pharmacist.id"
-        >
+        <v-flex mb-2 v-for="pharmacist in pharmacists" :key="pharmacist.id">
           <v-card flat color="transparent" class="pa-1">
             <div class="text--baseColor pa-3" style="border: solid 1px grey">
               <div class="content-center">
@@ -53,6 +44,10 @@
                       <span class="font-italic">{{
                         pharmacist.professionalId
                       }}</span>
+                    </div>
+                    <div>
+                      <span class="font-weight-bold">Sexe : </span>
+                      <span>{{ getGender(pharmacist) }}</span>
                     </div>
                     <div>
                       <span class="font-weight-bold">Statut : </span>
@@ -172,9 +167,11 @@ import to from "await-to-js";
 import moment from "moment";
 import reduce from "lodash.reduce";
 import { TOGGLE_SNACKBAR } from "../../store/types";
+import PharmacistAutocompleteField from "../../components/contact_pharmacist/PharmacistAutocompleteField";
 
 export default {
   name: "Manage-pharmacists",
+  components: { PharmacistAutocompleteField },
   layout: "admin",
   data() {
     return {
@@ -182,26 +179,8 @@ export default {
       errorMessage: null,
       selectedPharmacist: null,
       confirmType: null,
-      loading: false,
-      searchWord: null
+      loading: false
     };
-  },
-  computed: {
-    filteredPharmacist() {
-      return this.pharmacists
-        .map(pharmacist => {
-          const searchField = reduce(
-            pharmacist,
-            (result, value) => `${result} ${value}`,
-            ""
-          );
-          return { ...pharmacist, searchField };
-        })
-        .filter(
-          pharmacist =>
-            !this.searchWord || pharmacist.searchField.includes(this.searchWord)
-        );
-    }
   },
   methods: {
     hideDialog() {
@@ -227,6 +206,7 @@ export default {
 
       setTimeout(() => (this.loading = false), 1500);
     },
+
     async deletePharmacist() {
       const id = this.selectedPharmacist.id;
       const [e, res] = await to(this.$account.delete(id));
@@ -318,6 +298,10 @@ export default {
       }, 1500);
     },
 
+    search({ pharmacists }) {
+      this.pharmacists = pharmacists;
+    },
+
     getFullName(pharmacist) {
       return pharmacist ? `${pharmacist.firstName} ${pharmacist.lastName}` : "";
     },
@@ -338,6 +322,17 @@ export default {
       }
 
       return "Pharmacien";
+    },
+
+    getGender(pharmacist) {
+      switch (pharmacist.gender) {
+        case "male":
+          return "Homme";
+        case "female":
+          return "Femme";
+        default:
+          return "Non renseigné";
+      }
     },
 
     format(date) {

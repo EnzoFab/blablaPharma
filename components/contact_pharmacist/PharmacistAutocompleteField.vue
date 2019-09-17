@@ -94,9 +94,11 @@
 import to from "await-to-js";
 import words from "lodash.words";
 import uniqueBy from "lodash.uniqby";
-import pickby from "lodash.pickby";
 export default {
   name: "PharmacistAutocompleteField",
+  props: {
+    verified: { type: Boolean, default: true }
+  },
   data() {
     return {
       filters: {
@@ -125,7 +127,7 @@ export default {
   asyncComputed: {
     async autoCompleteItems() {
       const [e, result] = await to(
-        this.$pharmacist.search({ ...this.filters })
+        this.$pharmacist.search({ ...this.filters, verified: this.verified })
       );
 
       return !e && result ? result : this.items;
@@ -192,14 +194,13 @@ export default {
   methods: {
     async searchPharmacists() {
       const [e, result] = await to(
-        this.$pharmacist.search({ ...this.filters, verified: true })
+        this.$pharmacist.search({ ...this.filters, verified: this.verified })
       );
 
-      const data = result ? result : [];
-      this.$emit("pharmacistautocompletefield::search", data);
-      this.$router.push({
-        path: "/contacter-un-pharmacien",
-        query: pickby(this.filters)
+      const pharmacists = result ? result : [];
+      this.$emit("pharmacistautocompletefield::search", {
+        pharmacists,
+        filters: { ...this.filters }
       });
       this.filters.q = "";
     },
@@ -214,10 +215,9 @@ export default {
     },
     handleChange(data) {
       if (data) {
-        this.$emit("pharmacistautocompletefield::search", [data]);
-        this.$router.push({
-          path: "/contacter-un-pharmacien",
-          query: pickby(this.filters)
+        this.$emit("pharmacistautocompletefield::search", {
+          pharmacists: [data],
+          filters: { ...this.filters }
         });
       }
     }

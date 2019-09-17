@@ -3,7 +3,7 @@
     <cookie-banner />
     <v-footer dark height="auto">
       <div class="footer text-futura">
-        <v-container grid-list-xs>
+        <v-container grid-list-xs fluid>
           <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp">
             <v-flex
               offset-xs2
@@ -12,7 +12,7 @@
               class="text-xs-center"
             >
               <img
-                src="/logo_footer.png"
+                src="/images/logo-footer.png"
                 alt="footer icon"
                 class="blabla-logo--small"
               />
@@ -48,7 +48,7 @@
               <div class="content-center">
                 <img
                   v-show="$vuetify.breakpoint.xs"
-                  src="/logo_footer.png"
+                  src="/images/logo-footer.png"
                   alt="footer icon"
                   class="blabla-logo--small"
                 />
