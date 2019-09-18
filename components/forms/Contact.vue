@@ -96,7 +96,9 @@
 </template>
 
 <script>
-export default {
+  import emailjs from 'emailjs-com';
+
+  export default {
   name: "Contact",
   data() {
     return {
@@ -122,6 +124,12 @@ export default {
     };
   },
   methods: {
+    submit () {
+      if (this.$vuelidation.valid()) {
+
+        return false
+      }
+    },
     send() {
       if (this.$refs.form.validate()) {
         const contact = {
@@ -131,7 +139,12 @@ export default {
           message: this.message
         };
 
-        // todo request to backend
+        emailjs.send('mailgun','template_yriBzl6I_clone', contact, 'user_AovYhLhTaOupEeQOzL0Xo')
+          .then((response) => {
+            console.log('SUCCESS!', response.status, response.text);
+          }, (err) => {
+            console.log('FAILED...', err);
+          });
       }
     }
   }
