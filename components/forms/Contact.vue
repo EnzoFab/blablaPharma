@@ -132,16 +132,8 @@
     },
     send() {
       if (this.$refs.form.validate()) {
-        const contact = {
-          name: this.name,
-          mail: this.mail,
-          subject: this.subject,
-          message: this.message
-        };
-
-        emailjs.send('mailgun','template_yriBzl6I_clone', contact, 'user_AovYhLhTaOupEeQOzL0Xo')
-          .then((response) => {
-            console.log('SUCCESS!', response.status, response.text);
+        this.$axios.post("/contact", { email: this.mail, subject: this.subject, name: this.name, message: this.message }).then(response => {
+            //console.log('SUCCESS!', response.status, response.text);
           }, (err) => {
             console.log('FAILED...', err);
           });
