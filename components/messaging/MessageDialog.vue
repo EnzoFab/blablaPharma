@@ -15,6 +15,8 @@
 
 <script>
 import SendBox from "./SendBox";
+import { CONTACT_PHARMACIST } from "../../store/types";
+
 export default {
   name: "MessageDialog",
   components: { SendBox },
@@ -42,6 +44,10 @@ export default {
     sendMessage(message) {
       // todo $axios to save message
       // todo emit socket io event
+      this.$store.dispatch(`chat/${CONTACT_PHARMACIST}`, {
+        memberId: this.receiverId,
+        message
+      });
       this.$emit("input", false);
     }
   }

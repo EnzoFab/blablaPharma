@@ -4,9 +4,9 @@
       <div v-if="!hideAuthorName">
         <v-avatar color="light-grey" size="40">
           <v-img
-            v-if="picture && picture.length > 0"
-            :src="picture"
-            alt="conversation message"
+            v-if="type === 'image'"
+            :src="content"
+            alt="conversation image"
           ></v-img>
           <v-icon v-else size="38" dark color="green">person_pin</v-icon>
         </v-avatar>
@@ -16,7 +16,7 @@
             'title-section-small font-weight-bold text-left ml-2 text-truncate': true
           }"
         >
-          {{ authorFullname }}
+          {{ authorFullName }}
           <span class="text--tiny font-italic ml-2"> {{ date }}</span>
         </span>
       </div>
@@ -27,21 +27,14 @@
           'message-received': !isMessageSent
         }"
       >
-        <url-preview
-          v-if="content.type === 'url'"
-          :url="content.url"
-          :title="content.title"
-          :preview="content.image"
-          :description="content.description"
-        />
         <v-img
-          v-else-if="content.type === 'image'"
-          :src="content.message"
+          v-if="content.type === 'image'"
+          :src="content"
           aspect-ratio="1.75"
           alt="Conversation image"
         ></v-img>
         <div v-else>
-          <div v-for="(word, i) in content.message.split('\n')" :key="i">
+          <div v-for="(word, i) in content.split('\n')" :key="i">
             <span
               v-if="word.length > 0"
               class="text-breakline text--normal grey--text text--darken-1"
@@ -75,8 +68,8 @@
             <template v-if="!hideAuthorName">
               <v-avatar color="light-grey" size="40">
                 <v-img
-                  v-if="picture && picture.length > 0"
-                  :src="picture"
+                  v-if="type === 'picture'"
+                  :src="content"
                   alt="Author image"
                 ></v-img>
                 <v-icon v-else size="38" dark color="green">person_pin</v-icon>
@@ -87,7 +80,7 @@
                   ' font-weight-bold text-left ml-2 text-truncate': true
                 }"
               >
-                {{ authorFullname }}
+                {{ authorFullName }}
               </span>
             </template>
           </v-flex>
@@ -100,23 +93,16 @@
                 'message-received': !isMessageSent
               }"
             >
-              <url-preview
-                v-if="content.type === 'url'"
-                :url="content.url"
-                :title="content.title"
-                :preview="content.image"
-                :description="content.description"
-              />
               <v-img
-                v-else-if="content.type === 'image'"
-                :src="content.message"
+                v-if="type === 'image'"
+                :src="content"
                 aspect-ratio="1.75"
                 alt="Url Preview image"
               ></v-img>
 
               <div v-else>
                 <div
-                  v-for="(word, i) in content.message.split('\n')"
+                  v-for="(word, i) in content.split('\n')"
                   style="text-align: left"
                   class="content-center"
                   :key="i"
@@ -148,8 +134,9 @@ export default {
   name: "Message",
   components: { UrlPreview },
   props: {
-    content: Object,
-    authorFullname: String,
+    content: String,
+    type: String,
+    authorFullName: String,
     authorId: String | Number,
     date: String,
     picture: String,

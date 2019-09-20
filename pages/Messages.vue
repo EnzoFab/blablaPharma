@@ -13,30 +13,17 @@
           append-icon="search"
           placeholder="Rechercher un pharmacien"
         ></v-text-field>
-        <div class="ma-0 aside-conversation scroll-y">
+        <div class="mb-3 aside-conversations scroll-y">
           <template v-if="filterConversation.length > 0">
-            <div
+            <aside-conversation
               v-for="conversation in filterConversation"
-              :key="conversation.conversationId"
-              :class="{
-                'active-conversation':
-                  conversation.conversationId ===
-                  activeConversation.conversationId,
-                'aside-conversation-sender pa-2': true
-              }"
-              @click="selectConversation(conversation)"
-            >
-              <div
-                :class="{
-                  'font-weight-bold':
-                    conversation.conversationId ===
-                    activeConversation.conversationId,
-                  'text--section text--baseColor': true
-                }"
-              >
-                {{ conversation.firstName }} {{ conversation.lastName }}
-              </div>
-            </div>
+              :first-name="conversation.firstName"
+              :last-name="conversation.lastName"
+              :last-message="conversation.lastMessage"
+              :key="conversation.id"
+              :is-active="conversation.id === activeConversation.id"
+              @click.native="selectConversation(conversation)"
+            />
           </template>
           <div v-else class="content-center text--section text--baseColor mt-2">
             Aucune conversation
@@ -46,7 +33,7 @@
       <v-flex v-show="!isSmallScreen || displayConversation" sm12 md9>
         <v-fade-transition>
           <conversation
-            :conversation-id="activeConversation.conversationId"
+            :conversation-id="activeConversation.id"
             :receiver-name="activeConversationFullName"
             :show-back-arrow="isSmallScreen"
             @conversation::back="hideConversation"
@@ -58,15 +45,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Conversation from "../components/messaging/Conversation";
 import head from "lodash.head";
+import AsideConversation from "../components/messaging/AsideConversation";
 export default {
   name: "Messages",
-  components: { Conversation },
+  components: { AsideConversation, Conversation },
   data() {
     return {
       searchWord: null,
-      displayConversation: false
+      displayConversation: false,
+      activeConversation: null
     };
   },
   computed: {
@@ -110,7 +100,33 @@ export default {
     },
     isSmallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
-    }
+    },
+    conversations() {
+      const conversations = this.conversationsFromStore;
+      if (!this.activeConversation) {
+        this.activeConversation = head(conversations);
+      }
+
+      return conversations;
+    },
+    ...mapState({
+      conversationsFromStore: state =>
+        Object.values(state.chat.conversations).map(conversation => {
+          const recipient = conversation.members.find(
+            member => member.id !== state.connectedUser.id
+          );
+          const { firstName, lastName } = recipient
+            ? recipient
+            : { firstName: "Inconnu", lastName: "" };
+
+          return {
+            id: conversation.id,
+            firstName,
+            lastName,
+            lastMessage: conversation.lastMessage
+          };
+        })
+    })
   },
   methods: {
     hideConversation() {
@@ -121,7 +137,7 @@ export default {
       this.displayConversation = this.isSmallScreen ? true : false;
     }
   },
-  async asyncData({ app }) {
+  /*async asyncData({ app }) {
     // app.$axios.get()
     const conversations = [
       { conversationId: "1235", firstName: "Maxime", lastName: "Chatam" },
@@ -152,7 +168,7 @@ export default {
       conversations,
       activeConversation
     };
-  },
+  }, */
   middleware: "connected"
 };
 </script>

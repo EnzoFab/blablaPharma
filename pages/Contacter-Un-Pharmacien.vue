@@ -90,7 +90,7 @@
                 :image="pharmacist.picture"
                 :last-name="pharmacist.lastName"
                 :workplace="pharmacist.institutionName"
-                :identifiant="pharmacist.professionalId"
+                :identifiant="pharmacist.id"
                 :gender="pharmacist.gender"
                 :status="pharmacist.professionLabel"
                 @pharmacist-card::contact="contactPharmacist"

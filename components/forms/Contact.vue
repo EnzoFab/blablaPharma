@@ -124,14 +124,13 @@ export default {
   methods: {
     send() {
       if (this.$refs.form.validate()) {
+        // todo Thibaut handle contact
         const contact = {
           name: this.name,
           mail: this.mail,
           subject: this.subject,
           message: this.message
         };
-
-        // todo request to backend
       }
     }
   }

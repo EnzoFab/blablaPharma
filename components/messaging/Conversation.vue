@@ -54,9 +54,10 @@
                 :mt-0="message.grouped"
               >
                 <message
-                  :author-fullname="message.authorFullName"
-                  :author-id="message.userId"
+                  :author-full-name="getMessageAuthorFullName(message.author)"
+                  :author-id="message.author"
                   :content="message.content"
+                  :type="message.type"
                   :date="message.dateLabel"
                   :hide-author-name="message.grouped"
                   :id="
@@ -78,9 +79,11 @@
 </template>
 
 <script>
+import moment from "moment";
+import { SEND_MESSAGE } from "../../store/types";
+
 import Message from "./Message";
 import SendBox from "./SendBox";
-import moment from "moment";
 export default {
   name: "Conversation",
   props: {
@@ -94,13 +97,22 @@ export default {
     embed: { type: Boolean, default: false }
   },
   components: { SendBox, Message },
+  data() {
+    return {
+      loading: false,
+      messagesLoaded: false,
+      newMessages: []
+    };
+  },
+
   // todo async calls within computed functions
-  asyncComputed: {
+  /*asyncComputed: {
     async loadedMessage() {
       this.newMessages = [];
-      this.loading = true;
+      //this.loading = true;
+      let a = 10;
       const conversationId = this.conversationId;
-      Promise.resolve(setTimeout(() => (this.loading = false), 1500));
+      Promise.resolve(setTimeout(() => (a = false), 1500));
       return [
         {
           conversationId: conversationId,
@@ -136,11 +148,19 @@ export default {
         }
       ];
     }
-  },
+  }, */
   computed: {
+    conversationData() {
+      return this.$store.getters["chat/getConversation"](this.conversationId);
+    },
+    messagesFromStore() {
+      return this.$store.getters["chat/conversationMessages"](
+        this.conversationId
+      );
+    },
     messages() {
-      const loadedMessage = this.loadedMessage;
-      const m = [...loadedMessage, ...this.newMessages];
+      const messagesFromStore = this.messagesFromStore;
+      const m = [...messagesFromStore, ...this.newMessages];
       return m.map((message, index, currentArray) => {
         const date = moment(message.date);
         const diff = moment().diff(date);
@@ -160,31 +180,28 @@ export default {
         } else {
           dateLabel = "Le " + date.locale("fr").format("Do MMMM YYYY");
         }
-        const authorFullName = `${message.firstName} ${message.lastName}`;
 
+        // if you send a several message in a short amount of time, there are grouped together
         const previousMessage = index > 0 ? currentArray[index - 1] : null;
         const grouped =
           previousMessage && this.$store.getters.connectedUser
-            ? previousMessage.userId === this.$store.getters.connectedUser.id &&
+            ? previousMessage.author === this.$store.getters.connectedUser.id &&
               date.diff(moment(previousMessage.date)) < 60 * 3 * 1000
             : false;
 
-        return { ...message, dateLabel, authorFullName, grouped };
+        return { ...message, dateLabel, grouped };
       });
     }
   },
-  data() {
-    return {
-      loading: false,
-      newMessages: []
-    };
-  },
   methods: {
     handleNewMessage(data) {
-      const message = { ...data, id: this.messages.length + 1 };
-      this.newMessages = [...this.newMessages, message];
+      const message = {
+        ...data,
+        id: this.messages.length + 1, // todo remove it
+        conversation: this.conversationId
+      };
 
-      // todo save in BD, emit an event on socket io
+      this.$store.dispatch(`chat/${SEND_MESSAGE}`, message);
 
       this.$nextTick(() => {
         this.scrollToNewMessage(message);
@@ -198,6 +215,22 @@ export default {
         300,
         option
       );
+    },
+
+    getMessageAuthorFullName(messageAuthor) {
+      const author = this.conversationData.members.find(
+        member => member.id === messageAuthor
+      );
+
+      return `${author.firstName} ${author.lastName}`;
+    }
+  },
+
+  watch: {
+    conversationId() {
+      this.loading = true;
+
+      setTimeout(() => (this.loading = false), 1500);
     }
   }
 };

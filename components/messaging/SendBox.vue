@@ -113,14 +113,6 @@ export default {
       files: null
     };
   },
-  computed: {
-    sendBoxEmpty() {
-      return (
-        (!this.text || this.text === "") &&
-        (!this.files || this.files.length === 0)
-      );
-    }
-  },
   methods: {
     uploadfile() {
       this.$refs.uploader.click();
@@ -153,15 +145,13 @@ export default {
     },
 
     sendMessage() {
-      const connectedUser = { ...this.$store.getters.connectedUser };
-
-      connectedUser.userId = connectedUser.id;
-      delete connectedUser.id;
+      const connectedUser = this.$store.getters.connectedUser;
 
       if (this.text && this.text.length > 0) {
         this.$emit("sendbox:messageSent", {
-          content: { type: "text", message: this.text },
-          ...connectedUser,
+          content: this.text,
+          type: "text",
+          author: connectedUser.id,
           date: new Date()
         });
         this.text = "";
@@ -170,8 +160,9 @@ export default {
       if (this.files && this.files.length > 0) {
         this.files.forEach(file => {
           this.$emit("sendbox:messageSent", {
-            content: { type: "image", message: this.filePreview(file) },
-            ...connectedUser,
+            content: this.filePreview(file),
+            type: "image",
+            author: connectedUser.id,
             date: new Date()
           });
         });

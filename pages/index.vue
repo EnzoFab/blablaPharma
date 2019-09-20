@@ -243,14 +243,14 @@ export default {
     return {
       presentations: [
         {
-          image: "/network_icon.png",
+          image: "/images/network-icon.png",
           alt: "icone réseau",
           title: "Un réseau de pharmaciens",
           description:
             "Soucieux de votre santé et prêt à vous accompagner sur votre traitement ou vos pathologies."
         },
         {
-          image: "/fiability_icon.png",
+          image: "/images/fiability-icon.png",
           alt: "icone fiabilité",
           title: "Des réponses fiables",
           description:

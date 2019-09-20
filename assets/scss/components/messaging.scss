@@ -9,18 +9,17 @@
   border-left: 4px solid #4e342e;
 }
 
-.aside-conversation {
+.aside-conversations {
   border: 1px solid lightgray;
-  display: block;
   height: 65vh;
 
-  &-sender {
+  &-conversation {
     border-bottom: solid 1px lightgray;
     background-color: white;
     cursor: pointer;
   }
 
-  &-sender:hover {
+  &-conversation:hover {
     background-color: #f3f6f8;
   }
 }
