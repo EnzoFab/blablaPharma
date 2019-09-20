@@ -16,12 +16,15 @@ COPY . .
 EXPOSE 3000 443
 EXPOSE 3000 80
 
+
 #CMD ["npm", "start"]
 
 #version with script
 # uncoment the two following lines and coment the line 18 and 28
-RUN chmod 700 entrypoint.sh
+#RUN chmod 700 entrypoint.sh
+RUN npm run build
+CMD ["npm", "start"]
 
-CMD ["sh", "entrypoint.sh"]
+#CMD ["sh", "entrypoint.sh"]
 
 
