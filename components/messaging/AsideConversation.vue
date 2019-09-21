@@ -25,6 +25,10 @@ export default {
   },
   computed: {
     message() {
+      if (!this.lastMessage) {
+        return "";
+      }
+
       const isCurrentUser = this.$store.getters.isCurrentUserMessage(
         this.lastMessage.author
       );

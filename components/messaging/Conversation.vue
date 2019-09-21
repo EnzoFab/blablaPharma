@@ -45,6 +45,15 @@
               :id="'conversation' + conversationId"
             >
               <v-flex
+                v-if="messages.length === 0"
+                class="content-center text--baseColor text--section pt-4"
+              >
+                Vous n'avez pas encore échangé avec avec
+                <span class="font-weight-bold">{{ receiverName }}</span
+                >.
+                <div>Soyez le premier à envoyer un message.</div>
+              </v-flex>
+              <v-flex
                 v-for="message in messages"
                 xs11
                 :key="message.id"
@@ -65,6 +74,7 @@
                   "
                   :picture="message.picture"
                   :embed="embed"
+                  :error="message.error"
                 />
               </v-flex>
             </v-layout>
@@ -80,7 +90,8 @@
 
 <script>
 import moment from "moment";
-import { SEND_MESSAGE } from "../../store/types";
+import last from "lodash.last";
+import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
 
 import Message from "./Message";
 import SendBox from "./SendBox";
@@ -99,70 +110,23 @@ export default {
   components: { SendBox, Message },
   data() {
     return {
-      loading: false,
-      messagesLoaded: false,
-      newMessages: []
+      loading: false
     };
   },
 
-  // todo async calls within computed functions
-  /*asyncComputed: {
-    async loadedMessage() {
-      this.newMessages = [];
-      //this.loading = true;
-      let a = 10;
-      const conversationId = this.conversationId;
-      Promise.resolve(setTimeout(() => (a = false), 1500));
-      return [
-        {
-          conversationId: conversationId,
-          firstName: "Pierre",
-          lastName: "Kiroul",
-          userId: "ieriei",
-          content: {
-            type: "text",
-            message: "Ok mec j'ai envie de tester qqch je peux ?"
-          },
-          date: new Date(),
-          id: 1
-        },
-        {
-          conversationId: conversationId,
-          userId: "superId",
-          firstName: "Max",
-          lastName: "Ime",
-          picture:
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/An_up-close_picture_of_a_curious_male_domestic_shorthair_tabby_cat.jpg",
-          content: {
-            type: "url",
-            title: "Using URL previews in your web apps using JavaScript",
-            description:
-              "URL previews are a way of organizing the URLs in the textarea in such a way that the URL is visible in a more organized way to the user instead of a just plain link. The plain URL makes no sense most of the time because of the advent of",
-            image:
-              "http://blog.kiprosh.com/content/images/knowbuddy/249/original/URL_preview.png",
-            url:
-              "https://blog.kiprosh.com/using-url-previews-in-your-web-apps-using-javascript/"
-          },
-          date: moment().subtract(2, "hours"),
-          id: 2
-        }
-      ];
-    }
-  }, */
   computed: {
-    conversationData() {
+    getConversationData() {
       return this.$store.getters["chat/getConversation"](this.conversationId);
     },
     messagesFromStore() {
+      // Get every messages from the store which related conversation match the current conversationId
       return this.$store.getters["chat/conversationMessages"](
         this.conversationId
       );
     },
     messages() {
-      const messagesFromStore = this.messagesFromStore;
-      const m = [...messagesFromStore, ...this.newMessages];
-      return m.map((message, index, currentArray) => {
-        const date = moment(message.date);
+      return this.messagesFromStore.map((message, index, currentArray) => {
+        const date = moment(message.createdAt);
         const diff = moment().diff(date);
         let dateLabel;
 
@@ -186,7 +150,7 @@ export default {
         const grouped =
           previousMessage && this.$store.getters.connectedUser
             ? previousMessage.author === this.$store.getters.connectedUser.id &&
-              date.diff(moment(previousMessage.date)) < 60 * 3 * 1000
+              date.diff(moment(previousMessage.createdAt)) < 60 * 3 * 1000
             : false;
 
         return { ...message, dateLabel, grouped };
@@ -197,32 +161,44 @@ export default {
     handleNewMessage(data) {
       const message = {
         ...data,
-        id: this.messages.length + 1, // todo remove it
+        id: `h${this.conversationId}${this.messages.length + 1}`,
         conversation: this.conversationId
       };
 
       this.$store.dispatch(`chat/${SEND_MESSAGE}`, message);
 
       this.$nextTick(() => {
-        this.scrollToNewMessage(message);
+        this.scrollToMessage(message);
       });
     },
 
-    scrollToNewMessage(newMessage) {
+    /**
+     * Center the window on the new message
+     * @param {object} message
+     */
+    scrollToMessage(message) {
+      console.log("scroll");
       const option = { container: `#conversation${this.conversationId}` };
       this.$scrollTo(
-        `#conversation${this.conversationId}-message${newMessage.id}`,
+        `#conversation${this.conversationId}-message${message.id}`,
         300,
         option
       );
     },
 
+    /**
+     *
+     * @param {number} messageAuthor
+     * @returns {string}
+     */
     getMessageAuthorFullName(messageAuthor) {
-      const author = this.conversationData.members.find(
+      const author = this.getConversationData.members.find(
         member => member.id === messageAuthor
       );
 
-      return `${author.firstName} ${author.lastName}`;
+      return author
+        ? `${author.firstName} ${author.lastName}`
+        : "undefined undefined";
     }
   },
 
@@ -230,7 +206,16 @@ export default {
     conversationId() {
       this.loading = true;
 
-      setTimeout(() => (this.loading = false), 1500);
+      setTimeout(() => {
+        this.loading = false;
+      }, 1500);
+
+      /*if (this.messagesFromStore.length === 0) {
+        this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+          conversationId: newValue,
+          filters: { limit: 15, skip: 0 }
+        });
+      }*/
     }
   }
 };

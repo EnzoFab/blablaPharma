@@ -1,4 +1,6 @@
-export default function({ $axios, store, env }) {
+export default function({ $axios, store }) {
+  // 5 second timeout
+  $axios.defaults.timeout = 5000;
   $axios.interceptors.response.use(
     response => response.data,
     e => {

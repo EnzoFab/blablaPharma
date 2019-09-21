@@ -21,6 +21,7 @@ export default {
       return isLoggedIn && this.$store.getters.userType === "Patient";
     },
     showFreshChat() {
+      //&& !this.$route.path.includes("/messages")
       if (this.isPatient) {
         this.initFreshChat();
         return true;

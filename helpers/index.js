@@ -10,5 +10,6 @@ const api_url = process.env.API_URL || "http://localhost:1337";
 io.sails.url = api_url;
 io.sails.onlyAllowOrigins = [api_url];
 io.sails.transports = ["polling"];
+io.sails.reconnection = true;
 
 export const SailSocketWrapper = wrapper(io);

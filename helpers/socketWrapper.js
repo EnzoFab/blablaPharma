@@ -1,5 +1,4 @@
 import configSocket from "./configSocket";
-const Promise = require("bluebird");
 
 /**
  *
@@ -9,11 +8,11 @@ const Promise = require("bluebird");
 export default function wrapper(io) {
   const socketRequest = config => {
     return new Promise((resolve, reject) => {
-      io.socket.request(config, (err, res) => {
-        if (err) {
-          reject(err);
+      io.socket.request(config, (data, jwres) => {
+        if (jwres.error) {
+          reject(jwres);
         } else {
-          resolve(res);
+          resolve(data);
         }
       });
     });

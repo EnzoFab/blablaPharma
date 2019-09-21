@@ -152,7 +152,7 @@ export default {
           content: this.text,
           type: "text",
           author: connectedUser.id,
-          date: new Date()
+          createdAt: new Date()
         });
         this.text = "";
       }
@@ -163,7 +163,7 @@ export default {
             content: this.filePreview(file),
             type: "image",
             author: connectedUser.id,
-            date: new Date()
+            createdAt: new Date()
           });
         });
 

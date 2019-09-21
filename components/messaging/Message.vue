@@ -43,6 +43,20 @@
             <br v-else />
           </div>
         </div>
+        <div
+          v-if="error"
+          class="content-center red--text text--section font-italic"
+        >
+          Le message n'a pas pu être envoyé, Réessayer ?
+          <v-btn
+            icon
+            small
+            @click="resendMessage"
+            :loading="buttonLoading"
+            :disabled="buttonLoading"
+            ><v-icon small color="black">fas fa-sync</v-icon></v-btn
+          >
+        </div>
       </div>
     </template>
 
@@ -87,8 +101,8 @@
           <v-flex md6 sm6 offset-sm2 ma-0 pa-0>
             <div
               :class="{
-                'pa-2': true,
-                message: true,
+                'px-2 message': true,
+                'py-2': !error,
                 'message-sent': isMessageSent,
                 'message-received': !isMessageSent
               }"
@@ -115,9 +129,25 @@
                   <br v-else />
                 </div>
               </div>
+              <div
+                v-if="error"
+                class="content-center red--text text--section font-italic"
+              >
+                Le message n'a pas pu être envoyé, Réessayer ?
+              </div>
             </div>
           </v-flex>
-          <v-flex md2 sm1 v-show="hover">
+          <v-flex v-if="error">
+            <v-btn
+              icon
+              small
+              @click="resendMessage"
+              :loading="buttonLoading"
+              :disabled="buttonLoading"
+              ><v-icon small color="black">fas fa-sync</v-icon></v-btn
+            >
+          </v-flex>
+          <v-flex v-if="!error" md2 sm1 v-show="hover">
             <span class="text--tiny text--baseColor font-weight-bold">{{
               date
             }}</span>
@@ -141,12 +171,34 @@ export default {
     date: String,
     picture: String,
     embed: { type: Boolean, default: false },
-    hideAuthorName: { type: Boolean, default: false }
+    hideAuthorName: { type: Boolean, default: false },
+    error: { type: Boolean, default: false }
+  },
+  data() {
+    return {
+      buttonLoading: false
+    };
   },
 
   computed: {
     isMessageSent() {
       return this.$store.getters.isCurrentUserMessage(this.authorId);
+    }
+  },
+  methods: {
+    resendMessage() {
+      if (!this.buttonLoading) {
+        this.buttonLoading = true;
+        this.$emit("message::resend", {
+          content: this.content,
+          author: this.authorId,
+          type: this.type,
+          createdAt: new Date()
+        });
+        setTimeout(() => {
+          this.buttonLoading = false;
+        }, 1500);
+      }
     }
   }
 };

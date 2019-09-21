@@ -9,6 +9,7 @@ import { SailSocketWrapper } from "../../helpers";
 const createWebsocketPlugin = () => {
   return store => {
     const socket = SailSocketWrapper.socketInstance;
+
     socket.on("event", data => {
       // do something
     });

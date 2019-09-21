@@ -59,7 +59,10 @@
 </template>
 
 <script>
-import { REMOVE_CONVERSATION_FROM_BAR } from "../../store/types";
+import {
+  REMOVE_CONVERSATION_FROM_BAR,
+  FETCH_CONVERSATION
+} from "../../store/types";
 import take from "lodash.take";
 import Conversation from "../messaging/Conversation";
 
@@ -73,6 +76,10 @@ export default {
   },
   computed: {
     show() {
+      if (this.$store.getters.isLoggedIn) {
+        this.$store.dispatch(`chat/${FETCH_CONVERSATION}`);
+      }
+
       // only show if the user is connected and if we are not on messages page
       return (
         this.$store.getters.isLoggedIn &&
@@ -104,6 +111,9 @@ export default {
     deleteConversation(id) {
       this.$store.commit(REMOVE_CONVERSATION_FROM_BAR, id);
     }
+  },
+  mounted() {
+    // this.$store.dispatch(`chat/${FETCH_CONVERSATION}`);
   }
 };
 </script>

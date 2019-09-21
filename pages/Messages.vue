@@ -21,7 +21,9 @@
               :last-name="conversation.lastName"
               :last-message="conversation.lastMessage"
               :key="conversation.id"
-              :is-active="conversation.id === activeConversation.id"
+              :is-active="
+                activeConversation && conversation.id === activeConversation.id
+              "
               @click.native="selectConversation(conversation)"
             />
           </template>
@@ -33,6 +35,7 @@
       <v-flex v-show="!isSmallScreen || displayConversation" sm12 md9>
         <v-fade-transition>
           <conversation
+            v-if="activeConversation"
             :conversation-id="activeConversation.id"
             :receiver-name="activeConversationFullName"
             :show-back-arrow="isSmallScreen"
@@ -46,11 +49,13 @@
 
 <script>
 import { mapState } from "vuex";
+import { FETCH_MESSAGE } from "../store/types";
 import Conversation from "../components/messaging/Conversation";
 import head from "lodash.head";
 import AsideConversation from "../components/messaging/AsideConversation";
 export default {
   name: "Messages",
+  middleware: "connected",
   components: { AsideConversation, Conversation },
   data() {
     return {
@@ -60,6 +65,62 @@ export default {
     };
   },
   computed: {
+    ...mapState({
+      conversationsFromStore: state =>
+        Object.values(state.chat.conversations)
+          .map(conversation => {
+            const recipient = conversation.members.find(
+              member => member.id !== state.connectedUser.id
+            );
+            const { firstName, lastName } = recipient
+              ? recipient
+              : { firstName: "Inconnu", lastName: "" };
+
+            return {
+              id: conversation.id,
+              firstName,
+              lastName,
+              lastMessage: conversation.lastMessage,
+              createdAt: conversation.createdAt
+            };
+          })
+          .sort((a, b) => {
+            const timeStamp1 = a.lastMessage
+              ? a.lastMessage.createdAt
+              : a.createdAt;
+            const timeStamp2 = b.lastMessage
+              ? b.lastMessage.createdAt
+              : b.createdAt;
+
+            return timeStamp2 - timeStamp1;
+          })
+    }),
+    activeRouteParam() {
+      const { active } = this.$route.query
+        ? this.$route.query
+        : { active: null };
+
+      return active;
+    },
+    conversations() {
+      const conversations = this.conversationsFromStore;
+
+      if (!this.activeConversation) {
+        const conversation = conversations.find(
+          conversation => conversation.id === this.activeRouteParam
+        );
+
+        if (conversation) {
+          this.selectConversation(conversation, false);
+        } else {
+          console.log("else");
+          this.selectConversation(head(conversations), false);
+        }
+      }
+
+      return conversations;
+    },
+
     filterConversation() {
       if (!this.searchWord || this.searchWord.length === 0) {
         return this.conversations;
@@ -93,82 +154,55 @@ export default {
       return this.conversations.filter(filterFunction);
     },
     activeConversationFullName() {
-      const firstName = this.activeConversation.firstName;
-      const lastName = this.activeConversation.lastName;
+      const firstName = this.activeConversation
+        ? this.activeConversation.firstName
+        : "Undefined";
+      const lastName = this.activeConversation
+        ? this.activeConversation.lastName
+        : "Undefined";
 
       return `${firstName} ${lastName}`;
     },
     isSmallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
-    },
-    conversations() {
-      const conversations = this.conversationsFromStore;
-      if (!this.activeConversation) {
-        this.activeConversation = head(conversations);
-      }
-
-      return conversations;
-    },
-    ...mapState({
-      conversationsFromStore: state =>
-        Object.values(state.chat.conversations).map(conversation => {
-          const recipient = conversation.members.find(
-            member => member.id !== state.connectedUser.id
-          );
-          const { firstName, lastName } = recipient
-            ? recipient
-            : { firstName: "Inconnu", lastName: "" };
-
-          return {
-            id: conversation.id,
-            firstName,
-            lastName,
-            lastMessage: conversation.lastMessage
-          };
-        })
-    })
+    }
   },
   methods: {
     hideConversation() {
       this.displayConversation = false;
     },
-    selectConversation(conversation) {
+    /**
+     * Set the active conversation and display it
+     * Change also the url of the router
+     *
+     * @param {Object} conversation
+     * @param {Boolean} urlChange
+     */
+    selectConversation(conversation, urlChange = true) {
+      // if there isn't any message in this conversation, fetch new messages
       this.activeConversation = conversation;
-      this.displayConversation = this.isSmallScreen ? true : false;
-    }
-  },
-  /*async asyncData({ app }) {
-    // app.$axios.get()
-    const conversations = [
-      { conversationId: "1235", firstName: "Maxime", lastName: "Chatam" },
-      { conversationId: "1", firstName: "Pauline", lastName: "Line" },
-      { conversationId: "12", firstName: "Samantha", lastName: "Oups" },
-      { conversationId: "123", firstName: "Jeanne", lastName: "D'arc" },
-      { conversationId: "12355", firstName: "Marcus", lastName: "Rashford" },
-      { conversationId: "12356", firstName: "Paul", lastName: "Pogba" },
-      { conversationId: "12357", firstName: "Lucie", lastName: "Pauls" },
-      { conversationId: "123545", firstName: "Lisa", lastName: "Razu" },
-      { conversationId: "03", firstName: "Maxime", lastName: "Chatam" },
-      { conversationId: "12345675", firstName: "Maxime", lastName: "Chatam" },
-      { conversationId: "123(465-(", firstName: "Maxime", lastName: "Chatam" },
-      {
-        conversationId: "1235506969g",
-        firstName: "Maxime",
-        lastName: "Chatam"
-      },
-      {
-        conversationId: "1235656402333",
-        firstName: "Pierre",
-        lastName: "De Guize"
-      }
-    ];
 
-    const activeConversation = head(conversations);
-    return {
-      conversations,
-      activeConversation
-    };
-  }, */
-  middleware: "connected"
+      const conversationMessages = this.$store.getters[
+        "chat/conversationMessages"
+      ](conversation.id);
+
+      if (conversationMessages.length === 0) {
+        this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+          conversationId: conversation.id,
+          filters: { limit: 15, skip: 0 }
+        });
+      }
+
+      this.displayConversation = this.isSmallScreen ? true : false;
+
+      // change the url
+      if (urlChange) {
+        this.$router.push({
+          path: "/messages",
+          query: { active: conversation.id }
+        });
+      }
+    }
+  }
 };
 </script>

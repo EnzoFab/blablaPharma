@@ -58,7 +58,7 @@
               :image="pharma.picture"
               :last-name="pharma.lastName"
               :workplace="pharma.institutionName"
-              :identifiant="pharma.professionalId"
+              :identifiant="pharma.id"
               :gender="pharma.gender"
               :status="pharma.professionLabel"
               @pharmacist-card::contact="contactPharmacist"
@@ -113,7 +113,7 @@
 import to from "await-to-js";
 import pickby from "lodash.pickby";
 
-import { TOGGLE_CONNECTION_DIALOG } from "../store/types";
+import { TOGGLE_CONNECTION_DIALOG, CONTACT_PHARMACIST } from "../store/types";
 
 import PharmacistCard from "../components/contact_pharmacist/PharmacistCard";
 import MessageDialog from "../components/messaging/MessageDialog";
@@ -144,16 +144,29 @@ export default {
     };
   },
   methods: {
-    contactPharmacist({ id, firstName, lastName }) {
+    async contactPharmacist({ id, firstName, lastName }) {
       // if not connected show connection dialog
       if (!this.$store.getters.isLoggedIn) {
         this.$store.commit(TOGGLE_CONNECTION_DIALOG, true);
-      } else {
-        this.receiverId = id;
+        return;
+      }
+      try {
+        const conversationId = await this.$store.dispatch(
+          `chat/${CONTACT_PHARMACIST}`,
+          id
+        );
+        this.$router.push({
+          path: "/messages",
+          query: { active: conversationId }
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      /* this.receiverId = id;
         this.receiverFirstName = firstName;
         this.receiverLastName = lastName;
-        this.showDialog = true;
-      }
+        this.showDialog = true; */
     },
     getFullAddress(pharmacist) {
       return `${pharmacist.address}, ${pharmacist.postalCode}, ${

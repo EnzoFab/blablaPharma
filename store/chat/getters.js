@@ -12,6 +12,7 @@ export default {
    *
    * @param state
    * @returns {function(*): *}
-   */ getConversation: state => idConversation =>
+   */
+  getConversation: state => idConversation =>
     state.conversations[idConversation]
 };
