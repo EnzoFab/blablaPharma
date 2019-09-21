@@ -1,6 +1,6 @@
-import { SEND_MESSAGE } from "../types";
+import { RECEIVE_MESSAGE } from "./types";
 
-import { SailSocketWrapper } from "../../helpers";
+import { SailSocketWrapper } from "../helpers";
 
 /**
  *
@@ -14,26 +14,30 @@ const createWebsocketPlugin = () => {
       // do something
     });
 
+    socket.on("message", data => {
+      store.dispatch(`chat/${RECEIVE_MESSAGE}`, data);
+    });
+
     store.subscribe(mutation => {
-      switch (mutation.type) {
+      /*switch (mutation.type) {
         case SEND_MESSAGE:
           // the user send a message
           break;
 
         default:
           return;
-      }
+      } */
     });
 
     store.subscribeAction((action, state) => {
-      switch (action.type) {
+      /*switch (action.type) {
         case SEND_MESSAGE:
           // the user send a message
           break;
 
         default:
           return;
-      }
+      }*/
     });
   };
 };

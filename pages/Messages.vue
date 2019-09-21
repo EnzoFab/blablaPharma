@@ -113,7 +113,6 @@ export default {
         if (conversation) {
           this.selectConversation(conversation, false);
         } else {
-          console.log("else");
           this.selectConversation(head(conversations), false);
         }
       }
@@ -179,28 +178,30 @@ export default {
      * @param {Boolean} urlChange
      */
     selectConversation(conversation, urlChange = true) {
-      // if there isn't any message in this conversation, fetch new messages
-      this.activeConversation = conversation;
+      if (conversation) {
+        // if there isn't any message in this conversation, fetch new messages
+        this.activeConversation = conversation;
 
-      const conversationMessages = this.$store.getters[
-        "chat/conversationMessages"
-      ](conversation.id);
+        const conversationMessages = this.$store.getters[
+          "chat/conversationMessages"
+        ](conversation.id);
 
-      if (conversationMessages.length === 0) {
-        this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
-          conversationId: conversation.id,
-          filters: { limit: 15, skip: 0 }
-        });
-      }
+        if (conversationMessages.length === 0) {
+          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+            conversationId: conversation.id,
+            filters: { limit: 15, skip: 0 }
+          });
+        }
 
-      this.displayConversation = this.isSmallScreen ? true : false;
+        this.displayConversation = this.isSmallScreen ? true : false;
 
-      // change the url
-      if (urlChange) {
-        this.$router.push({
-          path: "/messages",
-          query: { active: conversation.id }
-        });
+        // change the url
+        if (urlChange) {
+          this.$router.push({
+            path: "/messages",
+            query: { active: conversation.id }
+          });
+        }
       }
     }
   }

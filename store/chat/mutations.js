@@ -19,9 +19,8 @@ export default {
    * @param {Array} message
    */
   [ADD_MESSAGES]: (state, messages) => {
-    state.messages = state.messages
-      .concat(messages)
-      .sort((a, b) => a.createdAt - b.createdAt);
+    state.messages = state.messages.concat(messages);
+    //  .sort((a, b) => a.createdAt - b.createdAt);
   },
 
   /**

@@ -90,7 +90,6 @@
 
 <script>
 import moment from "moment";
-import last from "lodash.last";
 import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
 
 import Message from "./Message";
@@ -125,36 +124,39 @@ export default {
       );
     },
     messages() {
-      return this.messagesFromStore.map((message, index, currentArray) => {
-        const date = moment(message.createdAt);
-        const diff = moment().diff(date);
-        let dateLabel;
+      return this.messagesFromStore
+        .sort((a, b) => a.createdAt - b.createdAt)
 
-        //less than 1 minute
-        if (diff < 60000) {
-          dateLabel = "Il y a quelques secondes";
-        }
-        // less than 1 hours
-        else if (diff < 3.6e6) {
-          dateLabel = `il y a ${Math.ceil(diff / (60 * 1000))} minute(s)`;
-        }
-        // less than 1 day
-        else if (diff < 8.64e7) {
-          dateLabel = `il y a ${Math.ceil(diff / (60 * 60 * 1000))} heure(s)`;
-        } else {
-          dateLabel = "Le " + date.locale("fr").format("Do MMMM YYYY");
-        }
+        .map((message, index, currentArray) => {
+          const date = moment(message.createdAt);
+          const diff = moment().diff(date);
+          let dateLabel;
 
-        // if you send a several message in a short amount of time, there are grouped together
-        const previousMessage = index > 0 ? currentArray[index - 1] : null;
-        const grouped =
-          previousMessage && this.$store.getters.connectedUser
-            ? previousMessage.author === this.$store.getters.connectedUser.id &&
-              date.diff(moment(previousMessage.createdAt)) < 60 * 3 * 1000
-            : false;
+          //less than 1 minute
+          if (diff < 60000) {
+            dateLabel = "Il y a quelques secondes";
+          }
+          // less than 1 hours
+          else if (diff < 3.6e6) {
+            dateLabel = `il y a ${Math.ceil(diff / (60 * 1000))} minute(s)`;
+          }
+          // less than 1 day
+          else if (diff < 8.64e7) {
+            dateLabel = `il y a ${Math.ceil(diff / (60 * 60 * 1000))} heure(s)`;
+          } else {
+            dateLabel = "Le " + date.locale("fr").format("Do MMMM YYYY");
+          }
 
-        return { ...message, dateLabel, grouped };
-      });
+          // if you send a several message in a short amount of time, there are grouped together
+          const previousMessage = index > 0 ? currentArray[index - 1] : null;
+          const grouped =
+            previousMessage && this.$store.getters.connectedUser
+              ? previousMessage.author === message.author &&
+                date.diff(moment(previousMessage.createdAt)) < 60 * 3 * 1000
+              : false;
+
+          return { ...message, dateLabel, grouped };
+        });
     }
   },
   methods: {
@@ -177,7 +179,6 @@ export default {
      * @param {object} message
      */
     scrollToMessage(message) {
-      console.log("scroll");
       const option = { container: `#conversation${this.conversationId}` };
       this.$scrollTo(
         `#conversation${this.conversationId}-message${message.id}`,

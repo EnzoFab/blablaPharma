@@ -12,6 +12,7 @@ import {
   ADD_CONVERSATIONS,
   UPDATE_MESSAGE,
   FETCH_MESSAGE,
+  RECEIVE_MESSAGE,
   IS_TYPING
 } from "../types";
 
@@ -71,6 +72,14 @@ export default {
         newMessageData: { error: true }
       });
     }
+  },
+
+  [RECEIVE_MESSAGE]: async ({ commit, rootState }, message) => {
+    commit(ADD_MESSAGES, [message]);
+    commit(UPDATE_CONVERSATION, {
+      message,
+      conversationId: message.conversation
+    });
   },
 
   [FETCH_CONVERSATION]: async ({ commit, rootState }) => {

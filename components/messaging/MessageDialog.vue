@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     sendMessage(message) {
-      console.log(this.receiverId);
       // todo $axios to save message
       // todo emit socket io event
       this.$store.dispatch(`chat/${CONTACT_PHARMACIST}`, {

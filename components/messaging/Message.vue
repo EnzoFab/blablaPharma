@@ -73,7 +73,7 @@
           <v-flex
             md3
             sm12
-            class="content-center"
+            class="text-xs-left"
             mx-1
             :my-1="hideAuthorName"
             :my-0="!hideAuthorName"
