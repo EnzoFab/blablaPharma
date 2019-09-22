@@ -36,6 +36,7 @@
 .conversation {
   &-message-holder {
     display: block;
+    position: relative;
     overflow-y: auto;
     width: 100%;
   }
@@ -47,6 +48,30 @@
   &-small {
     min-height: 10vh;
     max-height: 30vh;
+  }
+
+  &-scrollButtonWrapper {
+    z-index: 10;
+    right: 10%;
+    bottom: 8%;
+    top: 8%;
+    position: -webkit-sticky;
+    position: sticky;
+  }
+
+  &-scrollButton {
+    position: absolute;
+    right: 10%;
+
+    &--top {
+      bottom: 0;
+      top: 10%;
+    }
+
+    &--bottom {
+      top: 0;
+      bottom: 10%;
+    }
   }
 }
 

@@ -44,6 +44,31 @@
               }"
               :id="'conversation' + conversationId"
             >
+              <div
+                v-show="messages.length > 5"
+                class="conversation-scrollButtonWrapper"
+              >
+                <v-icon
+                  class="conversation-scrollButton conversation-scrollButton--top content-pointer"
+                  @click="scrollTop"
+                  >fas fa-angle-up</v-icon
+                >
+              </div>
+              <v-flex xs12>
+                <no-ssr>
+                  <infinite-loading
+                    :distance="50"
+                    direction="top"
+                    spinner="waveDots"
+                    @infinite="infiniteHandler"
+                  >
+                    <div slot="no-more" class="text--baseColor text--tiny">
+                      Vous êtes à jour
+                    </div>
+                    <div slot="no-results"></div>
+                  </infinite-loading>
+                </no-ssr>
+              </v-flex>
               <v-flex
                 v-if="messages.length === 0"
                 class="content-center text--baseColor text--section pt-4"
@@ -55,7 +80,7 @@
               </v-flex>
               <v-flex
                 v-for="message in messages"
-                xs11
+                xs12
                 :key="message.id"
                 :pt-3="!message.grouped"
                 :pt-0="message.grouped"
@@ -77,6 +102,17 @@
                   :error="message.error"
                 />
               </v-flex>
+
+              <div
+                v-show="messages.length > 5"
+                class="conversation-scrollButtonWrapper"
+              >
+                <v-icon
+                  class="conversation-scrollButton conversation-scrollButton--down content-pointer"
+                  @click="scrollBottom"
+                  >fas fa-angle-down</v-icon
+                >
+              </div>
             </v-layout>
           </v-container>
         </v-flex>
@@ -90,12 +126,18 @@
 
 <script>
 import moment from "moment";
+import to from "await-to-js";
+import last from "lodash.last";
+import head from "lodash.head";
+
 import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
+import InfiniteLoading from "vue-infinite-loading";
 
 import Message from "./Message";
 import SendBox from "./SendBox";
 export default {
   name: "Conversation",
+  components: { SendBox, Message, InfiniteLoading },
   props: {
     conversationId: { type: String | Number },
     receiverName: String,
@@ -106,10 +148,10 @@ export default {
     // conversation is embed into a drawer
     embed: { type: Boolean, default: false }
   },
-  components: { SendBox, Message },
   data() {
     return {
-      loading: false
+      loading: false,
+      isFetching: false
     };
   },
 
@@ -160,6 +202,30 @@ export default {
     }
   },
   methods: {
+    infiniteHandler($state) {
+      // when we scroll on the top of the conversation-message-holder container, load more messages
+      const filters = {
+        limit: 15,
+        skip: this.messages.length
+      };
+
+      setTimeout(async () => {
+        const [err, res] = await to(
+          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+            conversationId: this.conversationId,
+            filters
+          })
+        );
+
+        if (!err && res.length > 0) {
+          $state.loaded();
+          return;
+        }
+
+        $state.complete();
+      }, 1000);
+    },
+
     handleNewMessage(data) {
       const message = {
         ...data,
@@ -179,12 +245,25 @@ export default {
      * @param {object} message
      */
     scrollToMessage(message) {
-      const option = { container: `#conversation${this.conversationId}` };
+      const option = {
+        container: `#conversation${this.conversationId}`,
+        force: true,
+        easing: "ease-in",
+        offset: -60
+      };
       this.$scrollTo(
         `#conversation${this.conversationId}-message${message.id}`,
         300,
         option
       );
+    },
+
+    scrollBottom() {
+      this.scrollToMessage(last(this.messages));
+    },
+
+    scrollTop() {
+      this.scrollToMessage(head(this.messages));
     },
 
     /**

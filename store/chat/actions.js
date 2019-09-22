@@ -1,5 +1,4 @@
 import { SailSocketWrapper } from "../../helpers";
-import to from "await-to-js";
 import pickBy from "lodash.pickby";
 import reduce from "lodash.reduce";
 
@@ -46,6 +45,8 @@ export default {
     );
 
     commit(ADD_MESSAGES, messages);
+
+    return messages;
   },
 
   [SEND_MESSAGE]: async ({ commit, rootState }, message) => {
@@ -74,8 +75,19 @@ export default {
     }
   },
 
-  [RECEIVE_MESSAGE]: async ({ commit, rootState }, message) => {
+  [RECEIVE_MESSAGE]: async ({ commit, rootState, getters }, message) => {
     commit(ADD_MESSAGES, [message]);
+
+    // if the conversation doesn't exist yet
+    if (!getters.getConversation(message.conversations)) {
+      const conversation = await SailSocketWrapper.get(
+        rootState,
+        `/conversations/${message.conversation}`
+      );
+
+      commit(ADD_CONVERSATIONS, [conversation]);
+    }
+
     commit(UPDATE_CONVERSATION, {
       message,
       conversationId: message.conversation

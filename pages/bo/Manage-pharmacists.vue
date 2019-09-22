@@ -162,10 +162,8 @@
 </template>
 
 <script>
-// todo hide delete button if there isn't 3 days since
 import to from "await-to-js";
 import moment from "moment";
-import reduce from "lodash.reduce";
 import { TOGGLE_SNACKBAR } from "../../store/types";
 import PharmacistAutocompleteField from "../../components/contact_pharmacist/PharmacistAutocompleteField";
 
