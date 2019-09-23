@@ -141,10 +141,9 @@
 </template>
 
 <script>
-import moment from "moment";
 import to from "await-to-js";
 import { mapGetters } from "vuex";
-import PhotoField from "./PhotoField";
+const PhotoField = () => import("./PhotoField");
 export default {
   name: "UpdateGeneralInformation",
   components: { PhotoField },
@@ -176,14 +175,12 @@ export default {
     },
     dateFr() {
       return this.fields.birthDayDate
-        ? moment(this.fields.birthDayDate)
-            .locale("fr")
-            .format("Do MMMM YYYY")
+        ? this.$moment(this.fields.birthDayDate).format("Do MMMM YYYY")
         : "";
     },
     maxDate() {
       // minimum 17 years ago
-      return moment()
+      return this.$moment()
         .subtract(17, "years")
         .format();
     }

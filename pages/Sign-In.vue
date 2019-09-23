@@ -132,9 +132,10 @@ import flatMap from "lodash.flatmap";
 import merge from "lodash.merge";
 import { TOGGLE_SNACKBAR } from "../store/types";
 
-import SignInClient from "../components/forms/SignInClient";
-import SignInPharmacist from "../components/forms/SignInPharmacist";
-import ResendActivationMail from "../components/forms/ResendActivationMail";
+const SignInClient = () => import("~/components/forms/SignInClient");
+const SignInPharmacist = () => import("~/components/forms/SignInPharmacist");
+const ResendActivationMail = () =>
+  import("~/components/forms/ResendActivationMail");
 export default {
   name: "Sign-In",
   head() {

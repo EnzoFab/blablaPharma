@@ -37,6 +37,8 @@
             </template>
             <no-ssr>
               <picker
+                :data="emojiIndex"
+                set="messenger"
                 title="Smiley"
                 style="width: 100%"
                 @select="addEmoji"
@@ -48,6 +50,7 @@
                   }
                 }"
                 emoji="smile"
+                :sheet-size="16"
                 :skin="3"
               />
             </no-ssr>
@@ -101,8 +104,14 @@ text/plain, application/pdf, image/*"
 </template>
 
 <script>
-import { Picker } from "emoji-mart-vue";
+//import { Picker } from "emoji-mart-vue";
 
+import emojiSet from "emoji-mart-vue-fast/data/messenger.json";
+import { EmojiIndex, Picker } from "emoji-mart-vue-fast";
+//import Picker from "emoji-mart-vue-fast/src/components/Picker";
+/*const EmojiPicker = () =>
+  import("emoji-mart-vue-fast/src/components/").then(({ Picker }) => Picker);*/
+import "emoji-mart-vue-fast/css/emoji-mart.css";
 export default {
   name: "SendBox",
   components: { Picker },
@@ -169,6 +178,11 @@ export default {
 
         this.files = null;
       }
+    }
+  },
+  computed: {
+    emojiIndex() {
+      return new EmojiIndex(emojiSet);
     }
   }
 };

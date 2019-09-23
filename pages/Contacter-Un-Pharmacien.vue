@@ -115,9 +115,11 @@ import pickby from "lodash.pickby";
 
 import { TOGGLE_CONNECTION_DIALOG, CONTACT_PHARMACIST } from "../store/types";
 
-import PharmacistCard from "../components/contact_pharmacist/PharmacistCard";
-import MessageDialog from "../components/messaging/MessageDialog";
-import PharmacistAutocompleteField from "../components/contact_pharmacist/PharmacistAutocompleteField";
+const PharmacistCard = () =>
+  import("~/components/contact_pharmacist/PharmacistCard");
+const MessageDialog = () => import("~/components/messaging/MessageDialog");
+const PharmacistAutocompleteField = () =>
+  import("~/components/contact_pharmacist/PharmacistAutocompleteField");
 export default {
   name: "Contacter-Un-Pharmacien",
   head() {

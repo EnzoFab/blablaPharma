@@ -9,7 +9,7 @@
 
 <script>
 import { TOGGLE_CONNECTION_DIALOG } from "../../store/types";
-import LoginForm from "../forms/LoginForm";
+import LoginForm from "./LoginForm";
 
 export default {
   name: "ContactPharmacistDialog",

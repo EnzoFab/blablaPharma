@@ -105,7 +105,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import get from "lodash.get";
 import { mapGetters } from "vuex";
 export default {
@@ -157,9 +156,8 @@ export default {
   },
   methods: {
     format(date) {
-      return moment(date)
-        .locale("fr")
-        .format("Do MMMM YYYY");
+      return this.$moment(date)
+      .format("Do MMMM YYYY");
     }
   }
 };

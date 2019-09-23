@@ -222,8 +222,11 @@
 </template>
 
 <script>
-import ResponsiveParallax from "../components/ResponsiveParallax";
-import Contact from "../components/forms/Contact";
+//import ResponsiveParallax from "../components/ResponsiveParallax";
+const ResponsiveParallax = () => import("~/components/ResponsiveParallax");
+//import Contact from "../components/forms/Contact";
+
+const Contact = () => import("~/components/forms/Contact");
 export default {
   head() {
     return {

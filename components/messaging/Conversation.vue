@@ -125,16 +125,15 @@
 </template>
 
 <script>
-import moment from "moment";
 import to from "await-to-js";
 import last from "lodash.last";
 import head from "lodash.head";
 
 import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
-import InfiniteLoading from "vue-infinite-loading";
+const InfiniteLoading = () => import("vue-infinite-loading");
 
-import Message from "./Message";
-import SendBox from "./SendBox";
+const Message = () => import("./Message");
+const SendBox = () => import("./SendBox");
 export default {
   name: "Conversation",
   components: { SendBox, Message, InfiniteLoading },
@@ -170,8 +169,8 @@ export default {
         .sort((a, b) => a.createdAt - b.createdAt)
 
         .map((message, index, currentArray) => {
-          const date = moment(message.createdAt);
-          const diff = moment().diff(date);
+          const date = this.$moment(message.createdAt);
+          const diff = this.$moment().diff(date);
           let dateLabel;
 
           //less than 1 minute
@@ -186,7 +185,7 @@ export default {
           else if (diff < 8.64e7) {
             dateLabel = `il y a ${Math.ceil(diff / (60 * 60 * 1000))} heure(s)`;
           } else {
-            dateLabel = "Le " + date.locale("fr").format("Do MMMM YYYY");
+            dateLabel = "Le " + date.format("Do MMMM YYYY");
           }
 
           // if you send a several message in a short amount of time, there are grouped together
@@ -194,7 +193,8 @@ export default {
           const grouped =
             previousMessage && this.$store.getters.connectedUser
               ? previousMessage.author === message.author &&
-                date.diff(moment(previousMessage.createdAt)) < 60 * 3 * 1000
+                date.diff(this.$moment(previousMessage.createdAt)) <
+                  60 * 3 * 1000
               : false;
 
           return { ...message, dateLabel, grouped };

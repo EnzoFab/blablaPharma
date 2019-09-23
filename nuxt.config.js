@@ -237,10 +237,13 @@ module.exports = {
    ** Build configuration
    */
   build: {
+    analyze: true,
+    extractCSS: true,
+    //optimizeCSS: true,
     /*filenames: {
       app: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js"),
       chunk: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js")
-    }, */
+    },*/
     /*
      ** You can extend webpack config here
      */

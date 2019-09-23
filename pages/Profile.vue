@@ -62,11 +62,18 @@
 <script>
 import { TOGGLE_SNACKBAR } from "../store/types";
 import { mapState } from "vuex";
-import GeneralInformation from "../components/profile/GeneralInformation";
-import UpdatePassword from "../components/profile/UpdatePassword";
-import UpdateGeneralInformation from "../components/profile/UpdateGeneralInformation";
-import UpdatePharmacistInformation from "../components/profile/UpdatePharmacistInformation";
-import UpdateEmail from "../components/profile/UpdateEmail";
+const GeneralInformation = () =>
+  import("~/components/profile/GeneralInformation");
+
+const UpdatePassword = () => import("~/components/profile/UpdatePassword");
+
+const UpdateGeneralInformation = () =>
+  import("~/components/profile/UpdateGeneralInformation");
+
+const UpdatePharmacistInformation = () =>
+  import("~/components/profile/UpdatePharmacistInformation");
+
+const UpdateEmail = () => import("~/components/profile/UpdateEmail");
 export default {
   name: "Profile",
   head() {

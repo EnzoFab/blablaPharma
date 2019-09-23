@@ -163,9 +163,9 @@
 
 <script>
 import to from "await-to-js";
-import moment from "moment";
 import { TOGGLE_SNACKBAR } from "../../store/types";
-import PharmacistAutocompleteField from "../../components/contact_pharmacist/PharmacistAutocompleteField";
+const PharmacistAutocompleteField = () =>
+  import("~/components/contact_pharmacist/PharmacistAutocompleteField");
 
 export default {
   name: "Manage-pharmacists",
@@ -334,15 +334,13 @@ export default {
     },
 
     format(date) {
-      return moment(date)
-        .locale("fr")
-        .format("Do MMMM YYYY");
+      return this.$moment(date).format("Do MMMM YYYY");
     },
 
     canDeletePharmacist(date) {
       return (
         date &&
-        moment()
+        this.$moment()
           .add(3, "days")
           .isSameOrBefore(moment(date))
       );

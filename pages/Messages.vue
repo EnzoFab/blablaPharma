@@ -50,7 +50,7 @@
 <script>
 import { mapState } from "vuex";
 import { FETCH_MESSAGE } from "../store/types";
-import Conversation from "../components/messaging/Conversation";
+const Conversation = () => import("../components/messaging/Conversation");
 import head from "lodash.head";
 import AsideConversation from "../components/messaging/AsideConversation";
 export default {

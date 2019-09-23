@@ -76,7 +76,7 @@
 
 <script>
 import to from "await-to-js";
-import PasswordField from "../../components/forms/PasswordField";
+const PasswordField = () => import("~/components/forms/PasswordField");
 export default {
   components: { PasswordField },
   middleware: "notConnected",

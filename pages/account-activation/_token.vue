@@ -26,7 +26,8 @@
 
 <script>
 import to from "await-to-js";
-import ResendActivationMail from "../../components/forms/ResendActivationMail";
+const ResendActivationMail = () =>
+  import("~/components/forms/ResendActivationMail");
 import { TOGGLE_CONNECTION_DIALOG } from "../../store/types";
 export default {
   head() {
