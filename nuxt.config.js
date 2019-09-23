@@ -1,13 +1,13 @@
 const colors = require("vuetify/es5/util/colors").default;
-const env = require("dotenv").config();
+// const env = require("dotenv").config();
 
-console.log("API_URL", process.env.API_URL, process.env.npm_package_name);
+//console.log("API_URL", process.env.API_URL, process.env.npm_package_name);
 
 //const mode = process.env.NODE_ENV === "development" ? "spa" : "universal";
 
 module.exports = {
   mode: "universal",
-  env: env.parsed,
+  // env: env.parsed,
   /*
    ** Headers of the page
    */
@@ -159,7 +159,8 @@ module.exports = {
     "@nuxtjs/proxy",
 
     "@nuxtjs/pwa",
-    ["vue-scrollto/nuxt", { duration: 300 }]
+    ["vue-scrollto/nuxt", { duration: 300 }],
+    "@nuxtjs/dotenv"
   ],
 
   /*
