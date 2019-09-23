@@ -11,7 +11,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "devServer": "nodemon server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
