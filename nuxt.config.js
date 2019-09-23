@@ -237,7 +237,7 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    analyze: true,
+    // analyze: true,
     extractCSS: true,
     //optimizeCSS: true,
     /*filenames: {
