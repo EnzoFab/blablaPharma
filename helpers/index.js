@@ -9,7 +9,7 @@ console.log("socket url", process.env.API_URL);
 
 const api_url = process.env.API_URL
   ? process.env.API_URL
-  : "http://localhost:1337";
+  : "https://api.blablapharma.fr";
 
 io.sails.url = api_url;
 io.sails.onlyAllowOrigins = [api_url];
