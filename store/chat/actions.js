@@ -7,6 +7,7 @@ import {
   ADD_MESSAGES,
   UPDATE_CONVERSATION,
   FETCH_CONVERSATION,
+  ADD_ACTIVE_CONVERSATIONS,
   CONTACT_PHARMACIST,
   ADD_CONVERSATIONS,
   UPDATE_MESSAGE,
@@ -23,7 +24,7 @@ export default {
    *
    * @param commit
    * @param rootState
-   * @param conversationId
+   * @param {string} conversationId
    * @param filters
    * @returns {Promise<void>}
    */
@@ -67,6 +68,8 @@ export default {
         id: message.id,
         newMessageData: { createdAt, id }
       });
+
+      commit(ADD_ACTIVE_CONVERSATIONS, [message.conversation]);
     } catch (e) {
       commit(UPDATE_MESSAGE, {
         id: message.id,
@@ -78,7 +81,7 @@ export default {
   [RECEIVE_MESSAGE]: async ({ commit, rootState, getters }, message) => {
     commit(ADD_MESSAGES, [message]);
 
-    // if the conversation doesn't exist yet
+    // if the conversation doesn't exist yet add it to the list of conversation
     if (!getters.getConversation(message.conversations)) {
       const conversation = await SailSocketWrapper.get(
         rootState,
@@ -92,6 +95,16 @@ export default {
       message,
       conversationId: message.conversation
     });
+
+    // add the conversations as active one
+    commit(ADD_ACTIVE_CONVERSATIONS, [message.conversation]);
+
+    if (process.client) {
+      // not to execute the code on server side
+      // because audio isn't defined server side
+      const audio = new Audio("/sound/notification.ogg");
+      await audio.play();
+    }
   },
 
   [FETCH_CONVERSATION]: async ({ commit, rootState }) => {

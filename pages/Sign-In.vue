@@ -144,7 +144,7 @@ export default {
       meta: [
         {
           hid: "Sign-in",
-          name: "sign-in",
+          name: "description",
           content: "S'inscrire sur blablapharma"
         }
       ]

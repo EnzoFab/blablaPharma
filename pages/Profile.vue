@@ -86,7 +86,7 @@ export default {
       meta: [
         {
           hid: "Profile",
-          name: "Profile",
+          name: "description",
           content: `Profil de ${fullName}, utilisateur sur BlablaPharma`
         }
       ]

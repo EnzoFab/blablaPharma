@@ -36,7 +36,7 @@ export default {
       meta: [
         {
           hid: "Sign-in",
-          name: "sign-in",
+          name: "description",
           content: "Valider son inscription sur Blablapharma"
         }
       ]

@@ -1,11 +1,15 @@
 import keyBy from "lodash.keyby";
 import last from "lodash.last";
 import pickBy from "lodash.pickby";
+import union from "lodash.union";
+import take from "lodash.take";
 
 import {
   ADD_MESSAGES,
   ADD_CONVERSATIONS,
   UPDATE_CONVERSATION,
+  ADD_ACTIVE_CONVERSATIONS,
+  REMOVE_ACTIVE_CONVERSATION,
   UPDATE_MESSAGE
 } from "../types";
 
@@ -61,6 +65,26 @@ export default {
     );
     // add the new conversation the existing conversations
     state.conversations = { ...conversationsObject, ...state.conversations };
+  },
+
+  /**
+   *
+   * @param {Object} state
+   * @param {Array<number>} ids
+   */
+  [ADD_ACTIVE_CONVERSATIONS]: (state, ids) => {
+    // if a conversation is in the 3 visible conversation
+    // we don't push it at the beginning of the array
+    const visibleConversation = take(state.activeConversations, 3);
+    const filterIds = ids.filter(id => !visibleConversation.includes(id));
+
+    state.activeConversations = union(filterIds, state.activeConversations);
+  },
+
+  [REMOVE_ACTIVE_CONVERSATION]: (state, id) => {
+    state.activeConversations = state.activeConversations.filter(
+      conversationId => conversationId !== id
+    );
   },
 
   /**

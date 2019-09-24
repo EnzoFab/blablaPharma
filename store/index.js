@@ -1,4 +1,8 @@
-import { RECEIVE_MESSAGE } from "./types";
+import {
+  ADD_ACTIVE_CONVERSATIONS,
+  REMOVE_ACTIVE_CONVERSATION,
+  RECEIVE_MESSAGE
+} from "./types";
 
 import { SailSocketWrapper } from "../helpers";
 
@@ -11,6 +15,7 @@ const createWebsocketPlugin = () => {
     const socket = SailSocketWrapper.socketInstance;
 
     socket.on("event", data => {
+      console.log(data);
       // do something
     });
 
@@ -19,25 +24,20 @@ const createWebsocketPlugin = () => {
     });
 
     store.subscribe(mutation => {
-      /*switch (mutation.type) {
-        case SEND_MESSAGE:
-          // the user send a message
-          break;
-
-        default:
-          return;
-      } */
-    });
-
-    store.subscribeAction((action, state) => {
-      /*switch (action.type) {
-        case SEND_MESSAGE:
-          // the user send a message
-          break;
-
-        default:
-          return;
-      }*/
+      if (
+        [
+          `chat/${ADD_ACTIVE_CONVERSATIONS}`,
+          `chat/${REMOVE_ACTIVE_CONVERSATION}`
+        ].includes(mutation.type)
+      ) {
+        if (process.client) {
+          store.$cookies.remove("activeConversations");
+          store.$cookies.set(
+            "activeConversations",
+            store.state.chat.activeConversations
+          );
+        }
+      }
     });
   };
 };

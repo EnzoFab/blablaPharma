@@ -8,7 +8,7 @@
     <span :class="{ 'font-weight-bold': isActive }"
       >{{ firstName }} {{ lastName }}</span
     >
-    <div class="text-truncate font-italic text--section">
+    <div class="text-truncate font-italic text--section text-xs-left">
       {{ message }}
     </div>
   </div>

@@ -100,24 +100,17 @@
         </v-container>
       </v-layout>
     </v-container>
-    <message-dialog
-      :receiver-first-name="receiverFirstName"
-      :receiver-last-name="receiverLastName"
-      :receiver-id="receiverId"
-      v-model="showDialog"
-    />
   </div>
 </template>
 
 <script>
 import to from "await-to-js";
-import pickby from "lodash.pickby";
+import pickBy from "lodash.pickby";
 
 import { TOGGLE_CONNECTION_DIALOG, CONTACT_PHARMACIST } from "../store/types";
 
 const PharmacistCard = () =>
   import("~/components/contact_pharmacist/PharmacistCard");
-const MessageDialog = () => import("~/components/messaging/MessageDialog");
 const PharmacistAutocompleteField = () =>
   import("~/components/contact_pharmacist/PharmacistAutocompleteField");
 export default {
@@ -128,14 +121,14 @@ export default {
       meta: [
         {
           hid: "Contacter un pharmacien",
-          name: "contacter un pharmacien",
+          name: "description",
           content: "Contacter un pharmacien sur blablapharma"
         }
       ]
     };
   },
 
-  components: { PharmacistAutocompleteField, MessageDialog, PharmacistCard },
+  components: { PharmacistAutocompleteField, PharmacistCard },
   data() {
     return {
       receiverId: null,
@@ -146,7 +139,7 @@ export default {
     };
   },
   methods: {
-    async contactPharmacist({ id, firstName, lastName }) {
+    async contactPharmacist({ id }) {
       // if not connected show connection dialog
       if (!this.$store.getters.isLoggedIn) {
         this.$store.commit(TOGGLE_CONNECTION_DIALOG, true);
@@ -164,11 +157,6 @@ export default {
       } catch (e) {
         console.error(e);
       }
-
-      /* this.receiverId = id;
-        this.receiverFirstName = firstName;
-        this.receiverLastName = lastName;
-        this.showDialog = true; */
     },
     getFullAddress(pharmacist) {
       return `${pharmacist.address}, ${pharmacist.postalCode}, ${
@@ -181,7 +169,7 @@ export default {
 
       this.$router.push({
         path: "/contacter-un-pharmacien",
-        query: pickby(filters)
+        query: pickBy(filters)
       });
 
       setTimeout(() => {
@@ -213,29 +201,6 @@ export default {
     return {
       pharmacists,
       pharmacistsBlablapharma
-      /*pharmacists: [
-        {
-          professionalId: 1234,
-          firstName: "Michel",
-          lastName: "Simons",
-          postalCode: "34095",
-          city: "Montpellier",
-          address: "127, avenue de Toulouse",
-          institutionName: "D.U PlanetArium",
-          picture:
-            "https://img.freepik.com/photos-gratuite/portrait-homme-blanc-isole_53876-40306.jpg?size=626&ext=jpg"
-        },
-        {
-          professionalId: 123,
-          firstName: "John",
-          lastName: "Fitzpatrick",
-          postalCode: "34000",
-          city: "Anywhere",
-          address: "Somewhere",
-          institutionName: "D.U PlanetArium",
-          picture: null
-        }
-      ] */
     };
   }
 };

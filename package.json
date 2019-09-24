@@ -41,6 +41,7 @@
     "lodash.pickby": "^4.6.0",
     "lodash.reduce": "^4.6.0",
     "lodash.take": "^4.1.1",
+    "lodash.union": "^4.6.0",
     "lodash.uniqby": "^4.7.0",
     "lodash.words": "^4.2.0",
     "nuxt": "^2.0.0",

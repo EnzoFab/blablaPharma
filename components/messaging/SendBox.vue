@@ -8,24 +8,26 @@
       style="max-height: 15vh; min-height: 5vh"
     >
       <v-layout row wrap>
-        <v-flex v-for="(file, key) in files" xs3 :key="key">
-          <v-badge overlap color="red">
-            <template v-slot:badge
-              ><v-icon class="content-pointer" dark @click="deleteFile(file)"
-                >close</v-icon
-              ></template
-            >
-            <v-avatar color="grey" tile size="90">
-              <v-img
-                class="ma-1"
-                :src="filePreview(file)"
-                :alt="filePreview(file)"
-                height="85"
-                width="85"
-              ></v-img>
-            </v-avatar>
-          </v-badge>
-        </v-flex>
+        <template v-if="files && files.length > 0">
+          <v-flex v-for="(file, key) in files" sm3 xs6 :key="key">
+            <v-badge overlap color="red">
+              <template v-slot:badge
+                ><v-icon class="content-pointer" dark @click="deleteFile(file)"
+                  >close</v-icon
+                ></template
+              >
+              <v-avatar color="grey" tile :size="embed ? 20 : 90">
+                <v-img
+                  class="ma-1"
+                  :src="filePreview(file)"
+                  :alt="filePreview(file)"
+                  height="85"
+                  width="85"
+                ></v-img>
+              </v-avatar>
+            </v-badge>
+          </v-flex>
+        </template>
       </v-layout>
     </v-container>
     <v-container fluid grid-list-xs pa-0 ma-0>
@@ -33,7 +35,7 @@
         <v-flex xs1 class="content-center">
           <v-dialog v-model="emojiPickerDialog" full-width width="300">
             <template v-slot:activator="{ on }">
-              <v-icon size="30" v-on="on">far fa-smile</v-icon>
+              <v-icon :size="iconSize" v-on="on">far fa-smile</v-icon>
             </template>
             <no-ssr>
               <picker
@@ -57,7 +59,7 @@
           </v-dialog>
         </v-flex>
         <v-flex xs1 class="content-center">
-          <v-icon color="grey darken-3" medium @click="uploadfile"
+          <v-icon color="grey darken-3" :size="iconSize" @click="uploadFile"
             >attach_file</v-icon
           >
           <input
@@ -65,8 +67,7 @@
             type="file"
             ref="uploader"
             v-show="false"
-            accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-text/plain, application/pdf, image/*"
+            accept="image/*"
             @input="handleFiles"
           />
         </v-flex>
@@ -81,6 +82,8 @@ text/plain, application/pdf, image/*"
             no-resize
             flat
             height="25"
+            hide-details
+            hide-no-data
             single-line
             color="success"
             background-color="white"
@@ -90,9 +93,9 @@ text/plain, application/pdf, image/*"
           >
             <v-icon
               slot="append"
+              :size="iconSize"
               class="ml-3"
               color="grey darken-3"
-              medium
               @click="sendMessage"
               >send</v-icon
             >
@@ -115,6 +118,9 @@ import "emoji-mart-vue-fast/css/emoji-mart.css";
 export default {
   name: "SendBox",
   components: { Picker },
+  props: {
+    embed: { type: Boolean, default: false }
+  },
   data() {
     return {
       text: "",
@@ -123,12 +129,14 @@ export default {
     };
   },
   methods: {
-    uploadfile() {
+    uploadFile() {
       this.$refs.uploader.click();
     },
 
     handleFiles(e) {
-      this.files = Array.from(e.target.files);
+      this.files = Array.from(e.target.files).filter(file =>
+        file.type.includes("image")
+      );
     },
 
     deleteFile(element) {
@@ -183,6 +191,9 @@ export default {
   computed: {
     emojiIndex() {
       return new EmojiIndex(emojiSet);
+    },
+    iconSize() {
+      return this.embed ? 20 : 30;
     }
   }
 };

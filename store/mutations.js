@@ -2,7 +2,6 @@ import {
   SET_JWT_TOKEN,
   SET_CONNECTED_USER,
   TOGGLE_CONNECTION_DIALOG,
-  REMOVE_CONVERSATION_FROM_BAR,
   TOGGLE_SNACKBAR,
   HIDE_SNACKBAR
 } from "./types";
@@ -38,12 +37,6 @@ export default {
    */
   [TOGGLE_CONNECTION_DIALOG]: (state, active = false) => {
     state.contactPharmacistDialog = active;
-  },
-
-  [REMOVE_CONVERSATION_FROM_BAR]: (state, conversationId) => {
-    state.activeConversations = state.activeConversations.filter(
-      element => element.conversationId !== conversationId
-    );
   },
 
   [TOGGLE_SNACKBAR]: (state, text) => {

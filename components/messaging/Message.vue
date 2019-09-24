@@ -2,18 +2,18 @@
   <div>
     <template v-if="embed">
       <div v-if="!hideAuthorName">
-        <v-avatar color="light-grey" size="40">
+        <v-avatar color="light-grey" size="25">
           <v-img
             v-if="type === 'image'"
             :src="content"
             alt="conversation image"
           ></v-img>
-          <v-icon v-else size="38" dark color="green">person_pin</v-icon>
+          <v-icon v-else size="25" dark color="green">person_pin</v-icon>
         </v-avatar>
         <span
           :class="{
             'text--baseColor': !isMessageSent,
-            'title-section-small font-weight-bold text-left ml-2 text-truncate': true
+            ' font-weight-bold text-left ml-2 text-truncate': true
           }"
         >
           {{ authorFullName }}
@@ -33,7 +33,7 @@
           aspect-ratio="1.75"
           alt="Conversation image"
         ></v-img>
-        <div v-else>
+        <div v-else class="text-xs-left pt-1">
           <div v-for="(word, i) in content.split('\n')" :key="i">
             <span
               v-if="word.length > 0"

@@ -49,6 +49,7 @@
                 class="conversation-scrollButtonWrapper"
               >
                 <v-icon
+                  :size="iconSize"
                   class="conversation-scrollButton conversation-scrollButton--top content-pointer"
                   @click="scrollTop"
                   >fas fa-angle-up</v-icon
@@ -108,6 +109,7 @@
                 class="conversation-scrollButtonWrapper"
               >
                 <v-icon
+                  :size="iconSize"
                   class="conversation-scrollButton conversation-scrollButton--down content-pointer"
                   @click="scrollBottom"
                   >fas fa-angle-down</v-icon
@@ -117,7 +119,7 @@
           </v-container>
         </v-flex>
         <v-flex xs12 mt-1 mb-0 pb-0 px-2 mx-2 align-self-end
-          ><send-box @sendbox:messageSent="handleNewMessage"
+          ><send-box :embed="embed" @sendbox:messageSent="handleNewMessage"
         /></v-flex>
       </v-layout>
     </v-container>
@@ -199,6 +201,10 @@ export default {
 
           return { ...message, dateLabel, grouped };
         });
+    },
+
+    iconSize() {
+      return this.embed ? 20 : 30;
     }
   },
   methods: {

@@ -27,7 +27,7 @@
               >close</v-icon
             >
             <div class="content-center text--baseColor text--section pa-2 ">
-              <span class="text-breakline">{{ conversation.name }}</span>
+              <span class="text-breakline">{{ conversation.fullName }}</span>
             </div>
           </v-card>
           <v-card v-show="opennedConversations[conversation.conversationId]">
@@ -42,7 +42,7 @@
                 toggleConversation(conversation.conversationId, false)
               "
             >
-              <span class="text-breakline">{{ conversation.name }}</span>
+              <span class="text-breakline">{{ conversation.fullName }}</span>
             </div>
             <v-card-text class="px-1">
               <conversation
@@ -60,7 +60,7 @@
 
 <script>
 import {
-  REMOVE_CONVERSATION_FROM_BAR,
+  REMOVE_ACTIVE_CONVERSATION,
   FETCH_CONVERSATION
 } from "../../store/types";
 import take from "lodash.take";
@@ -79,7 +79,6 @@ export default {
       if (this.$store.getters.isLoggedIn) {
         this.$store.dispatch(`chat/${FETCH_CONVERSATION}`);
       }
-
       // only show if the user is connected and if we are not on messages page
       return (
         this.$store.getters.isLoggedIn &&
@@ -88,32 +87,52 @@ export default {
       );
     },
     activeConversations() {
-      const conversations = take(this.$store.state.activeConversations, 3);
-      const conversationsIds = conversations.map(
-        element => element.conversationId
-      );
-      conversationsIds.forEach(id => {
-        if (this.opennedConversations[id] === undefined) {
-          this.opennedConversations[id] = false;
-        }
-      });
+      const conversationIds = take(
+        this.$store.state.chat.activeConversations,
+        3
+      )
+        // be sure that conversation exist before add it in the bar
+        .filter(id => this.$store.getters["chat/getConversation"](id));
 
-      return conversations;
+      return conversationIds.map(conversationId => {
+        const conversation = this.$store.getters["chat/getConversation"](
+          conversationId
+        );
+        // get the member who isn't the connected user
+        const receiver = conversation.members.find(
+          member => !this.$store.getters.isCurrentUserMessage(member.id)
+        );
+        const fullName = `${receiver.firstName} ${receiver.lastName}`;
+
+        return {
+          fullName,
+          conversationId,
+          lastMessage: conversation.lastMessage
+        };
+      });
     }
   },
   methods: {
     toggleConversation(id, openState) {
-      const copy = { ...this.opennedConversations };
-      copy[id] = openState;
-      // too trigger change
-      this.opennedConversations = copy;
+      this.opennedConversations[id] = openState;
     },
     deleteConversation(id) {
-      this.$store.commit(REMOVE_CONVERSATION_FROM_BAR, id);
+      this.$store.commit(`chat/${REMOVE_ACTIVE_CONVERSATION}`, id);
     }
   },
-  mounted() {
-    // this.$store.dispatch(`chat/${FETCH_CONVERSATION}`);
+  watch: {
+    activeConversations: {
+      immediate: true,
+      handler(newValue) {
+        newValue.forEach(conversation => {
+          if (
+            this.opennedConversations[conversation.conversationId] === undefined
+          ) {
+            this.opennedConversations[conversation.conversationId] = true;
+          }
+        });
+      }
+    }
   }
 };
 </script>

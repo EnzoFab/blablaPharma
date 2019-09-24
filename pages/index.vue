@@ -222,9 +222,7 @@
 </template>
 
 <script>
-//import ResponsiveParallax from "../components/ResponsiveParallax";
 const ResponsiveParallax = () => import("~/components/ResponsiveParallax");
-//import Contact from "../components/forms/Contact";
 
 const Contact = () => import("~/components/forms/Contact");
 export default {
@@ -234,7 +232,7 @@ export default {
       meta: [
         {
           hid: "Page d'accueil",
-          name: "Home",
+          name: "description",
           content:
             "BlablaPharma permet de mettre en relation des utilisateurs et des pharmaciens"
         }
