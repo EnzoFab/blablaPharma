@@ -98,6 +98,7 @@
                   :id="
                     'conversation' + conversationId + '-message' + message.id
                   "
+                  :isPharmacist="message.authorRole === 'pharmacist'"
                   :picture="message.picture"
                   :embed="embed"
                   :error="message.error"
@@ -173,6 +174,14 @@ export default {
         .map((message, index, currentArray) => {
           const date = this.$moment(message.createdAt);
           const diff = this.$moment().diff(date);
+          const conversationData = this.getConversationData;
+
+          const author = conversationData.members.find(
+            member => member.id === message.author
+          );
+
+          const authorRole = author ? author.role : "unknown";
+
           let dateLabel;
 
           //less than 1 minute
@@ -199,7 +208,7 @@ export default {
                   60 * 3 * 1000
               : false;
 
-          return { ...message, dateLabel, grouped };
+          return { ...message, dateLabel, grouped, authorRole };
         });
     },
 

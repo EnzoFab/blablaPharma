@@ -8,7 +8,7 @@
             :src="content"
             alt="conversation image"
           ></v-img>
-          <v-icon v-else size="25" dark color="green">person_pin</v-icon>
+          <v-icon v-else size="25" dark :color="avatarColor">person_pin</v-icon>
         </v-avatar>
         <span
           :class="{
@@ -86,7 +86,9 @@
                   :src="content"
                   alt="Author image"
                 ></v-img>
-                <v-icon v-else size="38" dark color="green">person_pin</v-icon>
+                <v-icon v-else size="38" dark :color="avatarColor"
+                  >person_pin</v-icon
+                >
               </v-avatar>
               <span
                 :class="{
@@ -168,6 +170,7 @@ export default {
     type: String,
     authorFullName: String,
     authorId: String | Number,
+    isPharmacist: Boolean,
     date: String,
     picture: String,
     embed: { type: Boolean, default: false },
@@ -183,6 +186,9 @@ export default {
   computed: {
     isMessageSent() {
       return this.$store.getters.isCurrentUserMessage(this.authorId);
+    },
+    avatarColor() {
+      return this.isPharmacist ? "green" : "grey";
     }
   },
   methods: {

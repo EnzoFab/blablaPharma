@@ -13,5 +13,6 @@ io.sails.url = api_url;
 io.sails.onlyAllowOrigins = [api_url];
 io.sails.transports = ["polling"];
 io.sails.reconnection = true;
+io.sails.environment = process.env.NODE_ENV || "production";
 
 export const SailSocketWrapper = wrapper(io);
