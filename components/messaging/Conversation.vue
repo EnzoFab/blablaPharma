@@ -218,6 +218,10 @@ export default {
   },
   methods: {
     infiniteHandler($state) {
+      if (this.loading) {
+        $state.loaded();
+        return;
+      }
       // when we scroll on the top of the conversation-message-holder container, load more messages
       const filters = {
         limit: 15,
@@ -298,19 +302,22 @@ export default {
   },
 
   watch: {
-    conversationId() {
-      this.loading = true;
+    conversationId: {
+      immediate: true,
+      handler() {
+        this.loading = true;
 
-      setTimeout(() => {
-        this.loading = false;
-      }, 1500);
+        setTimeout(() => {
+          this.loading = false;
+        }, 1500);
 
-      /*if (this.messagesFromStore.length === 0) {
-        this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
-          conversationId: newValue,
-          filters: { limit: 15, skip: 0 }
-        });
-      }*/
+        /*if (this.messagesFromStore.length === 0) {
+          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+            conversationId: newValue,
+            filters: { limit: 15, skip: 0 }
+          });
+        }*/
+      }
     }
   }
 };

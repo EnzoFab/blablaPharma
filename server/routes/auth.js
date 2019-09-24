@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const moment = require("moment");
+//const moment = require("moment");
 
 /*
 Handle every authentication routes
  */
 
-router.post("/login", (req, res, next) => {
+/*router.post("/login", (req, res, next) => {
   // todo maybe use passport
   const user = {
     userId: "superId",
@@ -31,7 +31,7 @@ router.post("/login", (req, res, next) => {
   res.cookie("accessToken", accessToken);
   res.cookie("userData", JSON.stringify(user));
   res.send({ accessToken, user });
-});
+});*/
 
 router.post("/register", (req, res, next) => {});
 
