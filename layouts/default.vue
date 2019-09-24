@@ -16,11 +16,6 @@
 </template>
 
 <script>
-import smoothscroll from "smoothscroll-polyfill";
-
-// kick off the polyfill!
-smoothscroll.polyfill();
-
 const AppFooter = () => import("~/components/layout/AppFooter");
 //import AppFooter from "~/components/layout/AppFooter";
 const AppNavBar = () => import("~/components/layout/AppNavBar");

@@ -145,7 +145,8 @@ module.exports = {
     "~/plugins/axios",
     "~/plugins/commons",
     "~/plugins/auth",
-    { src: "~plugins/vue-cookie-law.js", ssr: false }
+    { src: "~/plugins/vue-cookie-law.js", ssr: false },
+    { src: "~/plugins/smoothScroll", ssr: false }
   ],
   /*
    ** Nuxt.js modules

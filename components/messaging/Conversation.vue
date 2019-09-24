@@ -58,7 +58,7 @@
               <v-flex xs12>
                 <no-ssr>
                   <infinite-loading
-                    :distance="50"
+                    :distance="infiniteLoaderDistance"
                     direction="top"
                     spinner="waveDots"
                     @infinite="infiniteHandler"
@@ -153,11 +153,15 @@ export default {
   data() {
     return {
       loading: false,
-      isFetching: false
+      infiniteLoadingActivate: false,
+      watcherActivate: true
     };
   },
 
   computed: {
+    infiniteLoaderDistance() {
+      return this.messages.length > 0 ? 50 : -Infinity;
+    },
     getConversationData() {
       return this.$store.getters["chat/getConversation"](this.conversationId);
     },
@@ -218,7 +222,9 @@ export default {
   },
   methods: {
     infiniteHandler($state) {
-      if (this.loading) {
+      // stop the first load
+      if (!this.infiniteLoadingActivate) {
+        this.infiniteLoadingActivate = true;
         $state.loaded();
         return;
       }
@@ -254,9 +260,9 @@ export default {
 
       this.$store.dispatch(`chat/${SEND_MESSAGE}`, message);
 
-      this.$nextTick(() => {
+      /* this.$nextTick(() => {
         this.scrollToMessage(message);
-      });
+      });*/
     },
 
     /**
@@ -264,6 +270,7 @@ export default {
      * @param {object} message
      */
     scrollToMessage(message) {
+      console.log("scrol");
       const option = {
         container: `#conversation${this.conversationId}`,
         force: true,
@@ -305,19 +312,29 @@ export default {
     conversationId: {
       immediate: true,
       handler() {
+        this.infiniteLoadingActivate = false;
         this.loading = true;
 
         setTimeout(() => {
           this.loading = false;
         }, 1500);
-
-        /*if (this.messagesFromStore.length === 0) {
-          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
-            conversationId: newValue,
-            filters: { limit: 15, skip: 0 }
-          });
-        }*/
       }
+    },
+    messages(newValue, oldValue) {
+      if (!newValue.length > 0 && !oldValue) {
+        return;
+      }
+
+      this.$nextTick(() => {
+        // scroll to the end if we receive or send a message
+        const lastNewValue = last(newValue);
+        const lastOldValue = last(oldValue);
+
+        if (!lastOldValue || lastNewValue.id !== lastOldValue.id) {
+          console.log(lastNewValue);
+          this.scrollToMessage(lastNewValue);
+        }
+      });
     }
   }
 };

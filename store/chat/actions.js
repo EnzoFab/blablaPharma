@@ -51,23 +51,34 @@ export default {
   },
 
   [SEND_MESSAGE]: async ({ commit, rootState }, message) => {
-    commit(ADD_MESSAGES, [message]);
+    /*commit(ADD_MESSAGES, [message]);
     commit(UPDATE_CONVERSATION, {
       message,
       conversationId: message.conversation
-    });
+    });*/
 
     try {
       const { type, content, conversation } = message;
-      const { createdAt, id } = await SailSocketWrapper.post(
+      /*const { createdAt, id } = await SailSocketWrapper.post(
+        rootState,
+        `/conversations/${conversation}/messages`,
+        { type, content }
+      ); */
+      const newMessage = await SailSocketWrapper.post(
         rootState,
         `/conversations/${conversation}/messages`,
         { type, content }
       );
-      commit(UPDATE_MESSAGE, {
+
+      commit(ADD_MESSAGES, [newMessage]);
+      commit(UPDATE_CONVERSATION, {
+        newMessage,
+        conversationId: newMessage.conversation
+      });
+      /* commit(UPDATE_MESSAGE, {
         id: message.id,
         newMessageData: { createdAt, id }
-      });
+      });*/
 
       commit(ADD_ACTIVE_CONVERSATIONS, [message.conversation]);
     } catch (e) {
