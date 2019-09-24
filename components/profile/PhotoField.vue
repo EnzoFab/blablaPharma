@@ -71,7 +71,7 @@ export default {
       get() {
         const filePreview =
           this.value && typeof this.value === "object"
-            ? URL.createObjectUR(value)
+            ? URL.createObjectURL(value)
             : null;
         const src = this.value ? this.value : null;
         return filePreview || src;
@@ -80,7 +80,7 @@ export default {
         const file = e.target.files[0];
         if (file.type.includes("image/")) {
           // only accept image
-          this.$emit("input", URL.createObjectURL(file));
+          this.$emit("inputon", URL.createObjectURL(file));
         }
       }
     }

@@ -342,7 +342,7 @@ export default {
         date &&
         this.$moment()
           .add(3, "days")
-          .isSameOrBefore(moment(date))
+          .isSameOrBefore(this.$moment(date))
       );
     },
 
