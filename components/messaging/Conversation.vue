@@ -154,7 +154,7 @@ export default {
     return {
       loading: false,
       infiniteLoadingActivate: false,
-      watcherActivate: true
+      watcherActivated: true
     };
   },
 
@@ -270,7 +270,6 @@ export default {
      * @param {object} message
      */
     scrollToMessage(message) {
-      console.log("scrol");
       const option = {
         container: `#conversation${this.conversationId}`,
         force: true,
@@ -321,20 +320,26 @@ export default {
       }
     },
     messages(newValue, oldValue) {
+      if (!this.watcherActivated) {
+        // to prevent double scroll
+        return;
+      }
+
       if (!newValue.length > 0 && !oldValue) {
         return;
       }
 
-      this.$nextTick(() => {
-        // scroll to the end if we receive or send a message
-        const lastNewValue = last(newValue);
-        const lastOldValue = last(oldValue);
+      // scroll to the end if we receive or send a message
+      const lastNewValue = last(newValue);
+      const lastOldValue = last(oldValue);
 
-        if (!lastOldValue || lastNewValue.id !== lastOldValue.id) {
-          console.log(lastNewValue);
-          this.scrollToMessage(lastNewValue);
-        }
-      });
+      if (!lastOldValue || lastNewValue.id !== lastOldValue.id) {
+        this.watcherActivated = false;
+        this.scrollToMessage(lastNewValue);
+        this.$nextTick(() => {
+          this.watcherActivated = true;
+        });
+      }
     }
   }
 };
