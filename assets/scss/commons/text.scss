@@ -12,10 +12,9 @@
   }
 
   &-content {
-    font-family: roboto-thin, roboto, sans-serif;
-    font-size: 1.2em;
+    font-family: "Helvetica-light", Arial, sans-serif;
+    font-size: 16px;
     font-weight: 400;
-    color: #000000;
   }
 
   &--baseColor {
@@ -27,15 +26,15 @@
   }
 
   &--section {
-    font-family: roboto-thin, roboto, sans-serif;
-    font-size: 1.1rem;
+    font-family: "Helvetica-light", Arial, sans-serif;
+    font-size: 14px;
     text-align: -moz-center;
     line-height: 1.7em;
   }
 
   &--normal {
-    font-family: roboto-thin, roboto, sans-serif;
-    font-size: 1.2rem;
+    font-family: Helvetica, sans-serif;
+    font-size: 12px;
   }
 
   &--tiny {
@@ -51,10 +50,10 @@
   font-size: 3.8vw;
 
   &-main {
-    font: normal normal 400 4vw/1.4em futura-light, light sans-serif;
-    font-size: 4.3vw;
+    font-family: "Helvetica-bold", sans-serif;
+    font-size: 55px;
     line-height: 0.9em;
-    font-weight: 900;
+    // font-weight: 900;
   }
 
   &-main-rail {
@@ -66,19 +65,19 @@
     } */
     line-height: 0.9em;
     letter-spacing: 0.05em;
-    font-family: raleway, sans-serif;
   }
 
   &-section {
-    font-family: raleway, sans-serif;
-    font-size: 5vh;
+    font-family: "Helvetica-bold", sans-serif;
+    font-size: 22px;
     line-height: 1em;
-    font-weight: 900;
+    //font-weight: 900;
 
     &-small {
-      font-family: futura-light, light, Arial, sans-serif;
-      font-size: 3.2vh;
-      font-weight: 500;
+      font-family: Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: $text-color;
       letter-spacing: 0.05em;
     }
 

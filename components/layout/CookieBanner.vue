@@ -23,7 +23,7 @@
             class="px-1"
           >
             <v-btn
-              color="grey darken-3"
+              color="default-grey"
               block
               depressed
               dark
@@ -32,7 +32,7 @@
             >
           </v-flex>
           <v-flex md1 sm3>
-            <v-btn color="grey darken-3" outline block @click="props.close"
+            <v-btn color="default-grey" outline block @click="props.close"
               >Refuser</v-btn
             >
           </v-flex>

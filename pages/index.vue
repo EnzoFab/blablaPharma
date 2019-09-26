@@ -10,9 +10,9 @@
         <v-container fluid>
           <v-layout row wrap>
             <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
-            <v-flex offset-sm5 sm7 xs12>
+            <v-flex offset-sm6 sm6 xs12>
               <v-card class=" pl-2 pt-1 pb-3" flat>
-                <v-card-title class="pa-3">
+                <v-card-title class="pa-2">
                   <h1 class="text--baseColor title-main pt-2 ">
                     <span class="title-main-rail">Votre pharmacien<br /></span>
                     <span class="title-main-rail">en ligne<br /> </span>
@@ -22,13 +22,13 @@
                 </v-card-title>
                 <v-card-text>
                   <span class="text-content text--baseColor"
-                    >Sentez-vous en sécurité avec votre traitement</span
+                    >Une réponse fiable et immédiate</span
                   >
-                  <v-container class="pa-0" fluid grid-list-sm>
+                  <v-container pt-2 pb-0 px-0 ma-0 fluid grid-list-sm>
                     <v-layout row wrap align-center>
                       <v-flex md6 sm12>
                         <v-btn
-                          color="light-green lighten-1"
+                          color="default-green"
                           block
                           ripple
                           small
@@ -41,7 +41,7 @@
                       </v-flex>
                       <v-flex md6 sm12>
                         <v-btn
-                          color="light-green lighten-1"
+                          color="default-green"
                           block
                           ripple
                           small
@@ -49,7 +49,7 @@
                           dark
                           nuxt
                           to="/more"
-                          >En savoir plus</v-btn
+                          >Comment ca marche ?</v-btn
                         >
                       </v-flex>
                     </v-layout>
@@ -62,36 +62,34 @@
       </responsive-parallax>
     </section>
     <section>
-      <v-layout class="py-5 white" align-center>
+      <v-layout class="pt-1 pb-2 white">
         <v-flex xs12>
           <v-container grid-list-xl fluid>
-            <v-layout row wrap align-center class="px-2">
+            <v-layout row wrap class="px-2">
               <v-flex
                 v-for="presentation in presentations"
                 xs12
                 md6
                 lg4
                 :key="presentation.title"
-                ><v-card flat class="transparent">
-                  <v-card-text class="text-xs-center">
+                ><div>
+                  <div class="text-xs-center">
                     <v-avatar tile size="130">
                       <v-img
                         :src="presentation.image"
                         :alt="presentation.alt"
                       ></v-img>
                     </v-avatar>
-                  </v-card-text>
-                  <v-card-text
-                    class="justify-center content-center content-padded"
-                  >
+                  </div>
+                  <div class="content-center content-padded">
                     <h2 class="title-section text--baseColor">
                       {{ presentation.title }}
                     </h2>
                     <div class="text--baseColor text--section mt-3">
                       {{ presentation.description }}
-                    </div></v-card-text
-                  >
-                </v-card></v-flex
+                    </div>
+                  </div>
+                </div></v-flex
               >
             </v-layout>
           </v-container>
@@ -101,38 +99,26 @@
     <section class="mt-0">
       <responsive-parallax
         src="/images/engagement.jpg"
-        :max-height="550"
-        :min-height="500"
+        :max-height="400"
+        :min-height="350"
         class="mt-0 pt-0"
         user-overlay
       >
-        <v-layout hidden-xs-only column align-center class="mt-0 transparent">
-          <v-flex xs12 class="white text-xs-center mt-0 px-2">
-            <div
-              class="text-futura display-2 text-xs-center text--baseColor  px-5 py-2"
-            >
-              NOS ENGAGEMENTS
-            </div>
-          </v-flex>
-        </v-layout>
-        <v-layout hidden-sm-and-up column class="mt-0">
-          <v-flex xs12 class="white text-xs-center mt-0">
-            <div class="text-futura display-2 text-xs-center text--baseColor ">
-              NOS ENGAGEMENTS
-            </div>
-          </v-flex>
-        </v-layout>
-
-        <v-container grid-list-xl fluid class="px-5 mt-2">
-          <v-layout row wrap class="scroll-y content-commonHeight">
+        <v-container grid-list-xl fluid class="px-5 pt-2" fill-height>
+          <v-layout row wrap align-center class="scroll-y content-commonHeight">
             <v-flex
               v-for="engagement in engagements"
-              xs12
+              sm10
               md6
               lg3
+              :offset-sm1="$vuetify.breakpoint.smAndDown"
               :key="engagement.title"
             >
-              <v-card class="pt-5 pb-3" flat height="350">
+              <v-card
+                class="pt-5 pb-1"
+                flat
+                :height="$vuetify.breakpoint.smAndDown ? 280 : 300"
+              >
                 <v-card-text class="text-xs-center mt-1 pb-1">
                   <v-icon medium class="text--baseColor">{{
                     engagement.icon
@@ -147,10 +133,10 @@
                 </v-card-title>
                 <hr class="divider divider-dark" />
                 <v-card-text>
-                  <div class="text--baseColor text-content">
+                  <div class="text--baseColor text--section">
                     {{ engagement.firstParagraph }}
                   </div>
-                  <div class="mt-3 text-content text--baseColor">
+                  <div class="mt-3 text--section text--baseColor">
                     {{ engagement.secondParagrah }}
                   </div>
                 </v-card-text>
@@ -195,7 +181,7 @@
             </h2>
 
             <v-btn
-              color="light-green lighten-1"
+              color="default-green"
               ripple
               depressed
               dark
@@ -207,16 +193,6 @@
           </v-flex>
         </v-layout>
       </v-container>
-    </section>
-    <section>
-      <responsive-parallax
-        src="/images/contact.jpg"
-        :min-height="700"
-        :max-height="700"
-        user-overlay
-      >
-        <contact></contact>
-      </responsive-parallax>
     </section>
   </div>
 </template>
@@ -255,7 +231,7 @@ export default {
           alt: "icone fiabilité",
           title: "Des réponses fiables",
           description:
-            "et personnalisées à vos questions grâce à un service de messagerie instantanée."
+            "Et personnalisées à vos questions grâce à un service de messagerie instantanée."
         },
         {
           image: "/images/articles-icon.png",

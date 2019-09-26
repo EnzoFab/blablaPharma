@@ -46,7 +46,7 @@
                   type="submit"
                   large
                   block
-                  color="blue-grey lighten-1"
+                  color="default-grey"
                   dark
                   :loading="loading"
                   >Mettre à jour</v-btn

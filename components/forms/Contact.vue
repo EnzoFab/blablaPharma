@@ -78,7 +78,7 @@
                       style="float: right"
                       dark
                       depressed
-                      color="light-green lighten-1"
+                      color="default-green"
                       class="mt-0"
                       :disabled="!valid"
                       type="submit"

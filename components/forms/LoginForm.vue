@@ -66,7 +66,7 @@
                   large
                   :block="padded"
                   depressed
-                  color="blue-grey lighten-1"
+                  color="default-grey"
                   dark
                   type="submit"
                   :disabled="!formValid"
@@ -127,7 +127,7 @@
               <v-btn
                 large
                 block
-                color="blue-grey lighten-1"
+                color="default-grey"
                 dark
                 depressed
                 class="mt-4"

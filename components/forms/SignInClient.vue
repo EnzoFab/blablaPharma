@@ -160,7 +160,7 @@
             type="submit"
             large
             block
-            color="blue-grey lighten-1"
+            color="default-grey"
             dark
             :loading="loading"
             >{{ submitButtonText }}</v-btn
@@ -213,8 +213,7 @@ export default {
     },
     dateFr() {
       return this.fields.birthDayDate
-        ? this.$moment(this.fields.birthDayDate)
-          .format("Do MMMM YYYY")
+        ? this.$moment(this.fields.birthDayDate).format("Do MMMM YYYY")
         : "";
     },
 

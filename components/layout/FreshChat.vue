@@ -27,7 +27,9 @@ export default {
         return true;
       }
 
-      window.fcWidget.destroy();
+      if (window.fcWidget) {
+        window.fcWidget.destroy();
+      }
 
       return false;
     }

@@ -2,7 +2,7 @@
   <div>
     <cookie-banner />
     <v-footer dark height="auto">
-      <div class="footer text-futura">
+      <div class="footer text--section">
         <v-container grid-list-xs fluid>
           <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp">
             <v-flex
@@ -21,8 +21,9 @@
               <div
                 v-for="element in leftSectionElements"
                 :class="{
-                  'mb-2 title-section-small text-futura': true,
-                  'text-xs-center': $vuetify.breakpoint.xs
+                  'mb-2': true,
+                  'text-xs-center': $vuetify.breakpoint.xs,
+                  'text-xs-left': !$vuetify.breakpoint.xs
                 }"
               >
                 <nuxt-link
@@ -53,42 +54,36 @@
                   class="blabla-logo--small"
                 />
 
-                <div
-                  class="text-xs-center title-section-small text-futura white--text"
-                >
+                <div class="text-xs-center  white--text">
                   La plateforme qui vous permet de discuter directement avec un
                   pharmacien proche de chez vous !
                 </div>
               </div>
-              <div class="text-xs-center title-section-small text-futura">
+              <div class="text-xs-center">
                 <hr class="divider my-2" />
-                <div class="pt-2">+33 (0)6 37 39 85 43</div>
                 <a
                   href="mailto:contact@blablapharma.fr"
                   class="white--text text-no-decoration"
                   >contact@blablapharma.fr</a
                 >
-                <div class="pt-3">
+                <v-container class="pt-3">
                   <span v-for="icon in icons" :key="icon.name" class="pr-3">
                     <v-icon large>fab fa-{{ icon.name }}</v-icon>
                   </span>
-                </div>
+                </v-container>
               </div>
             </v-flex>
             <v-flex
               sm3
               xs12
               :class="{
-                'mb-2 title-section-small text-futura': true,
+                'mb-2': true,
                 'text-xs-center pt-4': $vuetify.breakpoint.xs,
                 'text-xs-right': $vuetify.breakpoint.smAndUp
               }"
               :pr-5="$vuetify.breakpoint.smAndUp"
             >
-              <div
-                v-for="element in rightSectionElements"
-                class="mb-2 title-section-small text-futura"
-              >
+              <div v-for="element in rightSectionElements" class="mb-2">
                 <nuxt-link
                   v-if="element.nuxtLink"
                   :to="element.href"
@@ -126,7 +121,6 @@ export default {
       icons: [
         { name: "facebook-f", href: "" },
         { name: "instagram", href: "" },
-        { name: "linkedin-in", href: "" },
         { name: "youtube", href: "" }
       ],
       leftSectionElements: [

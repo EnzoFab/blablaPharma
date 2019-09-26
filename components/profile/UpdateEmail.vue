@@ -39,7 +39,7 @@
               block
               depressed
               type="submit"
-              color="blue-grey lighten-1"
+              color="default-grey"
               dark
               >Mettre à jour</v-btn
             >

@@ -102,7 +102,7 @@
                 <v-btn
                   large
                   block
-                  color="blue-grey lighten-1"
+                  color="default-grey"
                   dark
                   depressed
                   :loading="loading"

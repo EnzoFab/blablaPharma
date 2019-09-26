@@ -2,7 +2,7 @@
   <div>
     <template v-if="embed">
       <div v-if="!hideAuthorName">
-        <v-avatar color="light-grey" size="25">
+        <v-avatar color="default-grey" size="25">
           <v-img
             v-if="type === 'image'"
             :src="content"
@@ -80,7 +80,7 @@
             pa-0
           >
             <template v-if="!hideAuthorName">
-              <v-avatar color="light-grey" size="40">
+              <v-avatar color="light-grey lighten-4" size="40">
                 <v-img
                   v-if="type === 'picture'"
                   :src="content"
@@ -188,7 +188,7 @@ export default {
       return this.$store.getters.isCurrentUserMessage(this.authorId);
     },
     avatarColor() {
-      return this.isPharmacist ? "green" : "grey";
+      return this.isPharmacist ? "default-green" : "default-grey";
     }
   },
   methods: {

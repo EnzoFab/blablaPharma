@@ -11,7 +11,7 @@
         </v-avatar>
       </div>
 
-      <div class="content-center" style="background-color: #C9DB82" v-else>
+      <div class="content-center default-green" v-else>
         <v-avatar color="transparent" :size="size">
           <v-icon v-if="!image" :size="size" color="white"
             >person_pin</v-icon
@@ -45,13 +45,7 @@
         </div>
       </div>
       <div class="pa-1 pt-2">
-        <v-btn
-          block
-          dark
-          depressed
-          large
-          color="light-green lighten-1"
-          @click="contact"
+        <v-btn block dark depressed large color="default-green" @click="contact"
           >Contacter</v-btn
         >
       </div>

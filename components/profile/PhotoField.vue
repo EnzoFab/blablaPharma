@@ -62,9 +62,9 @@ export default {
     avatarColor() {
       return !this.$vuetify.breakpoint.smAndDown
         ? this.isPharmacist
-          ? "green"
-          : "grey"
-        : "grey lighten-5";
+          ? "default-green"
+          : "default-grey"
+        : "default-grey";
     },
 
     imageSrc: {

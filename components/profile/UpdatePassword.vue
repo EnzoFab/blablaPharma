@@ -39,13 +39,7 @@
           ></v-text-field>
         </v-flex>
         <v-flex pt-0 mt-0 offset-md4 md4 offset-sm2 sm8 class="content-center">
-          <v-btn
-            large
-            block
-            depressed
-            type="submit"
-            color="blue-grey lighten-1"
-            dark
+          <v-btn large block depressed type="submit" color="default-grey" dark
             >Modifier mot de passe
           </v-btn>
         </v-flex>

@@ -77,7 +77,7 @@
                       block
                       depressed
                       dark
-                      color="green"
+                      color="default-green"
                       @click="confirmDialog(pharmacist, 'validate')"
                       >Valider inscription</v-btn
                     >

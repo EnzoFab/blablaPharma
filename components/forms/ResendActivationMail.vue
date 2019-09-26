@@ -39,7 +39,7 @@
                 type="submit"
                 block
                 depressed
-                color="light-green lighten-1"
+                color="default-grey"
                 >Renvoyer mail d'activation</v-btn
               >
             </v-flex>

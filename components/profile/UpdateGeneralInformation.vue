@@ -125,13 +125,7 @@
           </v-container>
         </v-flex>
         <v-flex offset-md4 md4 offset-sm2 sm8 class="content-center">
-          <v-btn
-            block
-            large
-            depressed
-            dark
-            color="blue-grey lighten-1"
-            type="submit"
+          <v-btn block large depressed dark color="default-grey" type="submit"
             >Mettre à jour</v-btn
           >
         </v-flex>

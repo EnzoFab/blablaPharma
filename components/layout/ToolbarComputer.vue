@@ -7,22 +7,21 @@
       flat
       scroll-off-screen
       color="white"
-      class="px-2 py-2"
+      class="pl-5 py-2"
     >
-      <v-toolbar-title class="pl-1">
+      <v-spacer></v-spacer>
+      <v-toolbar-title class="pl-5 ml-2">
         <blablapharma-logo />
       </v-toolbar-title>
-      <v-spacer></v-spacer>
       <v-toolbar-items>
         <template v-for="item in items">
           <nuxt-link
             v-if="item.isLink"
             :class="{
               'no-outline': true,
+              'font-weight-bold': isActive(item.nuxtLink),
               'text--baseColor': true,
-              'px-4': !item.spacerBefore,
-              'pl-5': item.spacerBefore,
-              'ml-5': item.spacerBefore
+              'px-3': !item.spacerBefore
             }"
             :to="item.nuxtLink"
             tag="button"
@@ -76,14 +75,17 @@
 </template>
 
 <script>
-import BlablapharmaLogo from "./BlablapharmaLogo";
+const BlablapharmaLogo = () => import("./BlablapharmaLogo");
 export default {
   name: "ToolbarComputer",
   components: { BlablapharmaLogo },
   props: {
     items: Array
+  },
+  methods: {
+    isActive(nuxtLink) {
+      return this.$route.path === nuxtLink;
+    }
   }
 };
 </script>
-
-<style scoped></style>

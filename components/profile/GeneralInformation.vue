@@ -12,7 +12,7 @@
         }"
       >
         <v-avatar
-          :color="pharmacistData ? 'green' : 'grey'"
+          :color="pharmacistData ? 'default-green' : 'default-grey'"
           :size="$vuetify.breakpoint.smAndDown ? 120 : 200"
           tile
         >
@@ -156,8 +156,7 @@ export default {
   },
   methods: {
     format(date) {
-      return this.$moment(date)
-      .format("Do MMMM YYYY");
+      return this.$moment(date).format("Do MMMM YYYY");
     }
   }
 };
