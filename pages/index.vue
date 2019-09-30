@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import BlogHomeSection from "../components/BlogHomeSection";
+const BlogHomeSection = () => import("~/components/BlogHomeSection");
 const ResponsiveParallax = () => import("~/components/ResponsiveParallax");
 
 const Contact = () => import("~/components/forms/Contact");
@@ -189,7 +189,7 @@ export default {
           alt: "icone réseau",
           title: "Un réseau de pharmaciens",
           description:
-            "Soucieux de votre santé et prêt à vous accompagner sur votre traitement ou vos pathologies."
+            "Soucieux de votre santé et prêts à vous accompagner sur votre traitement ou vos pathologies."
         },
         {
           image: "/images/fiability-icon.png",

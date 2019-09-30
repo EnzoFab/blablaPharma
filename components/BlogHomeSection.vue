@@ -1,7 +1,7 @@
 <template>
   <v-container fluid grid-list-md>
-    <v-layout row wrap pb-3>
-      <v-flex xs12 class="content-center text--baseColor" pb-4>
+    <v-layout row wrap pb-3 class="content-center">
+      <v-flex xs12 class=" text--baseColor" pb-4>
         <h1 class="title-main">BLOG</h1>
         <span class="text-content"
           >bien s'informer grâce à un contenu claire et ludique</span
