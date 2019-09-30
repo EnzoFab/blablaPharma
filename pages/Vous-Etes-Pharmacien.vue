@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-img
-                src="/images/faq-banneer.jpg"
+                src="/images/pharma.jpg"
                 aspect-ratio="2.35"
                 gradient="to top right, rgba(150,150,150,0.12), rgba(220,230,130,.14)"
                 alt="Foire aux questions"
@@ -19,8 +19,20 @@
         </v-img>
         <div class="container">
             <v-card style="margin-top: 2%; margin-bottom: 2%">
-                <v-card-title style="font-size: 2em">lorem ipsum dolor sit amet consectetur adipiscing elit ?</v-card-title>
-                <v-card-text>lorem ipsum dolor sit amet consectetur adipiscing elitlorem ipsum dolor sit amet consectetur adipiscing elitlorem ipsum dolor sit amet consectetur adipiscing elitlorem ipsum dolor sit amet consectetur adipiscing elitlorem ipsum dolor sit amet consectetur adipiscing elitlorem ipsum dolor sit amet consectetur adipiscing elit</v-card-text>
+                <v-card-title style="font-size: 2em">Vous êtes pharmaciens et vous exercez en officine ?</v-card-title>
+                <v-card-text style="font-size: 1.25em">
+                    <p>Parce qu’être pharmacien c’est bien plus que vendre des boites !</p>
+                    <p>En vous inscrivant sur blablapharma, vous permettez à des millier de patients d’avoir accès à des informations fiables et d’éviter les erreurs médicamenteuses.</p>
+                    <p>La prévention et l’éducation thérapeutique sont des activités à forte valeur ajoutée de notre profession. BlaBlaPHARMA vous permet d’en faire davantage pour votre patient.</p>
+                    <p>Etre disponible à distance renforce la relation de confiance que nous construisons au jour le jour et permet d’avoir un suivi optimal de l’état de santé de nos patients.</p>
+                </v-card-text>
+            </v-card>
+            <v-card style="margin-top: 2%; margin-bottom: 2%">
+                <v-card-title style="font-size: 2em">Vous êtes pharmaciens et vous recherchez un poste ?</v-card-title>
+                <v-card-text style="font-size: 1.25em">
+                    <p>Rejoignez-nous ! Nous recrutons en interne pour assurer la continuité des réponses lorsque nos confrères pharmaciens ne sont pas disponibles !</p>
+                    <p>Vous pourrez travailler de chez vous ou depuis nos locaux dans une ambiance de partage et de convivialité.</p>
+                </v-card-text>
             </v-card>
         </div>
     </div>
