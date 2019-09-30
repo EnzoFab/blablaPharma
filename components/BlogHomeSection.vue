@@ -8,7 +8,7 @@
         >
       </v-flex>
       <v-flex xs1></v-flex>
-      <v-flex v-for="post in posts" :key="post.title" xs3>
+      <v-flex v-for="post in posts" :key="post.title" lg3 md12 pb-3>
         <v-card
           flat
           :href="post.href"
