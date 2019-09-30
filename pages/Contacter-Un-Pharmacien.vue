@@ -1,17 +1,17 @@
 <template>
   <div>
     <v-img
-      src="/images/contact-pharmacist.jpg"
+      src="/images/contact.jpg"
       aspect-ratio="2.35"
-      gradient="to top right, rgba(150,150,150,0.12), rgba(220,230,130,.14)"
+      gradient="to top right, rgba(150,150,150,0.25), rgba(220,230,130,.30)"
       alt="Contacter un pharmacien image de présentation"
     >
       <v-container fluid fill-height>
         <v-layout row wrap align-center>
           <v-flex xs12>
-            <div class="content-center title-main">
+            <div class="content-center  title-main">
               <span class="title-section-huge blue-grey--text text--darken-4"
-                >Contacter un pharmacien</span
+                >CONTACTER UN PHARMACIEN</span
               >
               <hr class="divider divider-large mt-3 blue-grey darken-4" />
             </div>

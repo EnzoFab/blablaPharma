@@ -7,7 +7,7 @@
         :max-height="500"
         user-overlay
       >
-        <v-container fluid>
+        <v-container>
           <v-layout row wrap>
             <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
             <v-flex offset-sm6 sm6 xs12>
@@ -146,52 +146,7 @@
       </responsive-parallax>
     </section>
     <section>
-      <v-container fluid grid-list-xl class="py-1 mb-4 pt-5">
-        <v-layout row wrap algin-center class="pt-3">
-          <v-flex sm5 xs12>
-            <v-img src="/images/contact.jpg" alt="Contact image">
-              <div class="overlay">
-                <v-container bg fill-height grid-list-md text-xs-center>
-                  <v-layout row wrap align-center>
-                    <v-flex offset-xs3 xs6>
-                      <v-icon
-                        size="125"
-                        color="lime lighten-1"
-                        class="content-pointer"
-                        @click="$router.push({ path: '/blog' })"
-                        >play_circle_filled</v-icon
-                      >
-                    </v-flex>
-                  </v-layout>
-                </v-container>
-              </div>
-            </v-img>
-          </v-flex>
-          <v-flex sm7 xs12>
-            <h2 class="title-main-rail">
-              <span
-                class="title-main-rail title-main text--baseColor hidden-xs-only"
-              >
-                Retrouvez des vidéos utiles à votre traitement
-              </span>
-              <span class="title-section text--baseColor hidden-sm-and-up">
-                Retrouvez des vidéos utiles à votre traitement
-              </span>
-            </h2>
-
-            <v-btn
-              color="default-green"
-              ripple
-              depressed
-              dark
-              class="mt-5"
-              nuxt
-              to="/blog"
-              >visiter le blog</v-btn
-            >
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <blog-home-section />
     </section>
     <section>
       <responsive-parallax
@@ -207,6 +162,7 @@
 </template>
 
 <script>
+import BlogHomeSection from "../components/BlogHomeSection";
 const ResponsiveParallax = () => import("~/components/ResponsiveParallax");
 
 const Contact = () => import("~/components/forms/Contact");
@@ -224,7 +180,7 @@ export default {
       ]
     };
   },
-  components: { Contact, ResponsiveParallax },
+  components: { BlogHomeSection, Contact, ResponsiveParallax },
   data() {
     return {
       presentations: [

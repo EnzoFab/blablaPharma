@@ -2,7 +2,7 @@
   <v-card flat color="grey lighten-5">
     <v-container fluid grid-list-xs fill-height>
       <v-layout row wrap align-center>
-        <v-flex md12 lg4 class="content-center">
+        <v-flex md12 lg4 class="content-center" pb-1>
           <v-avatar :size="size" v-if="image">
             <v-img
               aspect-ratio="2.75"
@@ -13,8 +13,9 @@
 
           <v-icon v-else :size="size" color="default-green">person_pin</v-icon>
         </v-flex>
-        <v-flex md12 lg6 pa-0 ma-0>
-          <div class="text--baseColor  pt-4 text--section">
+        <v-flex md12 lg6 pa-0 ma-0 class="text--baseColor">
+          <h2 class="title-section">{{ fullName }}</h2>
+          <div class="text--section pt-2">
             <v-icon color="light-green lighten-4">fas fa-venus-mars</v-icon>
             <span class="pl-2">{{ pharmacistGender }}</span>
             <div>
