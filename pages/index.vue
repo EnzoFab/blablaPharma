@@ -24,9 +24,9 @@
                   <span class="text-content text--baseColor"
                     >Une réponse fiable et immédiate</span
                   >
-                  <v-container pt-2 pb-0 px-0 ma-0 fluid grid-list-sm>
+                  <v-container pt-2 pb-0 px-0 ma-0 fluid grid-list-md>
                     <v-layout row wrap align-center>
-                      <v-flex md6 sm12>
+                      <v-flex md5 sm12 offset-md1>
                         <v-btn
                           color="default-green"
                           block
@@ -39,7 +39,7 @@
                           >Contacter un pharmacien</v-btn
                         >
                       </v-flex>
-                      <v-flex md6 sm12>
+                      <v-flex md5 sm12>
                         <v-btn
                           color="default-green"
                           block
@@ -193,6 +193,16 @@
           </v-flex>
         </v-layout>
       </v-container>
+    </section>
+    <section>
+      <responsive-parallax
+        src="/images/contact.jpg"
+        :min-height="700"
+        :max-height="700"
+        user-overlay
+      >
+        <contact></contact>
+      </responsive-parallax>
     </section>
   </div>
 </template>

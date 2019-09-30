@@ -1,56 +1,50 @@
 <template>
-  <div>
-    <v-card flat>
-      <div class="content-center" v-if="image">
-        <v-avatar :size="size">
-          <v-img
-            aspect-ratio="2.75"
-            :src="image"
-            alt="Photo du pharmaciens"
-          ></v-img>
-        </v-avatar>
-      </div>
+  <v-card flat color="grey lighten-5">
+    <v-container fluid grid-list-xs fill-height>
+      <v-layout row wrap align-center>
+        <v-flex md12 lg4 class="content-center">
+          <v-avatar :size="size" v-if="image">
+            <v-img
+              aspect-ratio="2.75"
+              :src="image"
+              alt="Photo du pharmaciens"
+            ></v-img>
+          </v-avatar>
 
-      <div class="content-center default-green" v-else>
-        <v-avatar color="transparent" :size="size">
-          <v-icon v-if="!image" :size="size" color="white"
-            >person_pin</v-icon
-          ></v-avatar
-        >
-      </div>
-      <h3 class="text-xs-center pl-4 pt-2 text--baseColor title-section-huge">
-        {{ fullName }}
-      </h3>
-      <div class="text--baseColor pl-3 pt-4">
-        <span class="font-weight-bold">Sexe :</span>
-        <span class="pl-2">{{ pharmacistGender }}</span>
-        <div>
-          <span class=" font-weight-bold ">Statut : </span>
-          <span class="text-capitalize pl-2 title-section-small">
-            {{ pharmacistStatus }}
-          </span>
-        </div>
+          <v-icon v-else :size="size" color="default-green">person_pin</v-icon>
+        </v-flex>
+        <v-flex md12 lg6 pa-0 ma-0>
+          <div class="text--baseColor  pt-4 text--section">
+            <v-icon color="light-green lighten-4">fas fa-venus-mars</v-icon>
+            <span class="pl-2">{{ pharmacistGender }}</span>
+            <div>
+              <v-icon color="light-green lighten-4">fas fa-user-md</v-icon>
+              <span class="text-capitalize pl-2">
+                {{ pharmacistStatus }}
+              </span>
+            </div>
 
-        <div>
-          <span class=" font-weight-bold ">Adresse de la pharmacie : </span>
-          <span class="text-capitalize pl-2 title-section-small">
-            {{ fullAddress }}
-          </span>
-        </div>
-        <div>
-          <span class="font-weight-bold ">Nom de la pharmacie : </span>
-          <span class="text-capitalize pl-2 title-section-small">{{
-            workplace
-          }}</span>
-        </div>
-      </div>
-      <div class="pa-1 pt-2">
-        <v-btn block dark depressed large color="default-green" @click="contact"
-          >Contacter</v-btn
-        >
-      </div>
-    </v-card>
-  </div>
+            <div>
+              <v-icon color="light-green lighten-4"
+                >fas fa-map-marker-alt</v-icon
+              >
+              <span class="text-capitalize pl-2 ">
+                {{ fullAddress }}
+              </span>
+            </div>
+
+            <v-icon color="light-green lighten-4">home_work</v-icon>
+            <span class="text-capitalize pl-2">{{ workplace }}</span>
+          </div>
+        </v-flex>
+        <v-flex lg2 md8 :offset-md2="$vuetify.breakpoint.mdAndDown">
+          <v-btn block dark depressed color="default-green" @click="contact"
+            >Contacter</v-btn
+          >
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -71,7 +65,7 @@ export default {
       return `${this.firstName} ${this.lastName}`;
     },
     size() {
-      return this.$vuetify.breakpoint.xs ? 55 : 90;
+      return this.$vuetify.breakpoint.mdAndUp ? 140 : 105;
     },
     pharmacistGender() {
       switch (this.gender) {

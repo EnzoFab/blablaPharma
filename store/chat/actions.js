@@ -72,8 +72,8 @@ export default {
 
       commit(ADD_MESSAGES, [newMessage]);
       commit(UPDATE_CONVERSATION, {
-        newMessage,
-        conversationId: newMessage.conversation
+        message: newMessage,
+        conversationId: conversation
       });
       /* commit(UPDATE_MESSAGE, {
         id: message.id,

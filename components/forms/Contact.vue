@@ -5,19 +5,19 @@
         <v-card flat>
           <v-card-title class="pt-1">
             <div class="title-main text--baseColor content-center">
-              <span class="title-main-rail">Pour aller plus loin</span>
+              <span class="title-main-rail">Nous contacter</span>
             </div>
           </v-card-title>
           <v-card-text style="height: 85%" class="scroll-y">
             <div class="content-center text--baseColor">
               <div class="text--section">
-                Vous voulez en savoir plus sur l'aventure
+                Des remarques, des améliorations à suggérer
               </div>
               <div class="text--section">
-                BlaBlaPHARMA N'hésitez pas à vous abonner à la
+                Votre pharmacien pas encore inscrit ?
               </div>
               <div class="text--section">
-                newsletter pour être informé
+                Faites le nous savoir par ici
               </div>
               <div class="content-center mt-2">
                 <a

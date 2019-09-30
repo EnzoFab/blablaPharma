@@ -6,14 +6,16 @@
       gradient="to top right, rgba(150,150,150,0.12), rgba(220,230,130,.14)"
       alt="Contacter un pharmacien image de présentation"
     >
-      <v-container bg fluid fill-height>
+      <v-container fluid fill-height>
         <v-layout row wrap align-center>
-          <div class="content-center title-main">
-            <span class="title-section-huge blue-grey--text text--darken-4"
-              >Contacter un pharmacien</span
-            >
-            <hr class="divider divider-large mt-3 blue-grey darken-4" />
-          </div>
+          <v-flex xs12>
+            <div class="content-center title-main">
+              <span class="title-section-huge blue-grey--text text--darken-4"
+                >Contacter un pharmacien</span
+              >
+              <hr class="divider divider-large mt-3 blue-grey darken-4" />
+            </div>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-img>

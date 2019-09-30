@@ -273,8 +273,8 @@ export default {
       const option = {
         container: `#conversation${this.conversationId}`,
         force: true,
-        easing: "ease-in",
-        offset: -60
+        easing: "linear"
+        // offset: -60
       };
       this.$scrollTo(
         `#conversation${this.conversationId}-message${message.id}`,
@@ -333,12 +333,15 @@ export default {
       const lastNewValue = last(newValue);
       const lastOldValue = last(oldValue);
 
-      if (!lastOldValue || lastNewValue.id !== lastOldValue.id) {
+      if (
+        newValue.length === oldValue.length ||
+        !lastOldValue ||
+        lastNewValue.id !== lastOldValue.id
+      ) {
         this.watcherActivated = false;
         this.scrollToMessage(lastNewValue);
-        this.$nextTick(() => {
-          this.watcherActivated = true;
-        });
+
+        this.$nextTick(() => (this.watcherActivated = true));
       }
     }
   }

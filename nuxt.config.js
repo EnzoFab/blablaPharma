@@ -160,7 +160,7 @@ module.exports = {
     "@nuxtjs/proxy",
 
     "@nuxtjs/pwa",
-    ["vue-scrollto/nuxt", { duration: 300 }],
+    ["vue-scrollto/nuxt", { duration: 150 }],
     "@nuxtjs/dotenv"
   ],
 

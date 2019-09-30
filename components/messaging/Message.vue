@@ -2,7 +2,7 @@
   <div>
     <template v-if="embed">
       <div v-if="!hideAuthorName">
-        <v-avatar color="default-grey" size="25">
+        <v-avatar color="light-grey lighten-4" size="25">
           <v-img
             v-if="type === 'image'"
             :src="content"
