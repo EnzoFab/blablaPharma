@@ -38,7 +38,7 @@
             <span class="text-capitalize pl-2">{{ workplace }}</span>
           </div>
         </v-flex>
-        <v-flex lg2 md8 :offset-md2="$vuetify.breakpoint.mdAndDown">
+        <v-flex lg2 md8>
           <v-btn block dark depressed color="default-green" @click="contact"
             >Contacter</v-btn
           >
