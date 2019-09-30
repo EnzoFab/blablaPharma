@@ -111,7 +111,6 @@
               sm10
               md6
               lg3
-              :offset-sm1="$vuetify.breakpoint.smAndDown"
               :key="engagement.title"
             >
               <v-card
