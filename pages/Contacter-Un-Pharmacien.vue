@@ -8,11 +8,13 @@
     >
       <v-container pt-5 fill-height>
         <v-layout align-center>
-          <v-flex xs12 class="content-center title-main">
-            <span class="title-section-huge blue-grey--text text--darken-4"
-              >CONTACTER UN PHARMACIEN</span
-            >
-            <hr class="divider divider-large mt-3 blue-grey darken-4" />
+          <v-flex xs12>
+            <div class="content-center title-main">
+              <span class="title-section-huge blue-grey--text text--darken-4"
+                >CONTACTER UN PHARMACIEN</span
+              >
+              <hr class="divider divider-large mt-3 blue-grey darken-4" />
+            </div>
           </v-flex>
         </v-layout>
       </v-container>
