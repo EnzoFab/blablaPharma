@@ -12,8 +12,8 @@
         <div
           v-show="!signInType"
           :class="{
-            'title-main title-main-rail content-align-top': !smallScreen,
-            'headline text-futura content-align-middle': smallScreen,
+            'title-main title-main-rail content-align-top': !smallScreen(),
+            'headline text-futura content-align-middle': smallScreen(),
             'text--baseColor mt-2 content-align content-align-center white': true
           }"
         >
@@ -34,7 +34,7 @@
           >
             <v-container fill-height fluid>
               <v-layout row wrap align-center>
-                <v-flex xs12 class="content-center mx-5">
+                <v-flex mx-2>
                   <v-btn
                     v-show="!signInType"
                     depressed
@@ -45,7 +45,7 @@
                   >
                   <div
                     v-show="isClient"
-                    class="title-section-small text-futura white text--baseColor"
+                    class="text-xs-center text--section white text--baseColor"
                   >
                     Patient
                   </div>
@@ -67,7 +67,7 @@
           >
             <v-container fluid fill-height>
               <v-layout row wrap align-center>
-                <v-flex xs12 class="content-center mx-5">
+                <v-flex mx-2>
                   <v-btn
                     v-if="!isPharmacist"
                     depressed
@@ -80,7 +80,7 @@
                   </v-btn>
                   <div
                     v-else
-                    class="title-section-small text-futura white text--baseColor"
+                    class="text-xs-center text--section white text--baseColor"
                   >
                     Pharmacien
                   </div>
@@ -169,13 +169,10 @@ export default {
         return 240;
       }
 
-      if (this.$vuetify.breakpoint.sm) {
-        return 360;
+      if (this.$vuetify.breakpoint.mdAndDown) {
+        return 450;
       }
       return 600;
-    },
-    smallScreen() {
-      return this.$vuetify.breakpoint.mdAndDown;
     },
 
     isClient() {
@@ -187,6 +184,10 @@ export default {
     }
   },
   methods: {
+    smallScreen() {
+      return this.$vuetify.breakpoint.smAndDown;
+    },
+
     async signIn(data) {
       this.loading = true;
       this.errorMessage = null;
