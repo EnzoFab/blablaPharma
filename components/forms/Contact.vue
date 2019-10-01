@@ -96,7 +96,8 @@
 </template>
 
 <script>
-export default {
+
+  export default {
   name: "Contact",
   data() {
     return {
@@ -122,15 +123,19 @@ export default {
     };
   },
   methods: {
+    submit () {
+      if (this.$vuelidation.valid()) {
+
+        return false
+      }
+    },
     send() {
       if (this.$refs.form.validate()) {
-        // todo Thibaut handle contact
-        const contact = {
-          name: this.name,
-          mail: this.mail,
-          subject: this.subject,
-          message: this.message
-        };
+        this.$axios.post("/contact", { email: this.mail, subject: this.subject, name: this.name, message: this.message }).then(response => {
+            //console.log('SUCCESS!', response.status, response.text);
+          }, (err) => {
+            console.log('FAILED...', err);
+          });
       }
     }
   }

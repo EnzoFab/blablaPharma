@@ -131,6 +131,7 @@
 import to from "await-to-js";
 import last from "lodash.last";
 import head from "lodash.head";
+import debounce from "lodash.debounce";
 
 import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
 const InfiniteLoading = () => import("vue-infinite-loading");
@@ -276,6 +277,7 @@ export default {
         easing: "linear"
         // offset: -60
       };
+
       this.$scrollTo(
         `#conversation${this.conversationId}-message${message.id}`,
         300,
@@ -319,7 +321,7 @@ export default {
         }, 1500);
       }
     },
-    messages(newValue, oldValue) {
+    messagesFromStore: debounce(function(newValue, oldValue) {
       if (!this.watcherActivated) {
         // to prevent double scroll
         return;
@@ -334,16 +336,16 @@ export default {
       const lastOldValue = last(oldValue);
 
       if (
-        newValue.length === oldValue.length ||
+        // oldValue.length !== newValue.length &&
         !lastOldValue ||
         lastNewValue.id !== lastOldValue.id
       ) {
         this.watcherActivated = false;
         this.scrollToMessage(lastNewValue);
 
-        this.$nextTick(() => (this.watcherActivated = true));
+        this.watcherActivated = true;
       }
-    }
+    }, 50)
   }
 };
 </script>

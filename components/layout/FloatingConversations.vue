@@ -79,6 +79,10 @@ export default {
       if (this.$store.getters.isLoggedIn) {
         this.$store.dispatch(`chat/${FETCH_CONVERSATION}`);
       }
+
+      if (this.$vuetify.breakpoint.smAndDown) {
+        return false;
+      }
       // only show if the user is connected and if we are not on messages page
       return (
         this.$store.getters.isLoggedIn &&

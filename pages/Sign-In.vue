@@ -175,7 +175,7 @@ export default {
       return 600;
     },
     smallScreen() {
-      return this.$vuetify.breakpoint.xs;
+      return this.$vuetify.breakpoint.mdAndDown;
     },
 
     isClient() {

@@ -125,10 +125,13 @@ export default {
       ],
       leftSectionElements: [
         { text: "Qui sommes nous ?", href: "/more", nuxtLink: true },
-        { text: "Vous êtes pharmacien ?", href: "" },
-        { text: "Vous êtes journaliste ?", href: "" },
+        {
+          text: "Vous êtes pharmacien ?",
+          href: "/vous-etes-pharmacien",
+          nuxtLink: true
+        },
         { text: "Blog", href: "/blog", nuxtLink: true },
-        { text: "F.A.Q", href: "" },
+        { text: "F.A.Q", href: "/faq" },
         { text: "Contact", href: "" }
       ],
       rightSectionElements: [
