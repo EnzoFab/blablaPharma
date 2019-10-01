@@ -34,7 +34,7 @@
           >
             <v-container fill-height fluid>
               <v-layout row wrap align-center>
-                <v-flex class="content-center mx-5">
+                <v-flex xs12 class="content-center mx-5">
                   <v-btn
                     v-show="!signInType"
                     depressed
@@ -67,7 +67,7 @@
           >
             <v-container fluid fill-height>
               <v-layout row wrap align-center>
-                <v-flex class="content-center mx-5">
+                <v-flex xs12 class="content-center mx-5">
                   <v-btn
                     v-if="!isPharmacist"
                     depressed

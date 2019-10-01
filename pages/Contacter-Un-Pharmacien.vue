@@ -6,7 +6,7 @@
       gradient="to top right, rgba(150,150,150,0.25), rgba(220,230,130,.30)"
       alt="Contacter un pharmacien image de présentation"
     >
-      <v-container fluid fill-height>
+      <v-container pt-5 fluid fill-height>
         <v-layout row wrap align-center>
           <v-flex xs12>
             <div class="content-center  title-main">
