@@ -3,8 +3,9 @@
     app
     :scroll-threshold="200"
     fixed
+    dense
     flat
-    scroll-off-screen
+    scroll-toolbar-off-screen
     color="white"
     class="pl-5 py-2"
   >

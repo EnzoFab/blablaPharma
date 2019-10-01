@@ -7,7 +7,7 @@
       alt="Contacter un pharmacien image de présentation"
     >
       <v-container pt-5 fill-height>
-        <v-layout align-center>
+        <v-layout align-center wrap>
           <v-flex xs12>
             <div class="content-center title-main">
               <span class="title-section-huge blue-grey--text text--darken-4"

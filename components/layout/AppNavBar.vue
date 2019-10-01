@@ -1,7 +1,10 @@
 <template>
   <div style="z-index: 10">
-    <toolbar-mobile :display-toolbar="$vuetify.breakpoint.xs" :items="items" />
-    <toolbar-computer v-show="!$vuetify.breakpoint.xs" :items="items" />
+    <toolbar-mobile
+      :display-toolbar="$vuetify.breakpoint.smAndDown"
+      :items="items"
+    />
+    <toolbar-computer v-show="$vuetify.breakpoint.mdAndUp" :items="items" />
     <v-dialog
       :value="connectionDialog"
       fullscreen
