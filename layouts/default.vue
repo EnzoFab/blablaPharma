@@ -3,7 +3,9 @@
     <app-nav-bar />
     <snack-bar />
     <v-content>
-      <nuxt />
+      <v-container fluid px-0 mx-0 class="white">
+        <nuxt />
+      </v-container>
     </v-content>
     <login-dialog />
     <no-ssr>
