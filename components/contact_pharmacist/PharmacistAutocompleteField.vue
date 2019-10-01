@@ -97,7 +97,9 @@ import uniqueBy from "lodash.uniqby";
 export default {
   name: "PharmacistAutocompleteField",
   props: {
-    verified: { type: Boolean, default: true }
+    // whether to display non-verified account or not
+    verified: { type: Boolean, default: true },
+    withStudent: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -115,7 +117,7 @@ export default {
       ],
       items: [],
       isLoading: false,
-      pharmacistLabels: [
+      labels: [
         { name: "Pharmacien", value: "pharmacist" },
         { name: "Etudiant", value: "student" },
         { name: "Pharmacien blablaPharma", value: "pharmacistBlablapharma" }
@@ -134,6 +136,11 @@ export default {
     }
   },
   computed: {
+    pharmacistLabels() {
+      return this.withStudent
+        ? this.labels
+        : this.labels.filter(label => label.value !== "student");
+    },
     search: {
       get() {
         return this.filters.q;

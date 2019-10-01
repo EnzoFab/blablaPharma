@@ -64,6 +64,18 @@
 
 <script>
 export default {
-  name: "Vous-Etes-Pharmacien"
+  name: "Vous-Etes-Pharmacien",
+  head() {
+    return {
+      title: "vous êtes pharmacien",
+      meta: [
+        {
+          hid: "are-you-pharmacist",
+          name: "description",
+          content: "Informations les pharmaciens"
+        }
+      ]
+    };
+  }
 };
 </script>

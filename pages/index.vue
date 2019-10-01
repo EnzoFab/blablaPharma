@@ -7,9 +7,9 @@
         :max-height="500"
         user-overlay
       >
-        <v-container>
-          <v-layout row wrap>
-            <v-flex hidden-xs-only xs12 class="pb-5 pt-5"></v-flex>
+        <v-container fluid fill-height>
+          <v-layout row wrap align-center>
+            <v-flex hidden-xs-only xs12></v-flex>
             <v-flex offset-sm6 sm6 xs12>
               <v-card class=" pl-2 pt-1 pb-3" flat>
                 <v-card-title class="pa-2">
@@ -47,8 +47,7 @@
                           small
                           depressed
                           dark
-                          nuxt
-                          to="/more"
+                          @click="showDialog = true"
                           >Comment ca marche ?</v-btn
                         >
                       </v-flex>
@@ -158,10 +157,12 @@
         <contact></contact>
       </responsive-parallax>
     </section>
+    <video-dialog v-model="showDialog" />
   </div>
 </template>
 
 <script>
+import VideoDialog from "../components/VideoDialog";
 const BlogHomeSection = () => import("~/components/BlogHomeSection");
 const ResponsiveParallax = () => import("~/components/ResponsiveParallax");
 
@@ -180,9 +181,10 @@ export default {
       ]
     };
   },
-  components: { BlogHomeSection, Contact, ResponsiveParallax },
+  components: { VideoDialog, BlogHomeSection, Contact, ResponsiveParallax },
   data() {
     return {
+      showDialog: false,
       presentations: [
         {
           image: "/images/network-icon.png",

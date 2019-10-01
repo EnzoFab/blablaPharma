@@ -61,7 +61,7 @@
         >
           <v-img
             :height="imageHeight"
-            src="/images/banner.jpg"
+            src="/images/contact-pharmacist.jpg"
             gradient="to top right, rgba(200,215,255,0.22), rgba(5,20,120,.14)"
             alt="Sign-in Pharmacist"
           >

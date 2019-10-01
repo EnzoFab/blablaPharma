@@ -9,6 +9,7 @@
       <v-flex offset-xs2 xs8>
         <pharmacist-autocomplete-field
           :verified="false"
+          with-student
           @pharmacistautocompletefield::search="search"
         />
       </v-flex>
@@ -262,8 +263,6 @@ export default {
         this.loading = false;
         this.hideDialog();
       }, 1500);
-
-      // todo hit api route
     },
 
     async validatePharmacist() {

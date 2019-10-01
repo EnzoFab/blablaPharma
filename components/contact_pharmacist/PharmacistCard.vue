@@ -81,7 +81,7 @@ export default {
     pharmacistStatus() {
       switch (this.status) {
         case "student":
-          return "Etudiant";
+          return "Étudiant";
         case "pharmacistBlablapharma":
           return "Pharmacien BlablaPharma";
         default:

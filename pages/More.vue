@@ -77,6 +77,18 @@
 
 <script>
 export default {
-  name: "more"
+  name: "more",
+  head() {
+    return {
+      title: "les fondateurs",
+      meta: [
+        {
+          hid: "founders",
+          name: "description",
+          content: "En savoir plus sur les fondateurs de Blablapharma"
+        }
+      ]
+    };
+  }
 };
 </script>

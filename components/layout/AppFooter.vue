@@ -3,8 +3,8 @@
     <cookie-banner />
     <v-footer dark height="auto">
       <div class="footer text--section">
-        <v-container grid-list-xs fluid>
-          <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp">
+        <v-container grid-list-xs fluid fill-height>
+          <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp" align-center>
             <v-flex
               offset-xs2
               xs8
@@ -23,7 +23,7 @@
                 :class="{
                   'mb-2': true,
                   'text-xs-center': $vuetify.breakpoint.xs,
-                  'text-xs-left': !$vuetify.breakpoint.xs
+                  'text-xs-left': $vuetify.breakpoint.smAndUp
                 }"
               >
                 <nuxt-link
@@ -67,9 +67,14 @@
                   >contact@blablapharma.fr</a
                 >
                 <v-container class="pt-3">
-                  <span v-for="icon in icons" :key="icon.name" class="pr-3">
-                    <v-icon large>fab fa-{{ icon.name }}</v-icon>
-                  </span>
+                  <a
+                    v-for="icon in icons"
+                    :key="icon.name"
+                    class="pr-3 text-no-decoration"
+                    :href="icon.href"
+                  >
+                    <v-icon size="30">fab fa-{{ icon.name }}</v-icon>
+                  </a>
                 </v-container>
               </div>
             </v-flex>
@@ -131,8 +136,11 @@ export default {
           nuxtLink: true
         },
         { text: "Blog", href: "/blog", nuxtLink: true },
-        { text: "F.A.Q", href: "/faq" },
-        { text: "Contact", href: "" }
+        { text: "F.A.Q", href: "/faq", nuxtLink: true },
+        {
+          text: "Contact",
+          href: "https://blablapharma.wixsite.com/blablapharma/blog"
+        }
       ],
       rightSectionElements: [
         { text: "Droits des patients", href: "" },

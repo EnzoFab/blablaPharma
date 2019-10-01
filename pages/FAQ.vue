@@ -91,6 +91,18 @@
 
 <script>
 export default {
-  name: "FAQ"
+  name: "FAQ",
+  head() {
+    return {
+      title: "F.A.Q",
+      meta: [
+        {
+          hid: "FAQ",
+          name: "description",
+          content: "FAQ"
+        }
+      ]
+    };
+  }
 };
 </script>
