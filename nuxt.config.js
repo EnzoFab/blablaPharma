@@ -161,7 +161,8 @@ module.exports = {
 
     "@nuxtjs/pwa",
     ["vue-scrollto/nuxt", { duration: 150 }],
-    "@nuxtjs/dotenv"
+    "@nuxtjs/dotenv",
+    "nuxt-polyfill"
   ],
 
   /*
@@ -233,7 +234,8 @@ module.exports = {
           window.__forceSmoothScrollPolyfill__ !== true,
 
         // Optional install function called client side after the package is required:
-        install: smoothscroll => smoothscroll.polyfill()
+        install: smoothscroll => smoothscroll.polyfill(),
+        include: true
       }
     ]
   },
