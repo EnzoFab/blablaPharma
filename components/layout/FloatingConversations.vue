@@ -106,7 +106,9 @@ export default {
         const receiver = conversation.members.find(
           member => !this.$store.getters.isCurrentUserMessage(member.id)
         );
-        const fullName = `${receiver.firstName} ${receiver.lastName}`;
+        const fullName = receiver
+          ? `${receiver.firstName} ${receiver.lastName}`
+          : "Inconnu";
 
         return {
           fullName,

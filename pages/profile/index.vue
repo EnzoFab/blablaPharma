@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <general-information
       v-if="!updateInformation"
       @generalinformation::updateinformation="updateGeneralInformation"
@@ -56,11 +56,11 @@
         </v-tabs-items>
       </v-tabs>
     </template>
-  </div>
+  </v-container>
 </template>
 
 <script>
-import { TOGGLE_SNACKBAR } from "../store/types";
+import { TOGGLE_SNACKBAR } from "../../store/types";
 import { mapState } from "vuex";
 const GeneralInformation = () =>
   import("~/components/profile/GeneralInformation");

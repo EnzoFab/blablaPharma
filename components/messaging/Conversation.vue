@@ -186,6 +186,7 @@ export default {
           );
 
           const authorRole = author ? author.role : "unknown";
+          const picture = author ? author.picture : null;
 
           let dateLabel;
 
@@ -213,7 +214,7 @@ export default {
                   60 * 3 * 1000
               : false;
 
-          return { ...message, dateLabel, grouped, authorRole };
+          return { ...message, dateLabel, grouped, authorRole, picture };
         });
     },
 
@@ -303,18 +304,27 @@ export default {
         member => member.id === messageAuthor
       );
 
-      return author
-        ? `${author.firstName} ${author.lastName}`
-        : "undefined undefined";
+      return author ? `${author.firstName} ${author.lastName}` : "Inconnu";
     }
   },
 
   watch: {
     conversationId: {
       immediate: true,
-      handler() {
+      handler(newId) {
         this.infiniteLoadingActivate = false;
         this.loading = true;
+
+        const conversationMessages = this.$store.getters[
+          "chat/conversationMessages"
+        ](newId);
+
+        if (conversationMessages.length === 0) {
+          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+            conversationId: newId,
+            filters: { limit: 15, skip: 0 }
+          });
+        }
 
         setTimeout(() => {
           this.loading = false;

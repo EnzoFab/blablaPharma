@@ -49,7 +49,6 @@
 
 <script>
 import { mapState } from "vuex";
-import { FETCH_MESSAGE } from "../store/types";
 const Conversation = () => import("../components/messaging/Conversation");
 import head from "lodash.head";
 import AsideConversation from "../components/messaging/AsideConversation";
@@ -182,18 +181,7 @@ export default {
         // if there isn't any message in this conversation, fetch new messages
         this.activeConversation = conversation;
 
-        const conversationMessages = this.$store.getters[
-          "chat/conversationMessages"
-        ](conversation.id);
-
-        if (conversationMessages.length === 0) {
-          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
-            conversationId: conversation.id,
-            filters: { limit: 15, skip: 0 }
-          });
-        }
-
-        this.displayConversation = this.isSmallScreen ? true : false;
+        this.displayConversation = !!this.isSmallScreen;
 
         // change the url
         if (urlChange) {
