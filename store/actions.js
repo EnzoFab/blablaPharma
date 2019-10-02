@@ -1,7 +1,9 @@
 import {
-  SET_JWT_TOKEN,
-  SET_CONNECTED_USER,
   LOGOUT,
+  REMOVE_CONVERSATIONS_FROM_STORE,
+  REMOVE_MESSAGES_FROM_STORE,
+  SET_CONNECTED_USER,
+  SET_JWT_TOKEN,
   TOGGLE_SNACKBAR
 } from "./types";
 
@@ -57,8 +59,12 @@ export default {
   [LOGOUT]({ commit }, payload) {
     this.app.$cookies.remove("accessToken");
     this.app.$cookies.remove("userData");
+    this.app.$cookies.remove("activeConversations");
+
     commit(SET_JWT_TOKEN, null);
     commit(SET_CONNECTED_USER, null);
+    commit(`chat/${REMOVE_MESSAGES_FROM_STORE}`);
+    commit(`chat/${REMOVE_CONVERSATIONS_FROM_STORE}`);
 
     const { withRedirect = true, message = "À bientôt" } = payload
       ? payload

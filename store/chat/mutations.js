@@ -10,6 +10,8 @@ import {
   UPDATE_CONVERSATION,
   ADD_ACTIVE_CONVERSATIONS,
   REMOVE_ACTIVE_CONVERSATION,
+  REMOVE_MESSAGES_FROM_STORE,
+  REMOVE_CONVERSATIONS_FROM_STORE,
   UPDATE_MESSAGE
 } from "../types";
 
@@ -99,5 +101,14 @@ export default {
     if (conversation) {
       conversation.lastMessage = message;
     }
+  },
+
+  [REMOVE_MESSAGES_FROM_STORE]: state => {
+    state.messages = [];
+  },
+
+  [REMOVE_CONVERSATIONS_FROM_STORE]: state => {
+    state.conversations = {};
+    state.activeConversations = [];
   }
 };

@@ -12,15 +12,18 @@
           <v-flex v-for="(file, key) in files" sm3 xs6 :key="key">
             <v-badge overlap color="red">
               <template v-slot:badge
-                ><v-icon class="content-pointer" dark @click="deleteFile(file)"
+                ><v-icon
+                  class="content-pointer"
+                  dark
+                  @click="deleteFile(file.key)"
                   >close</v-icon
                 ></template
               >
               <v-avatar color="grey" tile :size="embed ? 20 : 90">
                 <v-img
                   class="ma-1"
-                  :src="filePreview(file)"
-                  :alt="filePreview(file)"
+                  :src="file.base64File"
+                  :alt="file.base64File"
                   height="85"
                   width="85"
                 ></v-img>
@@ -60,7 +63,7 @@
         </v-flex>
         <v-flex xs1 class="content-center">
           <v-icon color="grey darken-3" :size="iconSize" @click="uploadFile"
-            >attach_file</v-icon
+            >far fa-image</v-icon
           >
           <input
             multiple
@@ -107,13 +110,11 @@
 </template>
 
 <script>
-//import { Picker } from "emoji-mart-vue";
-
+import { toBase64 } from "~/helpers";
+import * as Promise from "bluebird";
 import emojiSet from "emoji-mart-vue-fast/data/messenger.json";
 import { EmojiIndex, Picker } from "emoji-mart-vue-fast";
-//import Picker from "emoji-mart-vue-fast/src/components/Picker";
-/*const EmojiPicker = () =>
-  import("emoji-mart-vue-fast/src/components/").then(({ Picker }) => Picker);*/
+
 import "emoji-mart-vue-fast/css/emoji-mart.css";
 export default {
   name: "SendBox",
@@ -133,18 +134,19 @@ export default {
       this.$refs.uploader.click();
     },
 
-    handleFiles(e) {
-      this.files = Array.from(e.target.files).filter(file =>
+    async handleFiles(e) {
+      const files = Array.from(e.target.files).filter(file =>
         file.type.includes("image")
       );
+
+      this.files = await Promise.map(files, async (file, key) => {
+        const base64File = await toBase64(file);
+        return { base64File, key };
+      });
     },
 
     deleteFile(element) {
-      this.files = this.files.filter(file => file !== element);
-    },
-
-    filePreview(file) {
-      return URL.createObjectURL(file);
+      this.files = this.files.filter(file => file.key !== element);
     },
 
     addEmoji({ native }) {
@@ -152,7 +154,6 @@ export default {
       const cursorPosition = textArea.selectionEnd;
       this.text += native;
 
-      //this.text += native;
       setTimeout(() => textArea.focus());
 
       this.$nextTick(() => {
@@ -169,7 +170,7 @@ export default {
           content: this.text,
           type: "text",
           author: connectedUser.id,
-          createdAt: new Date()
+          createdAt: this.$moment().valueOf()
         });
         this.text = "";
       }
@@ -177,10 +178,10 @@ export default {
       if (this.files && this.files.length > 0) {
         this.files.forEach(file => {
           this.$emit("sendbox:messageSent", {
-            content: this.filePreview(file),
+            content: file.base64File,
             type: "image",
             author: connectedUser.id,
-            createdAt: new Date()
+            createdAt: this.$moment().valueOf()
           });
         });
 

@@ -9,14 +9,14 @@
       <v-layout row wrap>
         <v-flex xs4 class="content-center">
           <button
-            v-if="!previewImageUrl"
+            v-if="!fields.picture"
             class="no-outline"
             @click.prevent="$refs.photo.click()"
           >
             <v-icon large color="black">photo_camera</v-icon>
-            <div class="text-content text--baseColor">
+            <span class="text-content text--baseColor">
               Ajouter une photo
-            </div>
+            </span>
           </button>
           <v-badge v-else color="red">
             <template v-slot:badge
@@ -25,7 +25,7 @@
             <v-avatar size="100" class="mb-3">
               <v-img
                 aspect-ratio="3.75"
-                :src="previewImageUrl"
+                :src="fields.picture"
                 alt="Preview image"
               ></v-img>
             </v-avatar>
@@ -140,7 +140,6 @@
               locale="fr-Fr"
               color="blue-grey lighten-1"
               min="1950-01-01"
-              reactive
               year-icon="date_range"
               prev-icon="skip_previous"
               next-icon="skip_next"
@@ -172,6 +171,7 @@
 </template>
 
 <script>
+import { toBase64 } from "../../helpers";
 import PasswordField from "./PasswordField";
 export default {
   name: "SignInClient",
@@ -235,19 +235,19 @@ export default {
         this.$emit("signin-client::submit", { personalData: this.fields });
       }
     },
-    loadImage(e) {
+    async loadImage(e) {
       const file = e.target.files[0];
       if (file.type.includes("image/")) {
         // only accept image
-        this.previewImageUrl = URL.createObjectURL(file);
-        this.fields.pciture = file;
+        //  this.previewImageUrl = URL.createObjectURL(file);
+        this.fields.picture = await toBase64(file);
       } else {
         this.resetImage();
       }
     },
     resetImage() {
       this.fields.picture = null;
-      this.previewImageUrl = null;
+      // this.previewImageUrl = null;
     }
   }
 };

@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import { toBase64 } from "../../helpers";
+
 export default {
   name: "PhotoField",
   props: {
@@ -76,11 +78,12 @@ export default {
         const src = this.value ? this.value : null;
         return filePreview || src;
       },
-      set(e) {
+      async set(e) {
         const file = e.target.files[0];
         if (file.type.includes("image/")) {
           // only accept image
-          this.$emit("inputon", URL.createObjectURL(file));
+          const base64 = await toBase64(file);
+          this.$emit("input", base64);
         }
       }
     }

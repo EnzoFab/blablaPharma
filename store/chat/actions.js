@@ -51,38 +51,29 @@ export default {
   },
 
   [SEND_MESSAGE]: async ({ commit, rootState }, message) => {
-    /*commit(ADD_MESSAGES, [message]);
-    commit(UPDATE_CONVERSATION, {
-      message,
-      conversationId: message.conversation
-    });*/
+    commit(ADD_MESSAGES, [message]);
 
     try {
-      const { type, content, conversation } = message;
-      /*const { createdAt, id } = await SailSocketWrapper.post(
+      // const { type, content, conversation } = message;
+      const { createdAt, id, content } = await SailSocketWrapper.post(
         rootState,
-        `/conversations/${conversation}/messages`,
-        { type, content }
-      ); */
-      const newMessage = await SailSocketWrapper.post(
-        rootState,
-        `/conversations/${conversation}/messages`,
-        { type, content }
+        `/conversations/${message.conversation}/messages`,
+        { type: message.type, content: message.content }
       );
 
-      commit(ADD_MESSAGES, [newMessage]);
       commit(UPDATE_CONVERSATION, {
-        message: newMessage,
-        conversationId: conversation
+        message,
+        conversationId: message.conversation
       });
-      /* commit(UPDATE_MESSAGE, {
+
+      commit(UPDATE_MESSAGE, {
         id: message.id,
-        newMessageData: { createdAt, id }
-      });*/
+        newMessageData: { createdAt, id, content }
+      });
 
       commit(ADD_ACTIVE_CONVERSATIONS, [message.conversation]);
     } catch (e) {
-      console.log("Error");
+      console.log(e);
       commit(UPDATE_MESSAGE, {
         id: message.id,
         newMessageData: { error: true }

@@ -93,7 +93,7 @@
                   :author-id="message.author"
                   :content="message.content"
                   :type="message.type"
-                  :date="message.dateLabel"
+                  :created-at="message.createdAt"
                   :hide-author-name="message.grouped"
                   :id="
                     'conversation' + conversationId + '-message' + message.id
@@ -178,7 +178,7 @@ export default {
 
         .map((message, index, currentArray) => {
           const date = this.$moment(message.createdAt);
-          const diff = this.$moment().diff(date);
+
           const conversationData = this.getConversationData;
 
           const author = conversationData.members.find(
@@ -187,23 +187,6 @@ export default {
 
           const authorRole = author ? author.role : "unknown";
           const picture = author ? author.picture : null;
-
-          let dateLabel;
-
-          //less than 1 minute
-          if (diff < 60000) {
-            dateLabel = "Il y a quelques secondes";
-          }
-          // less than 1 hours
-          else if (diff < 3.6e6) {
-            dateLabel = `il y a ${Math.ceil(diff / (60 * 1000))} minute(s)`;
-          }
-          // less than 1 day
-          else if (diff < 8.64e7) {
-            dateLabel = `il y a ${Math.ceil(diff / (60 * 60 * 1000))} heure(s)`;
-          } else {
-            dateLabel = "Le " + date.format("Do MMMM YYYY");
-          }
 
           // if you send a several message in a short amount of time, there are grouped together
           const previousMessage = index > 0 ? currentArray[index - 1] : null;
@@ -214,7 +197,7 @@ export default {
                   60 * 3 * 1000
               : false;
 
-          return { ...message, dateLabel, grouped, authorRole, picture };
+          return { ...message, grouped, authorRole, picture };
         });
     },
 
@@ -315,18 +298,18 @@ export default {
         this.infiniteLoadingActivate = false;
         this.loading = true;
 
-        const conversationMessages = this.$store.getters[
-          "chat/conversationMessages"
-        ](newId);
-
-        if (conversationMessages.length === 0) {
-          this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
-            conversationId: newId,
-            filters: { limit: 15, skip: 0 }
-          });
-        }
-
         setTimeout(() => {
+          const conversationMessages = this.$store.getters[
+            "chat/conversationMessages"
+          ](newId);
+
+          if (conversationMessages.length === 0) {
+            this.$store.dispatch(`chat/${FETCH_MESSAGE}`, {
+              conversationId: newId,
+              filters: { limit: 15, skip: 0 }
+            });
+          }
+
           this.loading = false;
         }, 1500);
       }
