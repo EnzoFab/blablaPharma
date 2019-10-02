@@ -34,7 +34,7 @@
           >
             <v-container fill-height>
               <v-layout row wrap align-center>
-                <v-flex mx-2>
+                <v-flex pt-4 mx-2>
                   <v-btn
                     v-show="!signInType"
                     depressed
@@ -65,9 +65,9 @@
             gradient="to top right, rgba(200,215,255,0.22), rgba(5,20,120,.14)"
             alt="Sign-in Pharmacist"
           >
-            <v-container fill-height>
+            <v-container fluid fill-height>
               <v-layout row wrap align-center>
-                <v-flex mx-2>
+                <v-flex pa-4 mx-2>
                   <v-btn
                     v-if="!isPharmacist"
                     depressed

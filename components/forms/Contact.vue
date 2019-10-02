@@ -23,7 +23,9 @@
                 <a
                   v-for="social in networks"
                   :href="social.href"
+                  :key="social.icon"
                   class="text-no-decoration mr-3"
+                  target="_blank"
                 >
                   <v-icon color="black" size="20">
                     fab fa-{{ social.icon }}</v-icon
@@ -96,8 +98,7 @@
 </template>
 
 <script>
-
-  export default {
+export default {
   name: "Contact",
   data() {
     return {
@@ -109,33 +110,43 @@
       networks: [
         {
           icon: "facebook-f",
-          href: ""
+          href:
+            "https://www.facebook.com/Blablapharma-367660467350831/?modal=admin_todo_tour"
         },
         {
           icon: "twitter",
-          href: ""
+          href: "https://twitter.com/blablapharma"
         },
         {
           icon: "instagram",
-          href: ""
+          href: "https://www.instagram.com/blablapharma/"
         }
       ]
     };
   },
   methods: {
-    submit () {
+    submit() {
       if (this.$vuelidation.valid()) {
-
-        return false
+        return false;
       }
     },
     send() {
       if (this.$refs.form.validate()) {
-        this.$axios.post("/contact", { email: this.mail, subject: this.subject, name: this.name, message: this.message }).then(response => {
-            //console.log('SUCCESS!', response.status, response.text);
-          }, (err) => {
-            console.log('FAILED...', err);
-          });
+        this.$axios
+          .post("/contact", {
+            email: this.mail,
+            subject: this.subject,
+            name: this.name,
+            message: this.message
+          })
+          .then(
+            response => {
+              //console.log('SUCCESS!', response.status, response.text);
+            },
+            err => {
+              console.log("FAILED...", err);
+            }
+          );
       }
     }
   }

@@ -69,9 +69,10 @@
                 <v-container class="pt-3">
                   <a
                     v-for="icon in icons"
+                    :href="icon.href"
                     :key="icon.name"
                     class="pr-3 text-no-decoration"
-                    :href="icon.href"
+                    target="_blank"
                   >
                     <v-icon size="30">fab fa-{{ icon.name }}</v-icon>
                   </a>
@@ -117,16 +118,20 @@
 </template>
 
 <script>
-import CookieBanner from "./CookieBanner";
+const CookieBanner = () => import("./CookieBanner");
 export default {
   name: "AppFooter",
   components: { CookieBanner },
   data() {
     return {
       icons: [
-        { name: "facebook-f", href: "" },
-        { name: "instagram", href: "" },
-        { name: "youtube", href: "" }
+        {
+          name: "facebook-f",
+          href:
+            "https://www.facebook.com/Blablapharma-367660467350831/?modal=admin_todo_tour"
+        },
+        { name: "instagram", href: "https://www.instagram.com/blablapharma/" },
+        { name: "twitter", href: "https://twitter.com/blablapharma" }
       ],
       leftSectionElements: [
         { text: "Qui sommes nous ?", href: "/more", nuxtLink: true },
@@ -146,18 +151,17 @@ export default {
         }
       ],
       rightSectionElements: [
-        { text: "Droits des patients", href: "" },
-        { text: "Protection de vos données", href: "" },
-        { text: "Mention légales", href: "" },
-        { text: "Politique de confidentialité", href: "" },
+        { text: "Protection de vos données", href: "/files/data-protection" },
+        //  { text: "Mention légales", href: "" },
+        //  { text: "Politique de confidentialité", href: "" },
         {
           text: "Conditions générales de services",
-          href: "/files/general_terms_of_use.pdf",
+          href: "/files/general-terms_of_use.pdf",
           blank: true
         },
         {
           text: "Gestion des cookies",
-          href: "/files/cookie_chart.pdf",
+          href: "/files/cookie-chart.pdf",
           blank: true
         }
       ]
