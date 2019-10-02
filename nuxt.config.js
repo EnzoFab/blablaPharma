@@ -202,7 +202,8 @@ module.exports = {
       success: colors.green.accent3,
       "default-green": "#BED469",
       "default-grey": "#868788"
-    }
+    },
+    treeShake: true
   },
 
   polyfill: {
@@ -243,6 +244,7 @@ module.exports = {
   build: {
     // analyze: true,
     extractCSS: true,
+    transpile: ["vuetify"],
     //optimizeCSS: true,
     /*filenames: {
       app: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js"),
