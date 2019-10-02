@@ -1,16 +1,15 @@
 <template>
   <no-ssr>
     <v-toolbar
-      v-show="displayToolbar"
-      :scroll-threshold="200"
-      :prominent="displayToolbar"
-      :extended="displayToolbar"
+      prominent
       flat
       app
       color="white"
+      class="hidden-md-and-up"
       scroll-off-screen
+      :scroll-threshold="200"
     >
-      <v-toolbar-title class="mt-5">
+      <v-toolbar-title class="pt-5">
         <blablapharma-logo />
       </v-toolbar-title>
       <template v-if="displayToolbar" v-slot:extension>

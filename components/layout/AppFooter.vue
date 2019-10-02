@@ -135,11 +135,14 @@ export default {
           href: "/vous-etes-pharmacien",
           nuxtLink: true
         },
-        { text: "Blog", href: "/blog", nuxtLink: true },
+        {
+          text: "Blog",
+          href: "https://blablapharma.wixsite.com/blablapharma/blog"
+        },
         { text: "F.A.Q", href: "/faq", nuxtLink: true },
         {
           text: "Contact",
-          href: "https://blablapharma.wixsite.com/blablapharma/blog"
+          href: ""
         }
       ],
       rightSectionElements: [

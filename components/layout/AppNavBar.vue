@@ -4,7 +4,7 @@
       :display-toolbar="$vuetify.breakpoint.smAndDown"
       :items="items"
     />
-    <toolbar-computer v-show="$vuetify.breakpoint.mdAndUp" :items="items" />
+    <toolbar-computer :items="items" />
     <v-dialog
       :value="connectionDialog"
       fullscreen

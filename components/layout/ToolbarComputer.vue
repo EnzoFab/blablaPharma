@@ -1,13 +1,12 @@
 <template>
   <v-toolbar
     app
-    :scroll-threshold="200"
     fixed
-    dense
     flat
-    scroll-toolbar-off-screen
+    scroll-off-screen
+    :scroll-threshold="200"
     color="white"
-    class="pl-5 py-2"
+    class="pl-5 py-2 hidden-sm-and-down"
   >
     <v-spacer></v-spacer>
     <v-toolbar-title class="pl-5 ml-2">
