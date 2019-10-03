@@ -39,7 +39,7 @@
               @submit.prevent="connection"
             >
               <v-text-field
-                v-model="mail"
+                v-model.trim="mail"
                 label="Email"
                 color="blue-grey lighten-1"
                 type="mail"
@@ -237,7 +237,7 @@ export default {
         try {
           // dispatch an action to try to connect
           await this.$store.dispatch("login", {
-            email: this.mail,
+            email: this.mail.toLocaleLowerCase(),
             password: this.password
           });
           this.hideLoader(() => this.closeDialog());

@@ -185,7 +185,6 @@ export default {
     return {
       showMenu: false,
       showPassword: false,
-      previewImageUrl: null,
       fields: {
         picture: null,
         email: null,
@@ -239,7 +238,6 @@ export default {
       const file = e.target.files[0];
       if (file.type.includes("image/")) {
         // only accept image
-        //  this.previewImageUrl = URL.createObjectURL(file);
         this.fields.picture = await toBase64(file);
       } else {
         this.resetImage();
@@ -247,7 +245,6 @@ export default {
     },
     resetImage() {
       this.fields.picture = null;
-      // this.previewImageUrl = null;
     }
   }
 };

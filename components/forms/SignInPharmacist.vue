@@ -70,7 +70,11 @@
                   label="Ville"
                   hint="Ville de la pharmacie ou de la faculté. Exemple: 'Montpellier'"
                   outline
-                  :rules="$constraints.required"
+                  :counter="20"
+                  :rules="[
+                    ...$constraints.required,
+                    ...$constraints.maxLength(20)
+                  ]"
                 ></v-text-field>
               </v-flex>
               <v-flex xs12>

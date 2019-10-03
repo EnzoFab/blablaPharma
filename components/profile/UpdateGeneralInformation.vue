@@ -110,7 +110,6 @@
                     locale="fr-Fr"
                     color="blue-grey lighten-1"
                     min="1950-01-01"
-                    reactive
                     year-icon="date_range"
                     prev-icon="skip_previous"
                     next-icon="skip_next"
@@ -125,7 +124,14 @@
           </v-container>
         </v-flex>
         <v-flex offset-md4 md4 offset-sm2 sm8 class="content-center">
-          <v-btn block large depressed dark color="default-grey" type="submit"
+          <v-btn
+            block
+            large
+            depressed
+            dark
+            color="default-grey"
+            type="submit"
+            :loading="isLoading"
             >Mettre à jour</v-btn
           >
         </v-flex>
@@ -144,6 +150,7 @@ export default {
   props: ["userId"],
   data() {
     return {
+      isLoading: false,
       fields: {
         firstName: null,
         lastName: null,
@@ -188,25 +195,38 @@ export default {
       this.$refs.menu.save(date);
     },
     async updateInformation() {
-      if (this.$refs.updateGeneralInformationForm.validate()) {
-        const [e, res] = await to(
-          this.$account.update(this.userId, this.fields)
-        );
+      if (
+        !this.isLoading &&
+        this.$refs.updateGeneralInformationForm.validate()
+      ) {
+        const data = { ...this.fields };
 
-        if (e) {
-          this.$emit(
-            "updategeneralinformation::error",
-            "Une erreur est survenue, impossible de mettre à jour les informations"
-          );
+        // the picture hasn't change so we don't send it to the back
+        if (this.fields.picture === this.connectedUser.picture) {
+          delete data.picture;
         }
 
-        if (!e && res) {
-          this.$emit(
-            "updategeneralinformation::updated",
-            "Les informations ont été mises à jour avec succès"
-          );
-          this.$store.dispatch("updateAccount", res);
-        }
+        this.isLoading = true;
+        const [e, res] = await to(this.$account.update(this.userId, data));
+
+        setTimeout(() => {
+          if (e) {
+            this.$emit(
+              "updategeneralinformation::error",
+              "Une erreur est survenue, impossible de mettre à jour les informations"
+            );
+          }
+
+          if (!e && res) {
+            this.$emit(
+              "updategeneralinformation::updated",
+              "Les informations ont été mises à jour avec succès"
+            );
+            this.$store.dispatch("updateAccount", res);
+          }
+
+          this.isLoading = false;
+        }, 1500);
       }
     }
   },

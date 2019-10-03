@@ -23,5 +23,8 @@ export default {
   confirmationPasswordRule: firstPassword => [
     v => v === firstPassword || "les deux mots de passes sont différents"
   ],
-  postalCodeRules: [v => /[0-9]{5}/.test(v) || "Code postal non valide"]
+  postalCodeRules: [v => /[0-9]{5}/.test(v) || "Code postal non valide"],
+  maxLength: length => [
+    v => (v && v.length <= length) || `${length} charactères maximum`
+  ]
 };
