@@ -78,6 +78,7 @@
         <v-layout row wrap>
           <v-flex
             md3
+            xs12
             sm12
             class="text-xs-left"
             mx-1
@@ -102,7 +103,7 @@
               </span>
             </template>
           </v-flex>
-          <v-flex md6 sm6 offset-sm2 ma-0 pa-0>
+          <v-flex md6 sm8 offset-md2 offset-sm2 ma-0 pa-0>
             <div
               :class="{
                 'px-2': true,

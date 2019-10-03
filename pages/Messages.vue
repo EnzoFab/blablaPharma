@@ -20,6 +20,8 @@
               :first-name="conversation.firstName"
               :last-name="conversation.lastName"
               :last-message="conversation.lastMessage"
+              :picture="conversation.picture"
+              :role="conversation.role"
               :key="conversation.id"
               :is-active="
                 activeConversation && conversation.id === activeConversation.id
@@ -71,14 +73,21 @@ export default {
             const recipient = conversation.members.find(
               member => member.id !== state.connectedUser.id
             );
-            const { firstName, lastName } = recipient
+            const { firstName, lastName, role, picture } = recipient
               ? recipient
-              : { firstName: "Inconnu", lastName: "" };
+              : {
+                  firstName: "Inconnu",
+                  lastName: "",
+                  role: "unknown",
+                  picture: null
+                };
 
             return {
               id: conversation.id,
               firstName,
               lastName,
+              role,
+              picture,
               lastMessage: conversation.lastMessage,
               createdAt: conversation.createdAt
             };
@@ -109,6 +118,8 @@ export default {
           conversation => conversation.id === this.activeRouteParam
         );
 
+        // select the conversation from given by the queryparam if it exists
+        // or the first conversation
         if (conversation) {
           this.selectConversation(conversation, false);
         } else {

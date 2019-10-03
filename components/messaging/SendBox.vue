@@ -194,7 +194,7 @@ export default {
       return new EmojiIndex(emojiSet);
     },
     iconSize() {
-      return this.embed ? 20 : 30;
+      return this.embed || this.$vuetify.breakpoint.smAndDown ? 20 : 30;
     }
   }
 };

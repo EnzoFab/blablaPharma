@@ -11,13 +11,13 @@
       </v-flex>
     </v-layout>
 
-    <v-dialog v-model="showDialog" max-width="500">
-      <v-card flat>
+    <v-dialog v-model="showDialog" max-width="550">
+      <v-card flat color="red lighten-4">
         <v-icon color="dark" class="mt-2 ml-2" @click="showDialog = false"
           >close</v-icon
         >
         <h2 class="title-section text--baseColor text-xs-center pb-3">
-          Suppression de compte
+          Voulez vous vraiment supprimer votre compte ?
         </h2>
         <div class="text-xs-center text--baseColor text-content">
           Pour supprimer votre compte veuillez taper
