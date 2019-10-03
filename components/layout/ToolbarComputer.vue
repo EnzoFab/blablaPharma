@@ -3,6 +3,7 @@
     app
     fixed
     flat
+    dense
     scroll-off-screen
     :scroll-threshold="200"
     color="white"
