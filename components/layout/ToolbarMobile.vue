@@ -72,11 +72,9 @@
                 <button
                   v-else
                   :class="{
-                    'text-futura': true,
-                    'text--baseColor': true,
-                    'font-weight-black': isActive(item),
-                    'font-italic': isActive(item),
-                    'no-outline': true
+                    'text--baseColor no-outline': true,
+                    'font-weight-black text-content': isActive(item),
+                    'text--section': !isActive(item)
                   }"
                   @click="handleAction(item)"
                 >

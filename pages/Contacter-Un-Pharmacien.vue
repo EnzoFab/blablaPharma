@@ -3,17 +3,17 @@
     <v-img
       src="/images/contact.jpg"
       aspect-ratio="2.35"
-      gradient="to top right, rgba(150,150,150,0.25), rgba(220,230,130,.30)"
+      gradient="to top right, rgba(255,255,255,0.25), rgba(220,230,255,.30)"
       alt="Contacter un pharmacien image de présentation"
     >
       <v-container pt-5 fill-height>
         <v-layout align-center wrap>
           <v-flex xs12>
             <div class="content-center title-main">
-              <span class="title-section-huge blue-grey--text text--darken-4"
+              <span class="title-section-huge text--baseColor"
                 >CONTACTER UN PHARMACIEN</span
               >
-              <hr class="divider divider-large mt-3 blue-grey darken-4" />
+              <hr class="divider divider-large mt-3 default-grey" />
             </div>
           </v-flex>
         </v-layout>
@@ -75,7 +75,12 @@
             Aucun résultats
           </h3>
         </v-flex>
-        <v-container grid-list-xs mt-0 fluid class="scroll-y pharmacists">
+        <v-container
+          grid-list-xs
+          mt-0
+          fluid
+          :class="{ 'scroll-y pharmacists': $vuetify.breakpoint.mdAndUp }"
+        >
           <v-layout row wrap>
             <v-flex
               v-for="pharmacist in pharmacists"

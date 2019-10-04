@@ -22,7 +22,7 @@ export default {
     return {
       src: "/images/logo-navbar.png",
       alt: "BlablaPharma logo",
-      srcMobile: "/images/logo-fav.png"
+      srcMobile: "/images/logo-navbar.png"
     };
   },
   computed: {

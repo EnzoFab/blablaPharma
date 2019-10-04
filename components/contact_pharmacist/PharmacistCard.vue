@@ -1,5 +1,5 @@
 <template>
-  <v-card flat color="grey lighten-5">
+  <v-card flat color="grey lighten-5" max-height="350" min-height="200">
     <v-container fluid grid-list-xs fill-height>
       <v-layout row wrap align-center>
         <v-flex md12 lg4 class="content-center" pb-1>
@@ -29,13 +29,15 @@
               <v-icon color="light-green lighten-4"
                 >fas fa-map-marker-alt</v-icon
               >
-              <span class="text-capitalize pl-2 ">
+              <span class="text-capitalize pl-2 text-truncate">
                 {{ fullAddress }}
               </span>
             </div>
 
             <v-icon color="light-green lighten-4">home_work</v-icon>
-            <span class="text-capitalize pl-2">{{ workplace }}</span>
+            <span class="text-capitalize pl-2 text-truncate">{{
+              workplace
+            }}</span>
           </div>
         </v-flex>
         <v-flex lg2 md8>

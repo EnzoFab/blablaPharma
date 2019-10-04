@@ -25,7 +25,7 @@
         <a
           class="text--section text-no-decoration blue-grey--text text--lighten-3"
           @click="gotoSignIn"
-          >s'inscrire</a
+          >S'inscrire</a
         >
       </div>
       <v-container fluid>

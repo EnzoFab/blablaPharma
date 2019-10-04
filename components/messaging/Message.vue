@@ -41,11 +41,9 @@
           }"
         >
           <div v-for="(word, i) in content.split('\n')" :key="i">
-            <span
-              v-if="word.length > 0"
-              class="text-breakline text--normal grey--text text--darken-1"
-              >{{ word }}</span
-            >
+            <span v-if="word.length > 0" class="text-breakline text--normal">{{
+              word
+            }}</span>
             <br v-else />
           </div>
         </div>
@@ -136,7 +134,7 @@
                 >
                   <span
                     v-if="word.length > 0"
-                    class="text-breakline text--section grey--text text--darken-2"
+                    class="text-breakline text--section "
                     >{{ word }}</span
                   >
                   <br v-else />
@@ -211,9 +209,7 @@ export default {
       return this.isPharmacist ? "default-green" : "default-grey";
     },
     messageClassColorClass() {
-      return this.isMessageSent
-        ? "default-green lighten-1"
-        : "default-grey lighten-4";
+      return this.isMessageSent ? "default-green " : "default-grey lighten-4";
     }
   },
   methods: {

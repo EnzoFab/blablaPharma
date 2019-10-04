@@ -73,7 +73,7 @@
                     depressed
                     block
                     large
-                    color="blue-grey lighten-1"
+                    color="default-grey"
                     dark
                     @click="signInType = 'PHARMACIST'"
                     >Je suis pharmacien
