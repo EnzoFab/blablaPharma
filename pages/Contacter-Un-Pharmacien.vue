@@ -158,7 +158,7 @@ export default {
       ]
     };
   },
-
+  middleware: "notPharmacist",
   components: { PharmacistAutocompleteField, PharmacistCard },
   data() {
     return {

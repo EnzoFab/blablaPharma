@@ -7,8 +7,7 @@
           >bien s'informer grâce à un contenu claire et ludique</span
         >
       </v-flex>
-      <v-flex xs1></v-flex>
-      <v-flex v-for="post in posts" :key="post.title" md3 sm12 pb-3>
+      <v-flex v-for="post in posts" :key="post.title" md4 sm12 pb-3>
         <v-card flat :to="post.href" raised style="border: solid 1px lightgray">
           <v-img
             :src="post.image"

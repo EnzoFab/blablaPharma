@@ -2,7 +2,7 @@
   <v-dialog v-model="toggleDialog" full-width>
     <v-card flat color="white" class="content-center" tile>
       <v-icon
-        color="black"
+        color="default-grey"
         class="pt-2"
         :size="30"
         @click="$emit('input', false)"

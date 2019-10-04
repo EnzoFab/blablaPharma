@@ -38,7 +38,9 @@
         <v-flex xs1 class="content-center">
           <v-dialog v-model="emojiPickerDialog" full-width width="300">
             <template v-slot:activator="{ on }">
-              <v-icon :size="iconSize" v-on="on">far fa-smile</v-icon>
+              <v-btn icon v-on="on">
+                <v-icon :size="iconSize">far fa-smile</v-icon>
+              </v-btn>
             </template>
             <no-ssr>
               <picker
@@ -62,9 +64,15 @@
           </v-dialog>
         </v-flex>
         <v-flex xs1 class="content-center">
-          <v-icon color="grey darken-3" :size="iconSize" @click="uploadFile"
-            >far fa-image</v-icon
+          <v-btn
+            icon
+            @click="uploadFile"
+            :disabled="files && files.length >= 4"
+            :size="iconSize"
           >
+            <v-icon :size="iconSize" color="grey darken-3">far fa-image</v-icon>
+          </v-btn>
+
           <input
             multiple
             type="file"
@@ -112,6 +120,7 @@
 <script>
 import { toBase64 } from "~/helpers";
 import * as Promise from "bluebird";
+import take from "lodash.take";
 import emojiSet from "emoji-mart-vue-fast/data/messenger.json";
 import { EmojiIndex, Picker } from "emoji-mart-vue-fast";
 
@@ -139,10 +148,16 @@ export default {
         file.type.includes("image")
       );
 
-      this.files = await Promise.map(files, async (file, key) => {
+      const filesBase64 = await Promise.map(files, async (file, key) => {
         const base64File = await toBase64(file);
         return { base64File, key };
       });
+
+      if (this.files) {
+        this.files = take(this.files.concat(filesBase64), 4);
+        return;
+      }
+      this.files = take(filesBase64, 4);
     },
 
     deleteFile(element) {

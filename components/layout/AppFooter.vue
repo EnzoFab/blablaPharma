@@ -143,7 +143,6 @@ export default {
         { name: "twitter", href: "https://twitter.com/blablapharma" }
       ],
       leftSectionElements: [
-        { text: "Qui sommes nous ?", href: "/more", nuxtLink: true },
         {
           text: "Vous êtes pharmacien ?",
           href: "/vous-etes-pharmacien",

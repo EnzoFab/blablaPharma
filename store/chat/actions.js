@@ -115,7 +115,10 @@ export default {
       rootState,
       "/conversations"
     );
-    commit(ADD_CONVERSATIONS, conversations);
+    commit(
+      ADD_CONVERSATIONS,
+      conversations.filter(conversation => conversation.messages.length > 0)
+    );
   },
 
   [CONTACT_PHARMACIST]: async ({ commit, rootState }, memberId) => {

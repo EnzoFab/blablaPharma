@@ -182,13 +182,12 @@
     <v-dialog v-model="showDialog" full-width scrollable>
       <v-card flat color="white" class="pa-1">
         <v-icon color="black" @click="showDialog = false">close</v-icon>
-        <v-img
+        <img
           v-if="type === 'image'"
           :src="content"
-          lazy-src="/images/empty.jpg"
-          aspect-ratio="2.75"
-        >
-        </v-img>
+          :alt="content"
+          style="max-width:100%; height:auto;"
+        />
       </v-card>
     </v-dialog>
   </div>

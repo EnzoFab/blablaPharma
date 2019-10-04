@@ -11,17 +11,20 @@
           'profile--section-image': $vuetify.breakpoint.mdAndUp
         }"
       >
+        <v-img
+          v-if="user.picture"
+          :src="user.picture"
+          alt="profile-img"
+          contain
+          aspect-ratio="1.75"
+        ></v-img>
         <v-avatar
+          v-else
           :color="pharmacistData ? 'default-green' : 'default-grey'"
           :size="$vuetify.breakpoint.smAndDown ? 120 : 200"
           tile
         >
-          <v-img
-            v-if="user.picture"
-            :src="user.picture"
-            alt="profile-img"
-          ></v-img>
-          <div v-else class="content-center">
+          <div class="content-center">
             <v-icon :size="$vuetify.breakpoint.smAndDown ? 100 : 170" dark
               >person</v-icon
             >
