@@ -1,4 +1,7 @@
 .home--mobile {
   background-image: url("/images/engagement.jpg");
-  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-attachment: scroll;
+  //background-repeat: repeat;
 }
