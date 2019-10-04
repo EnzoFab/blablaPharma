@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card flat color="transparent" class="content-center">
       <div v-if="accountActivated">
-        <h1 class=" title-main title-main-rail text--baseColor">
+        <h1 class=" title-main text--baseColor">
           Votre compte a bien été activé
         </h1>
         <h2 class="text-content text--baseColor">
@@ -11,7 +11,7 @@
         <v-btn flat color="blue" @click="showLoginDialog">connexion</v-btn>
       </div>
       <div v-else>
-        <h1 class=" title-main title-main-rail mb-2 text--baseColor">
+        <h1 class=" title-main mb-2 text--baseColor">
           Le compte n'a pas pu être activé
         </h1>
         <br />

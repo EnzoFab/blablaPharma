@@ -1,5 +1,5 @@
 <template>
-  <v-card flat color="grey lighten-5" max-height="350" min-height="200">
+  <v-card flat color="grey lighten-5">
     <v-container fluid grid-list-xs fill-height>
       <v-layout row wrap align-center>
         <v-flex md12 lg4 class="content-center" pb-1>
@@ -7,6 +7,7 @@
             <v-img
               aspect-ratio="2.75"
               :src="image"
+              lazy-src="/images/empty.jpg"
               alt="Photo du pharmaciens"
             ></v-img>
           </v-avatar>
@@ -25,19 +26,17 @@
               </span>
             </div>
 
-            <div>
+            <div class="text-truncate">
               <v-icon color="light-green lighten-4"
                 >fas fa-map-marker-alt</v-icon
               >
-              <span class="text-capitalize pl-2 text-truncate">
+              <span class="text-capitalize pl-2">
                 {{ fullAddress }}
               </span>
             </div>
 
             <v-icon color="light-green lighten-4">home_work</v-icon>
-            <span class="text-capitalize pl-2 text-truncate">{{
-              workplace
-            }}</span>
+            <span class="text-capitalize pl-2">{{ workplace }}</span>
           </div>
         </v-flex>
         <v-flex lg2 md8>

@@ -16,7 +16,7 @@
     </template>
     <template v-else-if="!showResetPwd">
       <v-card-title primary>
-        <h1 class="title-main title-main-rail content-center text--baseColor">
+        <h1 class="title-main content-center text--baseColor">
           {{ loginTitle }}
         </h1>
       </v-card-title>
@@ -94,7 +94,7 @@
     </template>
     <template v-else>
       <v-card-title primary>
-        <h1 class="title-main title-main-rail content-center text--baseColor">
+        <h1 class="title-main content-center text--baseColor">
           Mot de passe oublié
         </h1>
       </v-card-title>

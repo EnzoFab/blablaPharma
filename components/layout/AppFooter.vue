@@ -5,16 +5,11 @@
       <div class="footer text--section">
         <v-container grid-list-xs fluid fill-height>
           <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp" align-center>
-            <v-flex
-              offset-xs2
-              xs8
-              v-show="$vuetify.breakpoint.smAndUp"
-              class="text-xs-center"
-            >
+            <v-flex offset-xs2 xs8 class="text-xs-center hidden-xs-only">
               <img
                 src="/images/logo-footer.png"
                 alt="footer icon"
-                class="blabla-logo--small"
+                class="blabla-logo--extra-small"
               />
             </v-flex>
             <v-flex sm3 xs12 :pl-5="$vuetify.breakpoint.smAndUp">
@@ -32,6 +27,12 @@
                   class="text-no-decoration white--text"
                   >{{ element.text }}</nuxt-link
                 >
+                <span
+                  v-else-if="element.action"
+                  class="text-no-decoration white--text content-pointer"
+                  @click="element.action"
+                  >{{ element.text }}</span
+                >
                 <a
                   v-else
                   :href="element.href"
@@ -48,15 +49,14 @@
             >
               <div class="content-center">
                 <img
-                  v-show="$vuetify.breakpoint.xs"
                   src="/images/logo-footer.png"
                   alt="footer icon"
-                  class="blabla-logo--small"
+                  class="blabla-logo--small hidden-sm-and-up"
                 />
 
                 <div class="text-xs-center  white--text">
-                  La plateforme qui vous permet de discuter directement avec un
-                  pharmacien proche de chez vous !
+                  La plateforme qui vous permet de discuter directement <br />
+                  avec un pharmacien ou que vous soyez !
                 </div>
               </div>
               <div class="text-xs-center">
@@ -108,22 +108,31 @@
             </v-flex>
             <v-flex offset-xs2 xs8 class="content-center" mt-4
               >Copyright © BlaBlaPHAMA 2019, Tous droits réservés -
-              BlaBlaPHARMA.fr - Montpellier xxxxx
+              BlaBlaPHARMA.fr - Montpellier
             </v-flex>
           </v-layout>
         </v-container>
       </div>
     </v-footer>
+
+    <v-dialog v-model="showDialog" full-width>
+      <v-card flat>
+        <v-icon class="pl-2 pt-2" @click="showDialog = false">close</v-icon>
+        <contact />
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import Contact from "../forms/Contact";
 const CookieBanner = () => import("./CookieBanner");
 export default {
   name: "AppFooter",
-  components: { CookieBanner },
+  components: { Contact, CookieBanner },
   data() {
     return {
+      showDialog: false,
       icons: [
         {
           name: "facebook-f",
@@ -147,7 +156,9 @@ export default {
         { text: "F.A.Q", href: "/faq", nuxtLink: true },
         {
           text: "Contact",
-          href: ""
+          action: () => {
+            this.showDialog = true;
+          }
         }
       ],
       rightSectionElements: [

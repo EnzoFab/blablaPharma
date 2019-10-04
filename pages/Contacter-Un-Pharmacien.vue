@@ -2,7 +2,7 @@
   <div>
     <v-img
       src="/images/contact.jpg"
-      aspect-ratio="2.35"
+      aspect-ratio="3.15"
       gradient="to top right, rgba(255,255,255,0.25), rgba(220,230,255,.30)"
       alt="Contacter un pharmacien image de présentation"
     >
@@ -75,11 +75,34 @@
             Aucun résultats
           </h3>
         </v-flex>
+
+        <v-flex
+          class="hidden-md-and-up"
+          v-for="pharmacist in pharmacists"
+          offset-sm1
+          offset-md1
+          sm10
+          md5
+          pb-4
+          :key="pharmacist.id"
+        >
+          <pharmacist-card
+            :full-address="getFullAddress(pharmacist)"
+            :first-name="pharmacist.firstName"
+            :image="pharmacist.picture"
+            :last-name="pharmacist.lastName"
+            :workplace="pharmacist.institutionName"
+            :identifiant="pharmacist.id"
+            :gender="pharmacist.gender"
+            :status="pharmacist.professionLabel"
+            @pharmacist-card::contact="contactPharmacist"
+          />
+        </v-flex>
+
         <v-container
           grid-list-xs
-          mt-0
           fluid
-          :class="{ 'scroll-y pharmacists': $vuetify.breakpoint.mdAndUp }"
+          class="scroll-y pharmacists hidden-sm-and-down"
         >
           <v-layout row wrap>
             <v-flex
@@ -88,7 +111,7 @@
               offset-md1
               sm10
               md5
-              mb-4
+              pb-4
               :key="pharmacist.id"
             >
               <pharmacist-card
@@ -113,6 +136,7 @@
 <script>
 import to from "await-to-js";
 import pickBy from "lodash.pickby";
+import sampleSize from "lodash.samplesize";
 
 import { TOGGLE_CONNECTION_DIALOG, CONTACT_PHARMACIST } from "../store/types";
 
@@ -192,7 +216,7 @@ export default {
   async asyncData({ app, query }) {
     // todo improve, handle query, pagination, number on page
     const [e, res] = await to(
-      app.$pharmacist.search({ limit: 10, page: 0, ...query, verified: true })
+      app.$pharmacist.search({ limit: 100, page: 0, ...query, verified: true })
     );
 
     const pharmacists = !e && res ? res : [];
@@ -206,8 +230,8 @@ export default {
     const pharmacistsBlablapharma = !error && result ? result : [];
 
     return {
-      pharmacists,
-      pharmacistsBlablapharma
+      pharmacists: sampleSize(pharmacists, 10),
+      pharmacistsBlablapharma: sampleSize(pharmacistsBlablapharma, 2)
     };
   }
 };

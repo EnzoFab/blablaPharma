@@ -1,10 +1,7 @@
 <template>
   <v-fade-transition>
     <div>
-      <h2
-        v-show="withTitle"
-        class="content-center title-main-rail text--baseColor mb-2"
-      >
+      <h2 v-show="withTitle" class="content-center text--baseColor mb-2">
         Renvoi de mail d'activation
       </h2>
       <v-btn

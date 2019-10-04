@@ -3,7 +3,7 @@
     <app-nav-bar />
     <snack-bar />
     <v-content>
-      <v-container fluid pt-0 mt-0 px-0 mx-0 class="white">
+      <v-container fluid ma-0 pa-0 class="white">
         <nuxt />
       </v-container>
     </v-content>

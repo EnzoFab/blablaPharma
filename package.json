@@ -43,6 +43,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.pickby": "^4.6.0",
     "lodash.reduce": "^4.6.0",
+    "lodash.samplesize": "^4.2.0",
     "lodash.take": "^4.1.1",
     "lodash.union": "^4.6.0",
     "lodash.uniqby": "^4.7.0",
@@ -71,7 +72,9 @@
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^0.1.1",
     "require-extension-hooks-vue": "^2.0.0",
+    "responsive-loader": "^1.2.0",
     "sass-loader": "^7.1.0",
+    "sharp": "^0.23.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2"
   }

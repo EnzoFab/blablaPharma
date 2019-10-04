@@ -5,7 +5,7 @@
         <v-card flat>
           <v-card-title class="pt-1">
             <div class="title-main text--baseColor content-center">
-              <span class="title-main-rail">Nous contacter</span>
+              Nous contacter
             </div>
           </v-card-title>
           <v-card-text style="height: 85%" class="scroll-y">
@@ -139,14 +139,7 @@ export default {
             name: this.name,
             message: this.message
           })
-          .then(
-            response => {
-              //console.log('SUCCESS!', response.status, response.text);
-            },
-            err => {
-              console.log("FAILED...", err);
-            }
-          );
+          .catch(e => console.log("FAILED...", err));
       }
     }
   }

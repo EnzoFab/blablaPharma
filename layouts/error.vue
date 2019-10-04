@@ -3,7 +3,7 @@
     <v-card flat color="transparent">
       <v-card-title class="title-main">
         <div
-          class="content-center title-main-rail text--baseColor"
+          class="content-center text--baseColor"
           v-if="error.statusCode === 404"
         >
           {{ error.statusCode }}
@@ -12,7 +12,7 @@
           </div>
         </div>
 
-        <div class="content-center title-main-rail text--baseColor" v-else>
+        <div class="content-center text--baseColor" v-else>
           {{ otherError }}
         </div>
       </v-card-title>

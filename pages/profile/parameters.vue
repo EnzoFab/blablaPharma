@@ -96,6 +96,13 @@ export default {
         });
       }, 1500);
     }
+  },
+  watch: {
+    showDialog(newValue) {
+      if (!newValue) {
+        this.confirmText = null;
+      }
+    }
   }
 };
 </script>

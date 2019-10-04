@@ -12,9 +12,9 @@
         <div
           v-show="!signInType"
           :class="{
-            'title-main title-main-rail content-align-top': !smallScreen(),
+            //  'title-main content-align-top': !smallScreen(),
             'headline text-futura content-align-middle': smallScreen(),
-            'text--baseColor mt-2 content-align content-align-center white': true
+            'text--baseColor mt-2 content-align content-align-center white hidden-md-and-up': true
           }"
         >
           <div class="pa-2 content-center">
@@ -34,7 +34,7 @@
           >
             <v-container fill-height>
               <v-layout row wrap align-center>
-                <v-flex pt-4 mx-2>
+                <v-flex xs12 pt-4 mx-2>
                   <v-btn
                     v-show="!signInType"
                     depressed
@@ -67,7 +67,7 @@
           >
             <v-container fluid fill-height>
               <v-layout row wrap align-center>
-                <v-flex pa-4 mx-2>
+                <v-flex xs12 pt-4 mx-2>
                   <v-btn
                     v-if="!isPharmacist"
                     depressed
@@ -110,7 +110,7 @@
       </v-layout>
     </v-container>
     <v-container v-else class="content-center">
-      <span class="title-main title-main-rail text--baseColor">
+      <span class="title-main text--baseColor">
         Inscription complète
       </span>
       <div class="text--section text--baseColor mt-3">

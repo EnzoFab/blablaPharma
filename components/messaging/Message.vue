@@ -3,7 +3,12 @@
     <template v-if="embed">
       <div v-if="!hideAuthorName">
         <v-avatar color="light-grey lighten-4" size="25">
-          <v-img v-if="picture" :src="picture" alt="conversation image"></v-img>
+          <v-img
+            v-if="picture"
+            :src="picture"
+            lazy-src="/images/empty.jpg"
+            alt="conversation image"
+          ></v-img>
           <v-icon v-else size="25" dark :color="avatarColor">person_pin</v-icon>
         </v-avatar>
         <span
@@ -29,6 +34,7 @@
           class="message content-pointer"
           v-if="type === 'image'"
           :src="content"
+          lazy-src="/images/empty.jpg"
           aspect-ratio="1.75"
           alt="Conversation image"
           @click="showDialog = true"
@@ -86,7 +92,12 @@
           >
             <template v-if="!hideAuthorName">
               <v-avatar color="light-grey lighten-4" size="40">
-                <v-img v-if="picture" :src="picture" alt="Author image"></v-img>
+                <v-img
+                  v-if="picture"
+                  :src="picture"
+                  lazy-src="/images/empty.jpg"
+                  alt="Author image"
+                ></v-img>
                 <v-icon v-else size="38" dark :color="avatarColor"
                   >person_pin</v-icon
                 >
@@ -114,6 +125,7 @@
                 class="message pt-2 content-pointer"
                 v-if="type === 'image'"
                 :src="content"
+                lazy-src="/images/empty.jpg"
                 aspect-ratio="1.75"
                 alt="Url Preview image"
                 @click="showDialog = true"
@@ -170,7 +182,12 @@
     <v-dialog v-model="showDialog" full-width scrollable>
       <v-card flat color="white" class="pa-1">
         <v-icon color="black" @click="showDialog = false">close</v-icon>
-        <v-img v-if="type === 'image'" :src="content" aspect-ratio="2.75">
+        <v-img
+          v-if="type === 'image'"
+          :src="content"
+          lazy-src="/images/empty.jpg"
+          aspect-ratio="2.75"
+        >
         </v-img>
       </v-card>
     </v-dialog>

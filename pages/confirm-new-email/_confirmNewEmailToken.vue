@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card flat color="transparent" class="content-center pt-2">
       <template v-if="isValidated">
-        <h1 class=" title-main title-main-rail text--baseColor mb-2">
+        <h1 class=" title-main text--baseColor mb-2">
           Votre email a bien été activé
         </h1>
         <h2 class="text-content text--baseColor">
@@ -11,7 +11,7 @@
         <v-btn flat color="blue" @click="showLoginDialog">connexion</v-btn>
       </template>
       <template v-else>
-        <h1 class=" title-main title-main-rail text--baseColor mb-2">
+        <h1 class=" title-main text--baseColor mb-2">
           Votre adresse mail n'a pas pu être validé.
         </h1>
         <h2 class="text-content text--baseColor">

@@ -7,7 +7,7 @@
     word-wrap: break-word;
   }
 
-  &-futura {
+  &-truncate &-futura {
     font-family: futura-light, light, Arial, sans-serif !important;
   }
 
@@ -50,21 +50,13 @@
   font-size: 3.8vw;
 
   &-main {
-    font-family: "Helvetica-bold", sans-serif;
+    font-family: "Helvetica-bold", Arial sans-serif;
     font-size: 55px;
-    line-height: 0.9em;
-    // font-weight: 900;
-  }
+    line-height: normal;
 
-  &-main-rail {
     @media screen and (max-width: 600px) {
       font-size: 28px;
     }
-    /*@media screen and (min-width: 601px) {
-      font-size: 52px;
-    } */
-    line-height: 0.9em;
-    letter-spacing: 0.05em;
   }
 
   &-section {

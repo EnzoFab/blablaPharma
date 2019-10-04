@@ -3,30 +3,29 @@
     <section>
       <responsive-parallax
         src="/images/banner.jpg"
-        :min-height="370"
+        :min-height="400"
         :max-height="500"
         user-overlay
       >
         <v-container fluid fill-height>
           <v-layout row wrap align-center>
             <v-flex hidden-xs-only xs12></v-flex>
-            <v-flex offset-sm6 sm6 xs12>
+            <v-flex offset-sm6 sm6 pr-5 xs12>
               <v-card class=" pl-2 pt-1 pb-3" flat>
                 <v-card-title class="pa-2">
                   <h1 class="text--baseColor title-main pt-2 ">
-                    <span class="title-main-rail">Votre pharmacien<br /></span>
-                    <span class="title-main-rail">en ligne<br /> </span>
-                    <span class="title-main-rail">et à votre écoute</span>
-                    <br />
+                    Votre pharmacien<br />
+                    en ligne<br />
+                    et à votre écoute
                   </h1>
                 </v-card-title>
                 <v-card-text>
                   <span class="text-content text--baseColor"
-                    >Une réponse fiable et immédiate</span
+                    >Des réponses fiables et immédiates</span
                   >
                   <v-container pt-2 pb-0 px-0 ma-0 fluid grid-list-md>
-                    <v-layout row wrap align-center>
-                      <v-flex md5 sm12 offset-md1>
+                    <v-layout row wrap>
+                      <v-flex md6 sm12>
                         <v-btn
                           color="default-green"
                           block
@@ -39,7 +38,7 @@
                           >Contacter un pharmacien</v-btn
                         >
                       </v-flex>
-                      <v-flex md5 sm12>
+                      <v-flex md6 sm12>
                         <v-btn
                           color="default-green"
                           block
@@ -101,22 +100,13 @@
     <section>
       <blog-home-section />
     </section>
-    <section>
-      <responsive-parallax
-        src="/images/contact.jpg"
-        :min-height="700"
-        :max-height="700"
-        user-overlay
-      >
-        <contact></contact>
-      </responsive-parallax>
-    </section>
-    <video-dialog v-model="showDialog" />
+
+    <how-it-works-dialog v-model="showDialog" />
   </div>
 </template>
 
 <script>
-import VideoDialog from "../components/homePage/VideoDialog";
+import HowItWorksDialog from "../components/homePage/HowItWorksDialog";
 import EngagementSection from "../components/homePage/EngagementSection";
 const BlogHomeSection = () => import("~/components/homePage/BlogHomeSection");
 const ResponsiveParallax = () =>
@@ -139,7 +129,7 @@ export default {
   },
   components: {
     EngagementSection,
-    VideoDialog,
+    HowItWorksDialog,
     BlogHomeSection,
     Contact,
     ResponsiveParallax

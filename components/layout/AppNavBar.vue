@@ -62,12 +62,8 @@ export default {
         {
           title: () => "Blog",
           display_case: [display_cases.EVERY],
-          action: () =>
-            location.replace(
-              "https://blablapharma.wixsite.com/blablapharma/blog"
-            ),
-          // isLink: true,
-          // nuxtLink: "/blog",
+          isLink: true,
+          nuxtLink: "/blog",
           spacerBefore: false
         },
         {

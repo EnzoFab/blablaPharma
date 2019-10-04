@@ -2,7 +2,7 @@
   <v-container fluid pt-4>
     <v-layout row wrap>
       <v-flex pt-1 xs12>
-        <h1 class="content-center title-main-rail text--baseColor">
+        <h1 class="content-center text--baseColor">
           Gestion des pharmaciens
         </h1>
       </v-flex>
@@ -19,7 +19,7 @@
       </v-flex>
       <v-flex mt-3 pa-3 xs10 offset-xs1 class="scroll-y pharmacists-holder">
         <v-flex v-if="pharmacists.length === 0" xs12>
-          <h3 class="content-center text--baseColor title-main-rail">
+          <h3 class="content-center text--baseColor">
             Aucun résultat
           </h3>
         </v-flex>

@@ -2,7 +2,7 @@
   <v-container fluid pt-4>
     <v-card flat color="transparent">
       <template v-if="tokenIsValid">
-        <h1 class="title-main title-main-rail text--baseColor content-center">
+        <h1 class="title-main text--baseColor content-center">
           Mise a jour du mot de passe
         </h1>
         <v-form
@@ -63,7 +63,7 @@
         </v-card-text>
       </template>
       <div v-else class="content-center pt-3">
-        <h1 class="title-main title-main-rail text--baseColor">
+        <h1 class="title-main text--baseColor">
           Ce lien n'est pas valide
         </h1>
         <h2 class="text--baseColor text-content mt-2">

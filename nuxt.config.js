@@ -1,10 +1,6 @@
 const colors = require("vuetify/es5/util/colors").default;
 // const env = require("dotenv").config();
 
-//console.log("API_URL", process.env.API_URL, process.env.npm_package_name);
-
-//const mode = process.env.NODE_ENV === "development" ? "spa" : "universal";
-
 module.exports = {
   mode: "universal",
   // env: env.parsed,
@@ -255,6 +251,30 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, { isDev, isClient }) {
+      // adding the new loader as the first in the list
+      config.module.rules.unshift({
+        test: /\.(png|jpe?g|gif)$/,
+        use: {
+          loader: "responsive-loader",
+          options: {
+            // disable: isDev,
+            placeholder: true,
+            quality: 85,
+            placeholderSize: 30,
+            name: "img/[name].[hash:hex:7].[width].[ext]",
+            adapter: require("responsive-loader/sharp")
+          }
+        }
+      });
+      // remove old pattern from the older loader
+      config.module.rules.forEach(value => {
+        if (String(value.test) === String(/\.(png|jpe?g|gif|svg|webp)$/)) {
+          // reduce to svg and webp, as other images are handled above
+          value.test = /\.(svg|webp)$/;
+          // keep the configuration from image-webpack-loader here unchanged
+        }
+      });
+    }
   }
 };

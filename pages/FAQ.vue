@@ -2,17 +2,17 @@
   <div>
     <v-img
       src="/images/faq.jpg"
-      aspect-ratio="2.35"
-      gradient="to top right, rgba(150,150,150,0.12), rgba(220,230,130,.14)"
+      aspect-ratio="3.15"
+      gradient="to top right, rgba(255,255,255,0.30), rgba(220,230,230,.14)"
       alt="Foire aux questions"
     >
       <v-container bg fluid fill-height>
         <v-layout row wrap align-center>
           <div class="content-center title-main">
-            <span class="title-section-huge blue-grey--text text--darken-4"
+            <span class="title-section-huge text--baseColor"
               >Foire aux questions</span
             >
-            <hr class="divider divider-large mt-3 blue-grey darken-4" />
+            <hr class="divider divider-large mt-3 default-grey" />
           </div>
         </v-layout>
       </v-container>
