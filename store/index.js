@@ -14,13 +14,12 @@ const createWebsocketPlugin = () => {
   return store => {
     const socket = SailSocketWrapper.socketInstance;
 
-    socket.on("event", data => {
-      console.log(data);
-      // do something
+    socket.on("event:read", message => {
+      store.dispatch(`chat/messageWasRead`, message);
     });
 
-    socket.on("message", data => {
-      store.dispatch(`chat/${RECEIVE_MESSAGE}`, data);
+    socket.on("message", message => {
+      store.dispatch(`chat/${RECEIVE_MESSAGE}`, message);
     });
 
     store.subscribe(mutation => {

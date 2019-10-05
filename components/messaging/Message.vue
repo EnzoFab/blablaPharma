@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="embed">
+    <template v-if="embed || $vuetify.breakpoint.smAndDown">
       <div v-if="!hideAuthorName">
         <v-avatar color="light-grey lighten-4" size="25">
           <v-img
@@ -69,7 +69,6 @@
         </div>
       </div>
     </template>
-
     <v-hover v-else>
       <v-container
         slot-scope="{ hover }"
@@ -178,7 +177,12 @@
         </v-layout>
       </v-container>
     </v-hover>
-
+    <div
+      :class="{ 'text-xs-right': !embed, 'text-xs-center': embed }"
+      v-show="wasRead"
+    >
+      <span class="font-italic text--baseColor">vu</span>
+    </div>
     <v-dialog v-model="showDialog" full-width scrollable>
       <v-card flat color="white" class="pa-1">
         <v-icon color="black" @click="showDialog = false">close</v-icon>
@@ -194,21 +198,21 @@
 </template>
 
 <script>
-import UrlPreview from "./UrlPreview";
 export default {
   name: "Message",
-  components: { UrlPreview },
   props: {
     authorFullName: String,
     authorId: String | Number,
     createdAt: Number,
     content: String,
+    // contained in a small window
     embed: { type: Boolean, default: false },
     error: { type: Boolean, default: false },
     hideAuthorName: { type: Boolean, default: false },
     isPharmacist: Boolean,
     picture: String,
-    type: String
+    type: String,
+    wasRead: Boolean
   },
   data() {
     return {

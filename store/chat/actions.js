@@ -12,8 +12,7 @@ import {
   ADD_CONVERSATIONS,
   UPDATE_MESSAGE,
   FETCH_MESSAGE,
-  RECEIVE_MESSAGE,
-  IS_TYPING
+  RECEIVE_MESSAGE
 } from "../types";
 
 /*
@@ -135,12 +134,46 @@ export default {
     return conversation.id;
   },
 
-  [IS_TYPING]: async ({ commit, rootState }, conversationId) => {
-    // to warn the user that i'm typing in the conversation
-    await SailSocketWrapper.post(
+  /**
+   *  To implement the "vu" on a message.
+   *  The idea to only look at the last message of the conversation
+   *  (of course this function isn't to be called  on a message send by the current user
+   *  but on received message)
+   *  When the last message of a conversation is read we consider that every other
+   *  messages are read too
+   *  So some message may have the read attribute to true, but it doesn't matter
+   *  because we only take care of the last message of the conversation
+   *
+   * @param commit
+   * @param rootState
+   * @param {object} message
+   */
+  readMessage: ({ commit, rootState }, message) => {
+    SailSocketWrapper.post(
       rootState,
-      `/conversations/${conversationId}/events`,
-      { type: "typing" }
+      `/conversations/${message.conversation}/event/read`,
+      { messageId: message.id }
     );
+
+    commit(UPDATE_CONVERSATION, {
+      conversationId: message.conversation,
+      message: { ...message, read: true }
+    });
+
+    commit(UPDATE_MESSAGE, { id: message.id, newMessageData: { read: true } });
+  },
+
+  /**
+   * Meant to be called when we receive the event that our message was read
+   * @param commit
+   * @param {object} message
+   */
+  messageWasRead: ({ commit }, message) => {
+    commit(UPDATE_CONVERSATION, {
+      conversationId: message.conversation,
+      message: { ...message, read: true }
+    });
+
+    commit(UPDATE_MESSAGE, { id: message.id, newMessageData: { read: true } });
   }
 };

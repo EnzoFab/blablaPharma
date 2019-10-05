@@ -1,3 +1,4 @@
+import get from "lodash.get";
 export default {
   /**
    *  Filter messages which belong to the conversation given in argument
@@ -14,5 +15,20 @@ export default {
    * @returns {function(*): *}
    */
   getConversation: state => idConversation =>
-    state.conversations[idConversation]
+    state.conversations[idConversation],
+
+  /**
+   *
+   * @param state
+   * @returns {function(*): boolean}
+   */
+  hasNewMessages: state => connectedUserId => {
+    const conversations = Object.values(state.conversations);
+    return conversations.some(conversation => {
+      return (
+        get(conversation, "lastMessage.author") !== connectedUserId &&
+        !get(conversation, "lastMessage.read", true)
+      );
+    });
+  }
 };

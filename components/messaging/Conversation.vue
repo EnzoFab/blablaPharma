@@ -33,7 +33,7 @@
           <v-progress-circular indeterminate size="64"></v-progress-circular>
         </v-flex>
         <v-flex mx-0 px-0 xs12 v-else>
-          <v-container ma-0 py-0 fluid grid-list-xl>
+          <v-container ma-0 py-0 fluid grid-list-xl @click="readMessage">
             <v-layout
               row
               wrap
@@ -102,6 +102,7 @@
                   :picture="message.picture"
                   :embed="embed"
                   :error="message.error"
+                  :was-read="isMessageRead(message)"
                 />
               </v-flex>
 
@@ -132,6 +133,7 @@ import to from "await-to-js";
 import last from "lodash.last";
 import head from "lodash.head";
 import debounce from "lodash.debounce";
+import get from "lodash.get";
 
 import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
 const InfiniteLoading = () => import("vue-infinite-loading");
@@ -206,6 +208,23 @@ export default {
     }
   },
   methods: {
+    readMessage() {
+      const connectedUserId = get(this.$store.getters, "connectedUser.id");
+      const lastMessage = last(this.messages);
+
+      if (!connectedUserId || lastMessage) {
+        return;
+      }
+
+      const notUserMessage = lastMessage.author !== connectedUserId;
+
+      if (!notUserMessage || lastMessage.read) {
+        return;
+      }
+
+      this.$store.dispatch("chat/readMessage", lastMessage);
+    },
+
     infiniteHandler($state) {
       // stop the first load
       if (!this.infiniteLoadingActivate) {
@@ -235,8 +254,8 @@ export default {
         $state.complete();
       }, 1000);
     },
-
     handleNewMessage(data) {
+      // create an object with an unique which will be updated
       const message = {
         ...data,
         id: `h${this.conversationId}${this.messages.length + 1}`,
@@ -244,14 +263,25 @@ export default {
       };
 
       this.$store.dispatch(`chat/${SEND_MESSAGE}`, message);
+    },
+    /**
+     * return true if message is read and the message isn't sent by the current user
+     * @param {object} message
+     * @return {Boolean}
+     */
+    isMessageRead(message) {
+      //
+      const connectedUserId = get(this.$store.getters, "connectedUser.id");
+      const isUserMessage =
+        connectedUserId && message.author === connectedUserId;
+      const isLastMessage =
+        get(this.getConversationData, "lastMessage.id") === message.id;
 
-      /* this.$nextTick(() => {
-        this.scrollToMessage(message);
-      });*/
+      return isUserMessage && isLastMessage && message.read;
     },
 
     /**
-     * Center the window on the new message
+     * Center the window on the message
      * @param {object} message
      */
     scrollToMessage(message) {
@@ -270,10 +300,12 @@ export default {
     },
 
     scrollBottom() {
+      // scroll to the last message
       this.scrollToMessage(last(this.messages));
     },
 
     scrollTop() {
+      // scroll to the first message
       this.scrollToMessage(head(this.messages));
     },
 

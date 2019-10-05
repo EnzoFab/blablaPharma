@@ -17,15 +17,23 @@
         <nuxt-link
           v-if="item.isLink"
           :class="{
-            'no-outline': true,
             'font-weight-bold': isActive(item.nuxtLink),
-            'text--baseColor': true,
+            'text--baseColor no-outline': true,
             'px-3': !item.spacerBefore
           }"
           :to="item.nuxtLink"
           tag="button"
-          >{{ item.title() }}</nuxt-link
         >
+          <v-badge
+            :value="item.widthBadge ? item.widthBadge() : false"
+            color="default-green"
+          >
+            <template v-slot:badge>
+              <span>!</span>
+            </template>
+            <span> {{ item.title() }}</span>
+          </v-badge>
+        </nuxt-link>
         <v-menu v-else-if="item.childs !== undefined" offset-y offset-x fixed>
           <template v-slot:activator="{ on }">
             <button

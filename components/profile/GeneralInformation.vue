@@ -50,12 +50,13 @@
 
           <v-card-text
             :class="{
-              'text-futura title-section-small text--baseColor ': true,
+              'text-content text--baseColor ': true,
               'profile--section-general-information':
                 $vuetify.breakpoint.mdAndUp
             }"
           >
             <div>
+              <v-icon color="grey lighten-1">fas fa-at</v-icon>
               <span class="ml-1"> {{ user.email }} </span>
             </div>
 
@@ -79,12 +80,12 @@
           <v-card-text
             v-if="pharmacistData"
             :class="{
-              'text-futura title-section-small text--baseColor ': true,
+              'text-content text--baseColor ': true,
               'profile--section-general-information':
                 $vuetify.breakpoint.mdAndUp
             }"
           >
-            <h2 class=" headline text--baseColor mb-2">
+            <h2 class="text-content text--baseColor mb-2">
               <u>{{ pharmacistRole }}</u>
               <v-btn
                 class="content--right"

@@ -14,7 +14,6 @@ export const REMOVE_MESSAGES_FROM_STORE = "mutation:remove_messages";
 export const REMOVE_CONVERSATIONS_FROM_STORE = "mutation:remove_conversations";
 export const CONTACT_PHARMACIST = "action:contact_pharmacist";
 export const SEND_MESSAGE = "action:send_message";
-export const IS_TYPING = "action:is_typing";
 export const RECEIVE_MESSAGE = "action:receive_message";
 export const FETCH_CONVERSATION = "action:fetch_conversation";
 export const FETCH_MESSAGE = "action:fetch_message";

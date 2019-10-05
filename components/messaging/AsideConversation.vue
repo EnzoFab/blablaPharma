@@ -2,23 +2,34 @@
   <div
     :class="{
       'active-conversation': isActive,
-      'aside-conversations-conversation pa-2 text-content text--baseColor': true
+      'aside-conversations-conversation pa-2 title-section-small  text--baseColor': true
     }"
   >
     <v-avatar :size="avatarSize">
       <v-img v-if="picture" :src="picture"></v-img>
       <v-icon v-else :color="avatarColor" :size="avatarSize">person_pin</v-icon>
     </v-avatar>
-    <span :class="{ 'font-weight-bold pl-1': isActive }"
+    <span
+      :class="{
+        'font-weight-bold pl-1': isActive,
+        'black--text': messageNotRead
+      }"
       >{{ firstName }} {{ lastName }}</span
     >
-    <div class="text-truncate font-italic text--section text-xs-left pl-3 pt-2">
+    <div
+      :class="{
+        'text-truncate text--section text-xs-left pl-5': true,
+        'font-weight-bold black--text': messageNotRead,
+        'font-italic': !messageNotRead
+      }"
+    >
       {{ message }}
     </div>
   </div>
 </template>
 
 <script>
+import get from "lodash.get";
 export default {
   name: "AsideConversation",
   props: {
@@ -58,6 +69,13 @@ export default {
     },
     avatarSize() {
       return this.$vuetify.breakpoint.smAndDown ? 35 : 45;
+    },
+    messageNotRead() {
+      const connectedUserId = get(this.$store.getters, "connectedUser.id");
+      const author = get(this.lastMessage, "author");
+      const messageIsRead = get(this.lastMessage, "read", true);
+      console.log(connectedUserId, author, messageIsRead, this.lastMessage);
+      return connectedUserId !== author && !messageIsRead;
     }
   }
 };

@@ -37,7 +37,7 @@
                 align-center
                 xs12
                 :key="index"
-                class="content-center mt-3 headline content-pointer "
+                class="content-center mt-3 content-pointer "
               >
                 <v-expansion-panel
                   v-if="item.childs !== undefined"
@@ -58,7 +58,11 @@
                       <div
                         v-for="child in item.childs"
                         :key="child.title"
-                        class="content-center"
+                        :class="{
+                          'text--baseColor no-outline text-xs-center': true,
+                          'font-weight-black text-content': isActive(child),
+                          'text--section': !isActive(child)
+                        }"
                       >
                         <span
                           class="text--baseColor text-futura"

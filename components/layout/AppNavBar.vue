@@ -47,7 +47,8 @@ export default {
           display_case: [display_cases.EVERY],
           isLink: true,
           nuxtLink: "/",
-          spacerBefore: false
+          spacerBefore: false,
+          widthBadge: false
         },
         {
           title: () => "Contacter un pharmacien",
@@ -78,7 +79,13 @@ export default {
           display_case: [display_cases.LOGGED],
           isLink: true,
           nuxtLink: "/messages",
-          spacerBefore: false
+          widthBadge: () => {
+            if (!this.$store.getters.isLoggedIn) {
+              return false;
+            }
+            const connectedUserId = this.$store.getters.connectedUser.id;
+            return this.$store.getters["chat/hasNewMessages"](connectedUserId);
+          }
         },
         {
           title: () => {
@@ -95,12 +102,14 @@ export default {
           childs: [
             {
               title: "Profil",
+              nuxtLink: "/profile/",
               action: () => {
                 this.$router.push({ path: "/profile/" });
               }
             },
             {
               title: "Paramètres",
+              nuxtLink: "/profile/parameters",
               action: () => {
                 this.$router.push({ path: "/profile/parameters" });
               }
