@@ -212,7 +212,7 @@ export default {
       const connectedUserId = get(this.$store.getters, "connectedUser.id");
       const lastMessage = last(this.messages);
 
-      if (!connectedUserId || lastMessage) {
+      if (!connectedUserId || !lastMessage) {
         return;
       }
 
