@@ -327,6 +327,7 @@ export default {
     conversationId: {
       immediate: true,
       handler(newId) {
+        this.readMessage();
         this.infiniteLoadingActivate = false;
         this.loading = true;
 
@@ -343,6 +344,10 @@ export default {
           }
 
           this.loading = false;
+          const lastMessage = last(this.messages);
+          if (lastMessage) {
+            this.scrollToMessage(lastMessage);
+          }
         }, 1500);
       }
     },
@@ -363,7 +368,7 @@ export default {
       if (
         // oldValue.length !== newValue.length &&
         !lastOldValue ||
-        lastNewValue.id !== lastOldValue.id
+        (lastNewValue && lastNewValue.id !== lastOldValue.id)
       ) {
         this.watcherActivated = false;
         this.scrollToMessage(lastNewValue);
@@ -371,6 +376,17 @@ export default {
         this.watcherActivated = true;
       }
     }, 50)
+  },
+  mounted() {
+    const lastMessage = last(this.messages);
+
+    if (lastMessage) {
+      this.$nextTick(
+        debounce(() => {
+          this.scrollToMessage(lastMessage);
+        }, 1500)
+      );
+    }
   }
 };
 </script>

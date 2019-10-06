@@ -74,7 +74,6 @@ export default {
       const connectedUserId = get(this.$store.getters, "connectedUser.id");
       const author = get(this.lastMessage, "author");
       const messageIsRead = get(this.lastMessage, "read", true);
-      console.log(connectedUserId, author, messageIsRead, this.lastMessage);
       return connectedUserId !== author && !messageIsRead;
     }
   }

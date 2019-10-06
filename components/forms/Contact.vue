@@ -11,10 +11,10 @@
           <v-card-text style="height: 85%" class="scroll-y">
             <div class="content-center text--baseColor">
               <div class="text--section">
-                Des remarques, des améliorations à suggérer
+                Des remarques, des améliorations à suggérer,
               </div>
               <div class="text--section">
-                Votre pharmacien pas encore inscrit ?
+                votre pharmacien pas encore inscrit ?
               </div>
               <div class="text--section">
                 Faites le nous savoir par ici
@@ -139,7 +139,7 @@ export default {
             name: this.name,
             message: this.message
           })
-          .catch(e => console.log("FAILED...", err));
+          .catch(e => console.log("FAILED...", e));
       }
     }
   }

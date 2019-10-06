@@ -56,7 +56,7 @@
 
                 <div class="text-xs-center  white--text">
                   La plateforme qui vous permet de discuter directement <br />
-                  avec un pharmacien ou que vous soyez !
+                  avec un pharmacien où que vous soyez !
                 </div>
               </div>
               <div class="text-xs-center">
@@ -108,7 +108,7 @@
             </v-flex>
             <v-flex offset-xs2 xs8 class="content-center" mt-4
               >Copyright © BlaBlaPHAMA 2019, Tous droits réservés -
-              BlaBlaPHARMA.fr - Montpellier
+              BlaBlaPHARMA.fr
             </v-flex>
           </v-layout>
         </v-container>
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import Contact from "../forms/Contact";
+const Contact = () => import("../forms/Contact");
 const CookieBanner = () => import("./CookieBanner");
 export default {
   name: "AppFooter",
@@ -161,12 +161,16 @@ export default {
         }
       ],
       rightSectionElements: [
-        { text: "Protection de vos données", href: "/files/data-protection" },
+        {
+          text: "Protection de vos données",
+          href: "/files/data-protection.pdf",
+          blank: true
+        },
         //  { text: "Mention légales", href: "" },
         //  { text: "Politique de confidentialité", href: "" },
         {
           text: "Conditions générales de services",
-          href: "/files/general-terms_of_use.pdf",
+          href: "/files/general-terms-of-use.pdf",
           blank: true
         },
         {

@@ -17,6 +17,9 @@
           <v-card
             v-show="!opennedConversations[conversation.conversationId]"
             class="content-pointer"
+            :color="
+              hasNewMessage(conversation) ? 'default-green lighten-1' : 'white'
+            "
             @click.native="
               toggleConversation(conversation.conversationId, true)
             "
@@ -26,10 +29,12 @@
               @click.stop="deleteConversation(conversation.conversationId)"
               >close</v-icon
             >
-            <div class="content-center text--baseColor text--section pa-2 ">
+
+            <div class="text-xs-center text--section pa-2" style="width: 100%">
               <span class="text-breakline">{{ conversation.fullName }}</span>
             </div>
           </v-card>
+
           <v-card v-show="opennedConversations[conversation.conversationId]">
             <v-icon
               style="float: right"
@@ -64,7 +69,8 @@ import {
   FETCH_CONVERSATION
 } from "../../store/types";
 import take from "lodash.take";
-import Conversation from "../messaging/Conversation";
+import get from "lodash.get";
+const Conversation = () => import("../messaging/Conversation");
 
 export default {
   name: "FloatingConversations",
@@ -124,6 +130,17 @@ export default {
     },
     deleteConversation(id) {
       this.$store.commit(`chat/${REMOVE_ACTIVE_CONVERSATION}`, id);
+    },
+    hasNewMessage(conversation) {
+      // return true if the last message of the conversation was received by the current user
+      // and isn't read yet
+      const lastMessage = get(conversation, "lastMessage");
+
+      if (!lastMessage) {
+        return false;
+      }
+      const connectedUserId = get(this.$store.getters, "connectedUser.id");
+      return lastMessage.author !== connectedUserId && !lastMessage.read;
     }
   },
   watch: {

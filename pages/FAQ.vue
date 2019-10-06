@@ -27,7 +27,7 @@
             Lorsque vous souhaitez contacter un pharmacien, aller dans l’onglet
             « pharmaciens » et inscrivez son nom, le nom de la pharmacie ou le
             nom de la ville où il exerce et retrouvez-le dans la liste des
-            pharmaciens inscrits dans la liste.
+            pharmaciens inscrits.
           </p>
           <p>Cliquez sur le bouton « Contacter ».</p>
           <p>
@@ -44,7 +44,10 @@
             Non, malheureusement la liste des patients n’est pas disponible sur
             le site. C’est donc au patient de faire le premier pas.
           </p>
-          <p>Dès lors, le pharmacien aura accès à</p>
+          <p>
+            Dès lors, le pharmacien pourra vous contacter au travers de la
+            discussion établie
+          </p>
         </v-card-text>
 
         <h2 class="title-section text--baseColor">
@@ -67,8 +70,7 @@
           <br />
           <p>
             <span class="font-weight-bold">BlaBlaPHARMA</span> vous permet de
-            trouver la réponse rapidement, sans avoir à faire la queue à la
-            pharmacie !
+            trouver la réponse rapidement, sans avoir à vous déplacer.
           </p>
         </v-card-text>
 

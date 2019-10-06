@@ -53,6 +53,9 @@
             <br v-else />
           </div>
         </div>
+        <div class="text-xs-right" v-show="wasRead">
+          <span class="font-italic text--baseColor">vu</span>
+        </div>
         <div
           v-if="error"
           class="content-center red--text text--section font-italic"
@@ -151,6 +154,9 @@
                   <br v-else />
                 </div>
               </div>
+              <div class="text-xs-right pt-1 pr-1" v-show="wasRead">
+                <span class="font-italic text--baseColor">vu</span>
+              </div>
               <div
                 v-if="error"
                 class="content-center red--text text--section font-italic"
@@ -177,12 +183,6 @@
         </v-layout>
       </v-container>
     </v-hover>
-    <div
-      :class="{ 'text-xs-right': !embed, 'text-xs-center': embed }"
-      v-show="wasRead"
-    >
-      <span class="font-italic text--baseColor">vu</span>
-    </div>
     <v-dialog v-model="showDialog" full-width scrollable>
       <v-card flat color="white" class="pa-1">
         <v-icon color="black" @click="showDialog = false">close</v-icon>

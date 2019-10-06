@@ -114,11 +114,12 @@
         Inscription complète
       </span>
       <div class="text--section text--baseColor mt-3">
-        Un mail a été envoyé sur votre boîte mail pour finaliser votre
-        inscription.
+        Un e-mail sera envoyé dans les 30 prochaines minutes sur votre boîte
+        mail pour finaliser votre inscription.
       </div>
       <div class="content-center text--section text--baseColor mt-3">
-        Je n'ai pas reçu le mail d'activation ?
+        Vous n'avez pas reçu le mail d'activation ? Vérifier votre boîte spam ou
+        cliquez sur
         <resend-activation-mail />
       </div>
     </v-container>

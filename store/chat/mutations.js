@@ -2,6 +2,8 @@ import keyBy from "lodash.keyby";
 import last from "lodash.last";
 import pickBy from "lodash.pickby";
 import union from "lodash.union";
+import unionWith from "lodash.unionwith";
+import isEqual from "lodash.isequal";
 import take from "lodash.take";
 
 import {
@@ -25,7 +27,8 @@ export default {
    * @param {Array} message
    */
   [ADD_MESSAGES]: (state, messages) => {
-    state.messages = state.messages.concat(messages);
+    state.messages = unionWith(state.messages, messages, isEqual);
+    //state.messages.concat(messages);
     //  .sort((a, b) => a.createdAt - b.createdAt);
   },
 
