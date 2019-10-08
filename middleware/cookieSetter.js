@@ -1,13 +1,15 @@
 import {
   SET_JWT_TOKEN,
   SET_CONNECTED_USER,
-  ADD_ACTIVE_CONVERSATIONS
+  ADD_ACTIVE_CONVERSATIONS,
+  TOGGLE_NOTIFICATION_SOUND
 } from "../store/types";
 
 export default ({ app, store }) => {
   const accessToken = app.$cookies.get("accessToken");
   const userData = app.$cookies.get("userData");
   const activeConversations = app.$cookies.get("activeConversations");
+  const notificationActivated = app.$cookies.get("notificationActivated");
 
   if (accessToken && userData) {
     // if the value of the token isn't null
@@ -18,4 +20,6 @@ export default ({ app, store }) => {
   if (activeConversations && activeConversations.length > 0) {
     store.commit(`chat/${ADD_ACTIVE_CONVERSATIONS}`, activeConversations);
   }
+
+  store.commit(`chat/${TOGGLE_NOTIFICATION_SOUND}`, notificationActivated);
 };

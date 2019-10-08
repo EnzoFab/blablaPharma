@@ -1,4 +1,5 @@
 export const SET_JWT_TOKEN = "mutation:set_jwt_token";
+export const TOGGLE_NOTIFICATION_SOUND = "mutation:toggle_notification_sound";
 export const SET_CONNECTED_USER = "mutation:set_connected_user";
 export const TOGGLE_CONNECTION_DIALOG = "mutation:toggle_connection_dialog";
 export const LOGOUT = "action:logout";

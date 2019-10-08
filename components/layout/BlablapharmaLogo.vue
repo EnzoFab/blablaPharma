@@ -10,7 +10,7 @@
           'blabla-logo--medium': largeScreen
         }"
       />
-      <img v-else :alt="alt" :src="srcMobile" class="blabla-logo--small" />
+      <img v-else :alt="alt" :src="srcMobile" class="blabla-logo--large" />
     </no-ssr>
   </nuxt-link>
 </template>

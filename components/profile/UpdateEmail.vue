@@ -87,10 +87,12 @@ export default {
           this.$account.update(this.userId, this.fields)
         );
         if (e) {
-          this.$emit(
-            "updateemail::error",
-            "Une erreur est survenue, impossible de mettre à jour les informations"
-          );
+          const errorMessage =
+            get(e, "error.error") === "E_UNIQUE"
+              ? "Erreur, et email est déjà utilisé pour un autre compte"
+              : "Une erreur est survenue, impossible de mettre à jour les informations";
+
+          this.$emit("updateemail::error", errorMessage);
         }
 
         if (!e && res) {

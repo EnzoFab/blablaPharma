@@ -1,7 +1,8 @@
 import {
   ADD_ACTIVE_CONVERSATIONS,
   REMOVE_ACTIVE_CONVERSATION,
-  RECEIVE_MESSAGE
+  RECEIVE_MESSAGE,
+  TOGGLE_NOTIFICATION_SOUND
 } from "./types";
 
 import { SailSocketWrapper } from "../helpers";
@@ -36,6 +37,10 @@ const createWebsocketPlugin = () => {
             store.state.chat.activeConversations
           );
         }
+      }
+
+      if (mutation.type.includes(TOGGLE_NOTIFICATION_SOUND)) {
+        store.$cookies.set("notificationActivated", mutation.payload);
       }
     });
   };

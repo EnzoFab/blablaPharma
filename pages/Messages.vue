@@ -43,6 +43,12 @@
             :show-back-arrow="isSmallScreen"
             @conversation::back="hideConversation"
           />
+          <div
+            v-else
+            class="text-xs-center pt-5 text--baseColor title-section-small"
+          >
+            Aucune conversation selectionnée
+          </div>
         </v-fade-transition>
       </v-flex>
     </v-layout>
@@ -52,7 +58,7 @@
 <script>
 import { mapState } from "vuex";
 const Conversation = () => import("../components/messaging/Conversation");
-import head from "lodash.head";
+//import head from "lodash.head";
 import AsideConversation from "../components/messaging/AsideConversation";
 export default {
   name: "Messages",
@@ -122,9 +128,9 @@ export default {
         // or the first conversation
         if (conversation) {
           this.selectConversation(conversation, false);
-        } else {
+        } /*else {
           this.selectConversation(head(conversations), false);
-        }
+        }*/
       }
 
       return conversations;

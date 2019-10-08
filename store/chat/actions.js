@@ -12,7 +12,8 @@ import {
   ADD_CONVERSATIONS,
   UPDATE_MESSAGE,
   FETCH_MESSAGE,
-  RECEIVE_MESSAGE
+  RECEIVE_MESSAGE,
+  TOGGLE_NOTIFICATION_SOUND
 } from "../types";
 
 /*
@@ -80,7 +81,7 @@ export default {
     }
   },
 
-  [RECEIVE_MESSAGE]: async ({ commit, rootState, getters }, message) => {
+  [RECEIVE_MESSAGE]: async ({ commit, state, rootState, getters }, message) => {
     commit(ADD_MESSAGES, [message]);
 
     // if the conversation doesn't exist yet add it to the list of conversation
@@ -104,8 +105,10 @@ export default {
     if (process.client) {
       // not to execute the code on server side
       // because audio isn't defined server side
-      const audio = new Audio("/sound/notification.ogg");
-      await audio.play();
+      if (state.notificationActivated === true) {
+        const audio = new Audio("/sound/notification.ogg");
+        await audio.play();
+      }
     }
   },
 
@@ -175,5 +178,9 @@ export default {
     });
 
     commit(UPDATE_MESSAGE, { id: message.id, newMessageData: { read: true } });
+  },
+
+  toggleSound({ commit }, value) {
+    commit(TOGGLE_NOTIFICATION_SOUND, value);
   }
 };

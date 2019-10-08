@@ -14,7 +14,8 @@ import {
   REMOVE_ACTIVE_CONVERSATION,
   REMOVE_MESSAGES_FROM_STORE,
   REMOVE_CONVERSATIONS_FROM_STORE,
-  UPDATE_MESSAGE
+  UPDATE_MESSAGE,
+  TOGGLE_NOTIFICATION_SOUND
 } from "../types";
 
 export default {
@@ -113,5 +114,9 @@ export default {
   [REMOVE_CONVERSATIONS_FROM_STORE]: state => {
     state.conversations = {};
     state.activeConversations = [];
+  },
+
+  [TOGGLE_NOTIFICATION_SOUND]: (state, notificationActivated) => {
+    state.notificationActivated = notificationActivated;
   }
 };

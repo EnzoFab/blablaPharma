@@ -64,38 +64,34 @@
                 ></v-text-field>
               </v-flex>
               <v-flex sm7 offset-sm1 xs12>
-                <v-text-field
-                  v-model.trim="fields.city"
-                  color="light-grey"
-                  label="Ville"
+                <count-text-field
+                  v-model="fields.city"
                   hint="Ville de la pharmacie ou de la faculté. Exemple: 'Montpellier'"
-                  outline
-                  :counter="20"
-                  :rules="[
-                    ...$constraints.required,
-                    ...$constraints.maxLength(20)
-                  ]"
-                ></v-text-field>
+                  label="Ville"
+                  :max-length="50"
+                  required
+                  trim
+                />
               </v-flex>
               <v-flex xs12>
-                <v-text-field
-                  v-model.trim="fields.address"
-                  color="light-grey"
-                  label="Adresse professionnelle"
+                <count-text-field
+                  v-model="fields.address"
                   hint="Adresse de la pharmacie ou de la faculté. Exemple: '120, rue des lilas'"
-                  outline
-                  :rules="$constraints.required"
-                ></v-text-field>
+                  label="Adresse professionnelle"
+                  :max-length="100"
+                  required
+                  trim
+                />
               </v-flex>
               <v-flex xs12>
-                <v-text-field
-                  v-model.trim="fields.institutionName"
-                  outline
-                  label="Nom de l'établissement"
+                <count-text-field
+                  v-model="fields.institutionName"
                   hint="Nom de l'établissement où vous travaillez"
-                  color="light-grey"
-                  :rules="$constraints.required"
-                ></v-text-field>
+                  label="Nom de l'établissement"
+                  :max-length="50"
+                  required
+                  trim
+                />
               </v-flex>
               <v-flex xs12 class="content-center" v-if="errorMessage">
                 <span class="red--text text--lighten-2">{{
@@ -123,10 +119,11 @@
 </template>
 
 <script>
-import SignInClient from "./SignInClient";
+const SignInClient = () => import("./SignInClient");
+const CountTextField = () => import("./CountTextField");
 export default {
   name: "SignInPharmacist",
-  components: { SignInClient },
+  components: { CountTextField, SignInClient },
   props: {
     loading: { type: Boolean, default: false },
     errorMessage: String

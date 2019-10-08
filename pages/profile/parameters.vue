@@ -5,6 +5,12 @@
         <h1 class="text-xs-center title-main text--baseColor">Paramètres</h1>
       </v-flex>
       <v-flex offset-xs2 xs8>
+        <v-checkbox
+          v-model="notificationSound"
+          label="Couper le son des notifications"
+        />
+      </v-flex>
+      <v-flex offset-xs2 xs8>
         <v-btn flat block color="error" @click="showDialog = true"
           >Supprimer le compte</v-btn
         >
@@ -12,7 +18,7 @@
     </v-layout>
 
     <v-dialog v-model="showDialog" max-width="550">
-      <v-card flat color="red lighten-4">
+      <v-card flat color="white">
         <v-icon color="dark" class="mt-2 ml-2" @click="showDialog = false"
           >close</v-icon
         >
@@ -67,6 +73,16 @@ export default {
       confirmText: null,
       isLoading: false
     };
+  },
+  computed: {
+    notificationSound: {
+      get() {
+        return this.$store.state.chat.notificationActivated;
+      },
+      set(newValue) {
+        this.$store.dispatch(`chat/toggleSound`, newValue);
+      }
+    }
   },
   methods: {
     async deleteAccount() {

@@ -50,22 +50,22 @@
           ></v-text-field>
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
-          <v-text-field
-            v-model.trim="fields.firstName"
-            outline
-            color="grey darken-1"
+          <count-text-field
+            v-model="fields.firstName"
             label="Prenom"
-            :rules="$constraints.required"
-          ></v-text-field>
+            :max-length="20"
+            required
+            trim
+          />
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
-          <v-text-field
-            v-model.trim="fields.lastName"
-            outline
-            color="grey darken-1"
+          <count-text-field
+            v-model="fields.lastName"
             label="Nom"
-            :rules="$constraints.required"
-          ></v-text-field>
+            :max-length="20"
+            required
+            trim
+          />
         </v-flex>
         <v-flex mb-0 pb-0 sm6 xs12>
           <password-field v-model="fields.password" />
@@ -172,10 +172,11 @@
 
 <script>
 import { toBase64 } from "../../helpers";
-import PasswordField from "./PasswordField";
+const PasswordField = () => import("./PasswordField");
+const CountTextField = () => import("./CountTextField");
 export default {
   name: "SignInClient",
-  components: { PasswordField },
+  components: { CountTextField, PasswordField },
   props: {
     submitButtonText: { type: String, default: "S'inscrire" },
     loading: { type: Boolean, default: false },

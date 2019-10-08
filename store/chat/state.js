@@ -24,5 +24,6 @@ export default () => ({
    *  }
    */
   conversations: {},
-  messages: []
+  messages: [],
+  notificationActivated: true
 });

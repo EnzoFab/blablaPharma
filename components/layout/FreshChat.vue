@@ -22,7 +22,10 @@ export default {
     },
     showFreshChat() {
       //&& !this.$route.path.includes("/messages")
-      if (this.isPatient) {
+      if (
+        !this.$store.getters.isLoggedIn ||
+        (this.isPatient && !this.$route.path.includes("/messages"))
+      ) {
         this.initFreshChat();
         return true;
       }

@@ -13,7 +13,7 @@
     </div>
     <v-container fluid>
       <v-layout row wrap>
-        <v-flex offset-xs2 xs8>
+        <v-flex offset-sm2 sm8>
           <v-select
             v-model="fields.professionLabel"
             outline
@@ -26,7 +26,7 @@
             :rules="$constraints.required"
           ></v-select>
         </v-flex>
-        <v-flex offset-xs2 xs8>
+        <v-flex offset-sm2 sm8>
           <v-text-field
             v-model.trim="fields.professionalId"
             :hint="hintProfessionalId"
@@ -51,34 +51,34 @@
           ></v-text-field>
         </v-flex>
         <v-flex md5 :offset-sm2="$vuetify.breakpoint.smAndDown" sm8>
-          <v-text-field
-            v-model.trim="fields.city"
-            color="light-grey"
+          <count-text-field
+            v-model="fields.city"
             label="Ville"
             hint="Ville de la pharmacie ou de la faculté. Exemple: 'Montpellier'"
-            outline
-            :rules="$constraints.required"
-          ></v-text-field>
+            :max-length="50"
+            required
+            trim
+          />
         </v-flex>
-        <v-flex offset-xs2 xs8>
-          <v-text-field
-            v-model.trim="fields.address"
-            color="light-grey"
+        <v-flex offset-sm2 sm8>
+          <count-text-field
+            v-model="fields.address"
             label="Adresse professionnelle"
             hint="Adresse de la pharmacie ou de la faculté. Exemple: '120, rue des lilas'"
-            outline
-            :rules="$constraints.required"
-          ></v-text-field>
+            :max-length="120"
+            required
+            trim
+          />
         </v-flex>
-        <v-flex offset-xs2 xs8>
-          <v-text-field
-            v-model.trim="fields.institutionName"
-            outline
+        <v-flex offset-sm2 sm8>
+          <count-text-field
+            v-model="fields.institutionName"
             label="Nom de l'établissement"
             hint="Nom de l'établissement où vous travaillez"
-            color="light-grey"
-            :rules="$constraints.required"
-          ></v-text-field>
+            :max-length="50"
+            required
+            trim
+          />
         </v-flex>
         <v-flex pt-0 mt-0 offset-md4 md4 offset-sm2 sm8 class="content-center">
           <v-btn large block depressed type="submit" color="default-grey" dark
@@ -93,8 +93,10 @@
 <script>
 import to from "await-to-js";
 import { mapGetters } from "vuex";
+const CountTextField = () => import("../forms/CountTextField");
 export default {
   name: "UpdatePharmacistInformation",
+  components: { CountTextField },
   data() {
     return {
       fields: {
@@ -123,14 +125,19 @@ export default {
   methods: {
     async updateInformation() {
       if (this.$refs.updatePharmacistInformationForm.validate()) {
-        const verified = this.pharmacistData.verified;
+        const data = { ...this.fields };
 
-        if (verified) {
+        if (
+          this.pharmacistData.verified ||
+          this.fields.professionalId === this.pharmacistData.professionalId
+        ) {
           // we can update the professionnalId if the user has been updated
-          delete this.fields.professionalId;
+          delete data.professionalId;
         }
+        delete data.verified;
+
         const [e, res] = await to(
-          this.$pharmacist.update(this.pharmacistData.id, this.fields)
+          this.$pharmacist.update(this.pharmacistData.account, data)
         );
 
         if (e) {
@@ -152,7 +159,7 @@ export default {
   },
   mounted() {
     this.fields = { ...this.pharmacistData };
-    delete this.fields.verified;
+    // delete this.fields.verified;
   }
 };
 </script>

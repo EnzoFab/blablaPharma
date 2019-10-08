@@ -33,24 +33,24 @@
           <v-container fluid pa-1 ma-0>
             <v-layout row wrap>
               <v-flex xs6 pb-0 mb-0>
-                <v-text-field
+                <count-text-field
                   v-model="fields.firstName"
                   label="Votre prénom"
                   placeholder="Prénom"
-                  outline
-                  color="grey darken-1"
-                  :rules="$constraints.required"
-                ></v-text-field>
+                  :max-length="50"
+                  required
+                  trim
+                />
               </v-flex>
               <v-flex xs6 pb-0 mb-0>
-                <v-text-field
+                <count-text-field
                   v-model="fields.lastName"
-                  label="Votre nom"
-                  placeholder="Nom de famille"
-                  outline
-                  color="grey darken-1"
-                  :rules="$constraints.required"
-                ></v-text-field>
+                  label="Votre Nom"
+                  placeholder="Nom"
+                  :max-length="50"
+                  required
+                  trim
+                />
               </v-flex>
               <v-flex offset-xs1 xs10 my-0 py-0>
                 <v-radio-group
@@ -108,7 +108,7 @@
                     v-model="fields.birthDayDate"
                     :max="maxDate"
                     locale="fr-Fr"
-                    color="blue-grey lighten-1"
+                    color="default-grey"
                     min="1950-01-01"
                     year-icon="date_range"
                     prev-icon="skip_previous"
@@ -143,10 +143,11 @@
 <script>
 import to from "await-to-js";
 import { mapGetters } from "vuex";
+const CountTextField = () => import("../forms/CountTextField");
 const PhotoField = () => import("./PhotoField");
 export default {
   name: "UpdateGeneralInformation",
-  components: { PhotoField },
+  components: { CountTextField, PhotoField },
   props: ["userId"],
   data() {
     return {

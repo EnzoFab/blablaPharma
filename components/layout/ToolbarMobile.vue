@@ -9,14 +9,19 @@
       scroll-off-screen
       :scroll-threshold="200"
     >
-      <v-toolbar-title class="pt-5">
-        <blablapharma-logo />
-      </v-toolbar-title>
-      <template v-if="displayToolbar" v-slot:extension>
-        <v-spacer></v-spacer>
+      <v-container fluid grid-list-center fill-height>
+        <v-layout row wrap align-center>
+          <v-flex xs10 class="content-center">
+            <blablapharma-logo />
+          </v-flex>
+          <v-flex xs2 class="text-xs-right">
+            <v-icon x-large color="black" @click="showDialog = true"
+              >menu</v-icon
+            >
+          </v-flex>
+        </v-layout>
+      </v-container>
 
-        <v-icon x-large color="black" @click="showDialog = true">menu</v-icon>
-      </template>
       <v-dialog
         v-model="showDialog"
         fullscreen
