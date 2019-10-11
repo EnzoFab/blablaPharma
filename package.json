@@ -12,7 +12,8 @@
     "start": "nuxt start",
     "devServer": "nodemon server/index.js",
     "generate": "nuxt generate",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "dokku.postdeploy": "npm run build"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
@@ -50,7 +51,7 @@
     "lodash.unionwith": "^4.6.0",
     "lodash.uniqby": "^4.7.0",
     "lodash.words": "^4.2.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.10.1",
     "nuxt-polyfill": "^1.0.3",
     "redirect-ssl": "^1.4.1",
     "rest": "^2.0.0",

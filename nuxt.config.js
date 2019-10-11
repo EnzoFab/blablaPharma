@@ -250,17 +250,19 @@ module.exports = {
     // analyze: true,
     extractCSS: true,
     transpile: ["vuetify"],
-    //optimizeCSS: true,
-    /*filenames: {
+    optimization: { minimize: true },
+    terser: { cache: true, parallel: false },
+    // optimizeCSS: true,
+    filenames: {
       app: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js"),
       chunk: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js")
-    },*/
+    },
     /*
      ** You can extend webpack config here
      */
     extend(config, { isDev, isClient }) {
       // adding the new loader as the first in the list
-      config.module.rules.unshift({
+      /*config.module.rules.unshift({
         test: /\.(png|jpe?g|gif)$/,
         use: {
           loader: "responsive-loader",
@@ -281,7 +283,7 @@ module.exports = {
           value.test = /\.(svg|webp)$/;
           // keep the configuration from image-webpack-loader here unchanged
         }
-      });
+      });*/
     }
   }
 };
