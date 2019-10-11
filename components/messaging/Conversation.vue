@@ -79,6 +79,7 @@
                 >.
                 <div>Soyez le premier à envoyer un message.</div>
               </v-flex>
+              <div id="topAnchor"></div>
               <v-flex
                 v-for="message in messages"
                 xs12
@@ -106,6 +107,7 @@
                   @message::showFullImage="displayDialog"
                 />
               </v-flex>
+              <div id="bottomAnchor"></div>
 
               <div
                 v-show="messages.length > 5"
@@ -137,7 +139,6 @@
 <script>
 import to from "await-to-js";
 import last from "lodash.last";
-import head from "lodash.head";
 import debounce from "lodash.debounce";
 import get from "lodash.get";
 
@@ -219,7 +220,7 @@ export default {
   methods: {
     readMessage() {
       const connectedUserId = get(this.$store.getters, "connectedUser.id");
-      const lastMessage = last(this.messages);
+      const lastMessage = this.getConversationData.lastMessage;
 
       if (!connectedUserId || !lastMessage) {
         return;
@@ -289,37 +290,21 @@ export default {
       return isUserMessage && isLastMessage && message.read;
     },
 
-    /**
-     * Center the window on the message
-     * @param {object} message
-     */
-    scrollToMessage(message) {
-      if (!message) {
-        return;
-      }
-
-      const option = {
+    scrollTo(id) {
+      this.$scrollTo(`${id}`, {
         container: `#conversation${this.conversationId}`,
         force: true,
-        easing: "linear"
-        // offset: -60
-      };
-
-      this.$scrollTo(
-        `#conversation${this.conversationId}-message${message.id}`,
-        300,
-        option
-      );
+        easing: "linear",
+        offset: -60
+      });
     },
 
     scrollBottom() {
-      // scroll to the last message
-      this.scrollToMessage(last(this.messages));
+      this.scrollTo("#bottomAnchor");
     },
 
     scrollTop() {
-      // scroll to the first message
-      this.scrollToMessage(head(this.messages));
+      this.scrollTo("#topAnchor");
     },
 
     /**
@@ -360,15 +345,12 @@ export default {
             });
           }
 
-          const lastMessage = last(this.messages);
-          this.loading = false;
-          this.readMessage();
-          if (lastMessage) {
-            this.$nextTick(() => {
-              this.scrollToMessage(lastMessage);
-            });
-          }
-        }, 1500);
+          this.$nextTick(() => {
+            this.loading = false;
+            this.readMessage();
+          });
+        }, 1000);
+        this.scrollBottom();
       }
     },
     messagesFromStore: debounce(function(newValue, oldValue) {
@@ -391,7 +373,7 @@ export default {
         (lastNewValue && lastNewValue.id !== lastOldValue.id)
       ) {
         this.watcherActivated = false;
-        this.scrollToMessage(lastNewValue);
+        this.scrollBottom();
 
         this.watcherActivated = true;
       }

@@ -96,7 +96,6 @@ export default {
             return;
           }
 
-          console.log(file);
           // only accept image
           this.$emit("input", file);
         }
