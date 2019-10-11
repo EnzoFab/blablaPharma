@@ -37,13 +37,13 @@
           lazy-src="/images/empty.jpg"
           aspect-ratio="1.75"
           alt="Conversation image"
-          @click="showDialog = true"
+          @click="showFullImage"
         ></v-img>
         <div
           v-else
           :class="{
             [messageClassColorClass]: true,
-            'text-xs-left pt-1 message pa-2': true
+            'text-xs-left pt-1 message pa-2 message-shrinkContent': true
           }"
         >
           <div v-for="(word, i) in content.split('\n')" :key="i">
@@ -130,22 +130,17 @@
                 lazy-src="/images/empty.jpg"
                 aspect-ratio="1.75"
                 alt="Url Preview image"
-                @click="showDialog = true"
+                @click="showFullImage"
               ></v-img>
 
               <div
                 v-else
                 :class="{
                   [messageClassColorClass]: true,
-                  'message pa-2': true
+                  'text-xs-left message pa-2 message-shrinkContent': true
                 }"
               >
-                <div
-                  v-for="(word, i) in content.split('\n')"
-                  style="text-align: left"
-                  class="content-center"
-                  :key="i"
-                >
+                <div v-for="(word, i) in content.split('\n')" :key="i">
                   <span
                     v-if="word.length > 0"
                     class="text-breakline text--section "
@@ -183,17 +178,6 @@
         </v-layout>
       </v-container>
     </v-hover>
-    <v-dialog v-model="showDialog" full-width scrollable>
-      <v-card flat color="white" class="pa-1">
-        <v-icon color="black" @click="showDialog = false">close</v-icon>
-        <img
-          v-if="type === 'image'"
-          :src="content"
-          :alt="content"
-          style="max-width:100%; height:auto;"
-        />
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -216,8 +200,7 @@ export default {
   },
   data() {
     return {
-      buttonLoading: false,
-      showDialog: false
+      buttonLoading: false
     };
   },
 
@@ -262,6 +245,9 @@ export default {
         return `il y a ${Math.ceil(diff / (60 * 60 * 1000))} heure(s)`;
       }
       return "Le " + date.format("Do MMMM YYYY");
+    },
+    showFullImage() {
+      this.$emit("message::showFullImage", this.content);
     }
   }
 };

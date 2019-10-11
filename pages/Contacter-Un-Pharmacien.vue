@@ -33,21 +33,21 @@
             color="green"
           ></v-progress-circular>
         </v-flex>
-        <template v-else-if="pharmacistsBlablapharma != null">
+        <template v-else-if="availableBlablaPharmacists != null">
           <v-flex xs12 pb-2>
             <h2 class="text--baseColor title-section-small">
               Pharmaciens BlablaPharma
             </h2>
           </v-flex>
 
-          <v-flex v-if="pharmacistsBlablapharma.length === 0" offset-xs2 xs8>
+          <v-flex v-if="availableBlablaPharmacists.length === 0" offset-xs2 xs8>
             <h3 class="text-xs-center text-content  text--baseColor">
               Aucun résultats
             </h3>
           </v-flex>
 
           <v-flex
-            v-for="pharma in pharmacistsBlablapharma"
+            v-for="pharma in availableBlablaPharmacists"
             offset-sm1
             offset-md1
             sm10
@@ -70,7 +70,7 @@
         <v-flex xs12>
           <h2 class="text--baseColor title-section-small">Pharmaciens</h2>
         </v-flex>
-        <v-flex v-if="pharmacists.length === 0" offset-xs2 xs8>
+        <v-flex v-if="availablePharmacists.length === 0" offset-xs2 xs8>
           <h3 class="text-xs-center text-content  text--baseColor">
             Aucun résultats
           </h3>
@@ -78,7 +78,7 @@
 
         <v-flex
           class="hidden-md-and-up"
-          v-for="pharmacist in pharmacists"
+          v-for="pharmacist in availablePharmacists"
           offset-sm1
           offset-md1
           sm10
@@ -106,7 +106,7 @@
         >
           <v-layout row wrap>
             <v-flex
-              v-for="pharmacist in pharmacists"
+              v-for="pharmacist in availablePharmacists"
               offset-sm1
               offset-md1
               sm10
@@ -146,6 +146,8 @@ const PharmacistAutocompleteField = () =>
   import("~/components/contact_pharmacist/PharmacistAutocompleteField");
 export default {
   name: "Contacter-Un-Pharmacien",
+  components: { PharmacistAutocompleteField, PharmacistCard },
+
   head() {
     return {
       title: "Contacter Un Pharmacien",
@@ -158,8 +160,7 @@ export default {
       ]
     };
   },
-  middleware: "notPharmacist",
-  components: { PharmacistAutocompleteField, PharmacistCard },
+  // middleware: "notPharmacist",
   data() {
     return {
       receiverId: null,
@@ -169,7 +170,26 @@ export default {
       isLoading: false
     };
   },
+  computed: {
+    availablePharmacists() {
+      return sampleSize(this.pharmacists.filter(this.notCurrentPharmacist), 10);
+    },
+    availableBlablaPharmacists() {
+      return sampleSize(
+        this.pharmacistsBlablapharma.filter(this.notCurrentPharmacist),
+        2
+      );
+    }
+  },
+
   methods: {
+    notCurrentPharmacist(pharmacist) {
+      if (this.$store.getters.isLoggedIn) {
+        return pharmacist.id !== this.$store.getters.connectedUser.id;
+      }
+      return true;
+    },
+
     async contactPharmacist({ id }) {
       // if not connected show connection dialog
       if (!this.$store.getters.isLoggedIn) {
@@ -230,8 +250,8 @@ export default {
     const pharmacistsBlablapharma = !error && result ? result : [];
 
     return {
-      pharmacists: sampleSize(pharmacists, 10),
-      pharmacistsBlablapharma: sampleSize(pharmacistsBlablapharma, 2)
+      pharmacists,
+      pharmacistsBlablapharma
     };
   }
 };

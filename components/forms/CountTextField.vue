@@ -32,7 +32,7 @@ export default {
         ...this.rules
       ];
 
-      return this.required ? [...rules, ...this.$constraints.required] : rules;
+      return this.required ? [...this.$constraints.required, ...rules] : rules;
     },
     fieldValue: {
       get() {

@@ -46,20 +46,28 @@
       accept="image/*"
       @input="handleImageInput"
     />
+    <alert
+      v-model="showDialog"
+      :text="'La taille des images ne doit pas excéder 2mo'"
+    />
   </div>
 </template>
 
 <script>
-import { toBase64 } from "../../helpers";
+import { FILE_MAXIMUM_SIZE } from "../../helpers";
 
+const Alert = () => import("../dialogs/Alert");
 export default {
   name: "PhotoField",
+  components: { Alert },
   props: {
     value: { type: String | Object },
-    isPharmacist: Boolean,
-    previewImageUrl: null
+    isPharmacist: Boolean
   },
 
+  data() {
+    return { showDialog: false };
+  },
   computed: {
     avatarColor() {
       return !this.$vuetify.breakpoint.smAndDown
@@ -73,17 +81,24 @@ export default {
       get() {
         const filePreview =
           this.value && typeof this.value === "object"
-            ? URL.createObjectURL(value)
+            ? URL.createObjectURL(this.value)
             : null;
         const src = this.value ? this.value : null;
         return filePreview || src;
       },
-      async set(e) {
+      set(e) {
         const file = e.target.files[0];
+
         if (file.type.includes("image/")) {
+          const overSized = file.size >= FILE_MAXIMUM_SIZE;
+          if (overSized) {
+            this.showDialog = overSized;
+            return;
+          }
+
+          console.log(file);
           // only accept image
-          const base64 = await toBase64(file);
-          this.$emit("input", base64);
+          this.$emit("input", file);
         }
       }
     }

@@ -68,7 +68,7 @@
                       <v-icon>warning</v-icon>
                       <span
                         >Ce pharmacien a été averti le
-                        {{ format(pharmacist.warn) }}, il a 3 jours pour
+                        {{ format(pharmacist.warn) }}, il a 7 jours pour
                         modifier son RPPS</span
                       >
                     </div>
@@ -340,7 +340,7 @@ export default {
       return (
         date &&
         this.$moment()
-          .add(3, "days")
+          .add(7, "days")
           .isSameOrBefore(this.$moment(date))
       );
     },

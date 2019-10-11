@@ -11,13 +11,13 @@ export default {
     v => (typeof v === "string" ? v.trim().length > 0 || "Champs requis" : true)
   ],
   passwordRules: [
-    v => (v && v.length >= 8) || "Minimum 8 charactères",
     v => /[A-Z]+/.test(v) || "Le mot de passe doit avoir une majuscule",
     v => /[a-z]+/.test(v) || "Le mot de passe doit avoir une minuscule",
     v => /[0-9]+/.test(v) || "Le mot de passe doit avoir un chiffre",
     v =>
       /[*@!#%&()[\]^~\\|$?`='"{}€£/_-]+/.test(v) ||
-      "Le mot de passe doit contenir au moins un charactère spécial"
+      "Le mot de passe doit contenir au moins un charactère spécial",
+    v => (v && v.length >= 8) || "Minimum 8 charactères"
   ],
   confirmationPasswordRule: firstPassword => [
     v => v === firstPassword || "les deux mots de passes sont différents"

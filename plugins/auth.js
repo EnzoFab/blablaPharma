@@ -1,4 +1,6 @@
 import reduce from "lodash.reduce";
+import { toFormData } from "~/helpers";
+
 export default function({ app, $axios }, inject) {
   // IOT use $auth which will contains auth methods
   // inject in the global scope several function use to authenticate
@@ -16,14 +18,20 @@ export default function({ app, $axios }, inject) {
      * @param {object} payload
      * @returns {*}
      */
-    registerPatient: payload => $axios.post("/register/basic", payload),
+    registerPatient: payload => {
+      const formData = toFormData(payload);
+      return $axios.post("/register/basic", formData);
+    },
 
     /**
      *
      * @param {object} payload
      * @returns {*}
      */
-    registerPharmacist: payload => $axios.post("/register/pharmacist", payload),
+    registerPharmacist: payload => {
+      const formData = toFormData(payload);
+      return $axios.post("/register/pharmacist", formData);
+    },
 
     /**
      *
@@ -63,7 +71,11 @@ export default function({ app, $axios }, inject) {
   });
 
   inject("account", {
-    update: (id, payload) => $axios.put(`/accounts/${id}`, payload),
+    update: (id, payload) => {
+      const formData = toFormData(payload);
+      // send the formData
+      return $axios.put(`/accounts/${id}`, formData);
+    },
     validateNewEmail: (id, token) =>
       $axios.put(`/accounts/${id}/confirm-email/${token}`),
     delete: id => $axios.delete(`/accounts/${id}`)

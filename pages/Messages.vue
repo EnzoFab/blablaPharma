@@ -57,9 +57,9 @@
 
 <script>
 import { mapState } from "vuex";
-const Conversation = () => import("../components/messaging/Conversation");
-//import head from "lodash.head";
-import AsideConversation from "../components/messaging/AsideConversation";
+const Conversation = () => import("~/components/messaging/Conversation");
+const AsideConversation = () =>
+  import("~/components/messaging/AsideConversation");
 export default {
   name: "Messages",
   middleware: "connected",
@@ -121,7 +121,7 @@ export default {
 
       if (!this.activeConversation) {
         const conversation = conversations.find(
-          conversation => conversation.id === this.activeRouteParam
+          conversation => conversation.id === parseInt(this.activeRouteParam)
         );
 
         // select the conversation from given by the queryparam if it exists

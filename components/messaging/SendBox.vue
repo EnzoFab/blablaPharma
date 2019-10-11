@@ -22,8 +22,8 @@
               <v-avatar color="grey" tile :size="embed ? 20 : 90">
                 <v-img
                   class="ma-1"
-                  :src="file.base64File"
-                  :alt="file.base64File"
+                  :src="file.filePreview"
+                  :alt="file.filePreview"
                   height="85"
                   width="85"
                 ></v-img>
@@ -35,7 +35,7 @@
     </v-container>
     <v-container fluid grid-list-xs pa-0 ma-0>
       <v-layout row wrap>
-        <v-flex xs1 class="content-center">
+        <v-flex xs1 class="text-xs-left">
           <v-dialog v-model="emojiPickerDialog" full-width width="300">
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on">
@@ -82,7 +82,7 @@
             @input="handleFiles"
           />
         </v-flex>
-        <v-flex xs10>
+        <v-flex :xs9="embed" :xs10="!embed">
           <v-textarea
             ref="sendbox"
             v-model="text"
@@ -113,21 +113,22 @@
           </v-textarea>
         </v-flex>
       </v-layout>
+      <alert v-model="showDialog" :text="alertMessage" />
     </v-container>
   </div>
 </template>
 
 <script>
-import { toBase64 } from "~/helpers";
-import * as Promise from "bluebird";
 import take from "lodash.take";
+import { FILE_SIZE_MESSAGE, toBase64 } from "../../helpers";
 import emojiSet from "emoji-mart-vue-fast/data/messenger.json";
 import { EmojiIndex, Picker } from "emoji-mart-vue-fast";
 
 import "emoji-mart-vue-fast/css/emoji-mart.css";
+const Alert = () => import("../dialogs/Alert");
 export default {
   name: "SendBox",
-  components: { Picker },
+  components: { Alert, Picker },
   props: {
     embed: { type: Boolean, default: false }
   },
@@ -135,7 +136,9 @@ export default {
     return {
       text: "",
       emojiPickerDialog: false,
-      files: null
+      files: null,
+      alertMessage: null,
+      showDialog: false
     };
   },
   methods: {
@@ -144,20 +147,37 @@ export default {
     },
 
     async handleFiles(e) {
-      const files = Array.from(e.target.files).filter(file =>
-        file.type.includes("image")
+      const uploadedFiles = Array.from(e.target.files)
+        .filter(file => file.type.includes("image"))
+        .map((file, key) => ({
+          file,
+          key,
+          filePreview: URL.createObjectURL(file)
+        }));
+
+      const bigFiles = uploadedFiles.filter(
+        element => element.file.size >= FILE_SIZE_MESSAGE
       );
 
-      const filesBase64 = await Promise.map(files, async (file, key) => {
-        const base64File = await toBase64(file);
-        return { base64File, key };
-      });
+      if (bigFiles.length > 0) {
+        this.alertMessage = bigFiles.reduce(
+          (accumulator, element) => `${accumulator}; ${element.file.name}`,
+          "Les fichiers suivants dépassent la tailles limites de 1 mo"
+        );
+
+        this.showDialog = true;
+      }
+
+      const files = uploadedFiles.filter(
+        element => element.file.size < FILE_SIZE_MESSAGE
+      );
 
       if (this.files) {
-        this.files = take(this.files.concat(filesBase64), 4);
+        this.files = take(this.files.concat(files), 4);
         return;
       }
-      this.files = take(filesBase64, 4);
+
+      this.files = take(files, 4);
     },
 
     deleteFile(element) {
@@ -177,12 +197,12 @@ export default {
       });
     },
 
-    sendMessage() {
+    async sendMessage() {
       const connectedUser = this.$store.getters.connectedUser;
 
-      if (this.text && this.text.length > 0) {
+      if (this.text && this.text.trim().length > 0) {
         this.$emit("sendbox:messageSent", {
-          content: this.text,
+          content: this.text.trim(),
           type: "text",
           author: connectedUser.id,
           createdAt: this.$moment().valueOf()
@@ -191,12 +211,14 @@ export default {
       }
 
       if (this.files && this.files.length > 0) {
-        this.files.forEach(file => {
+        this.files.forEach(async file => {
+          const base64File = await toBase64(file.file);
           this.$emit("sendbox:messageSent", {
-            content: file.base64File,
             type: "image",
             author: connectedUser.id,
-            createdAt: this.$moment().valueOf()
+            createdAt: this.$moment().valueOf(),
+            content: base64File,
+            image: file.file
           });
         });
 

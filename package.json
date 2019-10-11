@@ -52,6 +52,7 @@
     "lodash.words": "^4.2.0",
     "nuxt": "^2.0.0",
     "nuxt-polyfill": "^1.0.3",
+    "redirect-ssl": "^1.4.1",
     "rest": "^2.0.0",
     "sails.io.js": "^1.2.1",
     "smoothscroll-polyfill": "^0.4.4",

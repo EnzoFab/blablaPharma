@@ -103,6 +103,7 @@
                   :embed="embed"
                   :error="message.error"
                   :was-read="isMessageRead(message)"
+                  @message::showFullImage="displayDialog"
                 />
               </v-flex>
 
@@ -125,6 +126,11 @@
         /></v-flex>
       </v-layout>
     </v-container>
+    <full-image
+      v-model="showDialog"
+      :image-src="dialogImage"
+      alt-src="message image"
+    />
   </div>
 </template>
 
@@ -136,13 +142,14 @@ import debounce from "lodash.debounce";
 import get from "lodash.get";
 
 import { SEND_MESSAGE, FETCH_MESSAGE } from "../../store/types";
+import FullImage from "../dialogs/FullImage";
 const InfiniteLoading = () => import("vue-infinite-loading");
 
 const Message = () => import("./Message");
 const SendBox = () => import("./SendBox");
 export default {
   name: "Conversation",
-  components: { SendBox, Message, InfiniteLoading },
+  components: { FullImage, SendBox, Message, InfiniteLoading },
   props: {
     conversationId: { type: String | Number },
     receiverName: String,
@@ -157,7 +164,9 @@ export default {
     return {
       loading: false,
       infiniteLoadingActivate: false,
-      watcherActivated: true
+      watcherActivated: true,
+      showDialog: false,
+      dialogImage: null
     };
   },
 
@@ -285,6 +294,10 @@ export default {
      * @param {object} message
      */
     scrollToMessage(message) {
+      if (!message) {
+        return;
+      }
+
       const option = {
         container: `#conversation${this.conversationId}`,
         force: true,
@@ -320,6 +333,11 @@ export default {
       );
 
       return author ? `${author.firstName} ${author.lastName}` : "Inconnu";
+    },
+
+    displayDialog(src) {
+      this.dialogImage = src;
+      this.showDialog = true;
     }
   },
 
@@ -327,7 +345,6 @@ export default {
     conversationId: {
       immediate: true,
       handler(newId) {
-        this.readMessage();
         this.infiniteLoadingActivate = false;
         this.loading = true;
 
@@ -343,10 +360,13 @@ export default {
             });
           }
 
-          this.loading = false;
           const lastMessage = last(this.messages);
+          this.loading = false;
+          this.readMessage();
           if (lastMessage) {
-            this.scrollToMessage(lastMessage);
+            this.$nextTick(() => {
+              this.scrollToMessage(lastMessage);
+            });
           }
         }, 1500);
       }
@@ -376,17 +396,6 @@ export default {
         this.watcherActivated = true;
       }
     }, 50)
-  },
-  mounted() {
-    const lastMessage = last(this.messages);
-
-    if (lastMessage) {
-      this.$nextTick(
-        debounce(() => {
-          this.scrollToMessage(lastMessage);
-        }, 1500)
-      );
-    }
   }
 };
 </script>

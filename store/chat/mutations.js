@@ -28,9 +28,8 @@ export default {
    * @param {Array} message
    */
   [ADD_MESSAGES]: (state, messages) => {
+    // union without duplicating object
     state.messages = unionWith(state.messages, messages, isEqual);
-    //state.messages.concat(messages);
-    //  .sort((a, b) => a.createdAt - b.createdAt);
   },
 
   /**
@@ -40,13 +39,25 @@ export default {
    * @param payload
    */
   [UPDATE_MESSAGE]: (state, payload) => {
-    state.messages = state.messages.map(message => {
+    const messageToUpdate = state.messages.find(
+      message => message.id === payload.id
+    );
+
+    if (messageToUpdate) {
+      const index = state.messages.indexOf(messageToUpdate);
+      state.messages.splice(index, 1, {
+        ...messageToUpdate,
+        ...pickBy(payload.newMessageData)
+      });
+    }
+
+    /* state.messages = state.messages.map(message => {
       if (message.id === payload.id) {
         // remove empty and null data of the payload and replace the rest from the message
         return { ...message, ...pickBy(payload.newMessageData) };
       }
       return message;
-    });
+    }); */
   },
 
   /**

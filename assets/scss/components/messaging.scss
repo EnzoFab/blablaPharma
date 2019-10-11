@@ -76,10 +76,13 @@
 }
 
 .message {
-  //border: solid 1px red;
   border-radius: 6px;
-  max-width: 100%;
-  // text-align: center;
+
+  &-shrinkContent {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+  }
 }
 
 .sendbox {

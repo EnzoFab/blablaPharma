@@ -24,6 +24,8 @@ export default function wrapper(io) {
       return socketRequest(configSocket(state)("get", route));
     },
     post(state, route, data) {
+      console.log(data);
+      if (data.forEach) data.forEach(console.log);
       return socketRequest(configSocket(state)("post", route, data));
     },
     put(state, route, data) {

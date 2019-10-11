@@ -156,8 +156,8 @@ export default {
     register() {
       if (this.$refs.professionalForm.validate()) {
         this.$emit("signin-pharmacist::register", {
-          ...this.personalData,
-          professionalData: this.fields
+          professionalData: this.fields,
+          ...this.personalData
         });
       }
     }

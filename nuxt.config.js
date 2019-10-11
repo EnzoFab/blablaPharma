@@ -173,7 +173,9 @@ module.exports = {
    */
   axios: {
     proxy: true,
-    prefix: "/api/"
+    prefix: "/api/",
+    https: process.env.NODE_ENV !== "production",
+    retry: { retries: 2 }
   },
 
   proxy: {
@@ -235,6 +237,11 @@ module.exports = {
       }
     ]
   },
+
+  serverMiddleware: [
+    // Will register redirect-ssl npm package
+    "redirect-ssl"
+  ],
 
   /*
    ** Build configuration

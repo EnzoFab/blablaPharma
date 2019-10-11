@@ -260,12 +260,12 @@ export default {
         this.$router.push({ path: "/" });
       }
 
-      if (
+      /* if (
         this.$store.getters.userType === "Pharmacist" &&
         ["/contacter-un-pharmacien", "/profil"].includes(this.$route.path)
       ) {
         this.$router.push({ path: "/" });
-      }
+      } */
     },
 
     /**

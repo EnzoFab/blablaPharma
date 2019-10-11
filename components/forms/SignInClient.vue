@@ -18,18 +18,24 @@
               Ajouter une photo
             </span>
           </button>
-          <v-badge v-else color="red">
-            <template v-slot:badge
-              ><v-icon @click="resetImage" dark>close</v-icon></template
-            >
-            <v-avatar size="100" class="mb-3">
-              <v-img
-                aspect-ratio="3.75"
-                :src="fields.picture"
-                alt="Preview image"
-              ></v-img>
-            </v-avatar>
-          </v-badge>
+          <div v-else>
+            <v-badge color="red">
+              <template v-slot:badge
+                ><v-icon @click="resetImage" dark>close</v-icon></template
+              >
+              <v-avatar size="100" class="mb-3">
+                <v-img
+                  aspect-ratio="3.75"
+                  :src="filePreview"
+                  alt="Preview image"
+                ></v-img>
+              </v-avatar>
+            </v-badge>
+            <div class="text-content text--baseColor">
+              Attention une image importante peut rendre l'inscription plus
+              longue
+            </div>
+          </div>
 
           <input
             v-show="false"
@@ -167,16 +173,22 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <alert
+      v-model="showDialog"
+      :text="'La taille des images ne doit pas excéder 2mo'"
+    />
   </v-form>
 </template>
 
 <script>
-import { toBase64 } from "../../helpers";
+import { FILE_MAXIMUM_SIZE } from "../../helpers";
+
+const Alert = () => import("../dialogs/Alert");
 const PasswordField = () => import("./PasswordField");
 const CountTextField = () => import("./CountTextField");
 export default {
   name: "SignInClient",
-  components: { CountTextField, PasswordField },
+  components: { Alert, CountTextField, PasswordField },
   props: {
     submitButtonText: { type: String, default: "S'inscrire" },
     loading: { type: Boolean, default: false },
@@ -186,15 +198,17 @@ export default {
     return {
       showMenu: false,
       showPassword: false,
+      showDialog: false,
+      filePreview: null,
       fields: {
-        picture: null,
         email: null,
         firstName: null,
         lastName: null,
         gender: null,
         password: null,
         confirmPassword: null,
-        birthDayDate: null
+        birthDayDate: null,
+        picture: null
       }
     };
   },
@@ -235,16 +249,24 @@ export default {
         this.$emit("signin-client::submit", { personalData: this.fields });
       }
     },
-    async loadImage(e) {
+    loadImage(e) {
       const file = e.target.files[0];
-      if (file.type.includes("image/")) {
-        // only accept image
-        this.fields.picture = await toBase64(file);
-      } else {
+      if (!file.type.includes("image/")) {
         this.resetImage();
+        return;
       }
+
+      if (file.size > FILE_MAXIMUM_SIZE) {
+        this.showDialog = true;
+        return;
+      }
+
+      // only accept image
+      this.fields.picture = file;
+      this.filePreview = URL.createObjectURL(file);
     },
     resetImage() {
+      this.filePreview = null;
       this.fields.picture = null;
     }
   }

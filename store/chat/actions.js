@@ -58,6 +58,7 @@ export default {
       const { createdAt, id, content } = await SailSocketWrapper.post(
         rootState,
         `/conversations/${message.conversation}/messages`,
+
         { type: message.type, content: message.content }
       );
 
