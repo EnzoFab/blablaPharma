@@ -13,7 +13,8 @@
     "devServer": "nodemon server/index.js",
     "generate": "nuxt generate",
     "heroku-postbuild": "npm run build",
-    "dokku.postdeploy": "npm run build"
+    "dokku.postdeploy": "npm run build",
+    "prod": "npm run build && npm run start"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
