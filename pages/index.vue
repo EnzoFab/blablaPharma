@@ -10,7 +10,13 @@
         <v-container fluid fill-height>
           <v-layout row wrap align-center>
             <v-flex hidden-xs-only xs12></v-flex>
-            <v-flex offset-sm6 sm6 pr-5 xs12>
+            <v-flex
+              offset-md6
+              md6
+              :pr-5="$vuetify.breakpoint.mdAndUp"
+              sm8
+              offset-sm2
+            >
               <v-card class=" pl-2 pt-1 pb-3" flat>
                 <v-card-title class="pa-2">
                   <h1 class="text--baseColor title-main pt-2 ">
