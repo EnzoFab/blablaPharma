@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <cookie-law class="cookie-banner">
       <v-container py-0 my-0 grid-list-xl slot-scope="props">
         <v-layout row wrap>
@@ -39,7 +39,7 @@
         </v-layout>
       </v-container>
     </cookie-law>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>

@@ -56,7 +56,7 @@
                 >
               </div>
               <v-flex xs12>
-                <no-ssr>
+                <client-only>
                   <infinite-loading
                     :distance="infiniteLoaderDistance"
                     direction="top"
@@ -68,7 +68,7 @@
                     </div>
                     <div slot="no-results"></div>
                   </infinite-loading>
-                </no-ssr>
+                </client-only>
               </v-flex>
               <v-flex
                 v-if="messages.length === 0"

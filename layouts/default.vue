@@ -8,9 +8,9 @@
       </v-container>
     </v-content>
     <login-dialog />
-    <no-ssr>
+    <client-only>
       <fresh-chat />
-    </no-ssr>
+    </client-only>
     <floating-conversations />
     <admin-button />
     <app-footer />

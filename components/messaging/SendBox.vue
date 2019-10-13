@@ -42,7 +42,7 @@
                 <v-icon :size="iconSize">far fa-smile</v-icon>
               </v-btn>
             </template>
-            <no-ssr>
+            <client-only>
               <picker
                 :data="emojiIndex"
                 set="messenger"
@@ -60,7 +60,7 @@
                 :sheet-size="16"
                 :skin="3"
               />
-            </no-ssr>
+            </client-only>
           </v-dialog>
         </v-flex>
         <v-flex xs1 class="content-center">

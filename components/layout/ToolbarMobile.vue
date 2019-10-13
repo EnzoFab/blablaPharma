@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <v-toolbar
       prominent
       flat
@@ -95,7 +95,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>

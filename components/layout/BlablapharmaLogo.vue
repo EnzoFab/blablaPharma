@@ -1,6 +1,6 @@
 <template>
   <nuxt-link to="/">
-    <no-ssr>
+    <client-only>
       <img
         v-if="!mobileScreen"
         :src="src"
@@ -11,7 +11,7 @@
         }"
       />
       <img v-else :alt="alt" :src="srcMobile" class="blabla-logo--large" />
-    </no-ssr>
+    </client-only>
   </nuxt-link>
 </template>
 

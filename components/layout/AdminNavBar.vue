@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <v-toolbar v-if="$vuetify.breakpoint.mdAndUp" app fixed flat>
       <v-toolbar-title>Blabla admin</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -32,7 +32,7 @@
         </v-flex>
       </v-layout>
     </v-toolbar>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>
