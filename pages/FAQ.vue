@@ -101,7 +101,7 @@ export default {
         {
           hid: "FAQ",
           name: "description",
-          content: "FAQ"
+          content: "Les réponses aux questions que vous vous posez"
         }
       ]
     };

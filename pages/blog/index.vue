@@ -24,7 +24,7 @@ export default {
         {
           hid: "blog",
           name: "description",
-          content: "Partage de vidéos pharmaceutiques"
+          content: "Visualizez du contenu pharmaceutique"
         }
       ]
     };

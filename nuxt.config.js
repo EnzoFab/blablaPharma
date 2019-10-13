@@ -16,7 +16,8 @@ module.exports = {
       {
         hid: "keywords",
         name: "keywords",
-        content: "Chat, pharmaciens, contacter, blablapharma, questions"
+        content:
+          "Chat, pharmaciens, contacter, blablapharma, blablaPharma questions"
       },
       {
         hid: "description",
@@ -179,8 +180,7 @@ module.exports = {
   axios: {
     proxy: true,
     prefix: "/api/",
-    https: process.env.NODE_ENV !== "production",
-    retry: { retries: 2 }
+    https: process.env.NODE_ENV !== "production"
   },
 
   proxy: {

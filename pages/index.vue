@@ -121,8 +121,7 @@ export default {
         {
           hid: "Page d'accueil",
           name: "description",
-          content:
-            "BlablaPharma permet de mettre en relation des utilisateurs et des pharmaciens"
+          content: "Echanger avec un pharmacien ou que vous soyez"
         }
       ]
     };

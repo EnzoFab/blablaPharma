@@ -172,6 +172,19 @@ export default {
   name: "Manage-pharmacists",
   components: { PharmacistAutocompleteField },
   layout: "admin",
+  head() {
+    return {
+      title: "Gestion des pharmaciens",
+      meta: [
+        {
+          hid: "manage-pharmacist",
+          name: "description",
+          content: "gestion des pharmaciens"
+        }
+      ]
+    };
+  },
+
   data() {
     return {
       dialog: false,

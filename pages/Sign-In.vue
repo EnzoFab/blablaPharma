@@ -146,7 +146,7 @@ export default {
         {
           hid: "Sign-in",
           name: "description",
-          content: "S'inscrire sur blablapharma"
+          content: "S'inscrire sur blablaPharma"
         }
       ]
     };

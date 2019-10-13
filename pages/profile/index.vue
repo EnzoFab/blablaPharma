@@ -82,7 +82,7 @@ export default {
       ? `${connectedUser.firstName} ${connectedUser.lastName}`
       : "Profile";
     return {
-      title: `${fullName}`,
+      title: `profil - ${fullName}`,
       meta: [
         {
           hid: "Profile",
@@ -110,7 +110,7 @@ export default {
   computed: mapState({
     tabs: state => {
       const pharmacistTab = state.pharmacist
-        ? [{ label: "Mis à jour pharmacien", key: "pharmacist" }]
+        ? [{ label: "Mise à jour pharmacien", key: "pharmacist" }]
         : [];
 
       return [

@@ -63,6 +63,20 @@ const AsideConversation = () =>
 export default {
   name: "Messages",
   middleware: "connected",
+  head() {
+    return {
+      title: "Vos messages",
+      meta: [
+        {
+          hid: "Messages",
+          name: "description",
+          content:
+            "Vos messages avec vos pharmaciens directement dans sur blablaPharma"
+        }
+      ]
+    };
+  },
+
   components: { AsideConversation, Conversation },
   data() {
     return {
