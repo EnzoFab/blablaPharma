@@ -159,7 +159,6 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/proxy",
-
     "@nuxtjs/pwa",
     ["vue-scrollto/nuxt", { duration: 150 }],
     "@nuxtjs/dotenv",

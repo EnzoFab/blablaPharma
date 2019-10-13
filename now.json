@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "nuxt.config.js",
+      "use": "@nuxtjs/now-builder",
+      "config": {}
+    }
+  ],
+  "env": {
+    "API_URL": "http://ec2-52-209-194-111.eu-west-1.compute.amazonaws.com",
+    "PORT": "3000"
+  }
+}
