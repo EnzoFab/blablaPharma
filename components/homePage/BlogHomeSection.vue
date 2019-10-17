@@ -40,7 +40,7 @@ export default {
         {
           image: "/images/insuline.png",
           title:
-            "Différents mode d'injection de l'insuline et les endroits où se piquer",
+            "Différents modes d'injection de l'insuline et les endroits où se piquer",
           href: "/blog"
         },
         {
