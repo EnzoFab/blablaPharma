@@ -2,8 +2,8 @@ FROM mhart/alpine-node:11
 
 RUN mkdir /client
 
-RUN apk add bash
-RUN apk --no-cache add --virtual builds-deps build-base python
+#RUN apk add bash
+#RUN apk --no-cache add --virtual builds-deps build-base python
 
 WORKDIR /client
 
