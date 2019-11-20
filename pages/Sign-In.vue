@@ -27,6 +27,7 @@
           :md3="isClient"
         >
           <v-img
+            class="signIn-imageHolder"
             src="/images/sign-in.jpg"
             :height="imageHeight"
             gradient="to top right, rgba(255,255,255,0.12), rgba(120,120,120,.14)"
@@ -52,6 +53,15 @@
                 </v-flex>
               </v-layout>
             </v-container>
+            <div
+              v-if="isClient"
+              class="signIn-backArrow white--text title-section-small pr-2 content-pointer"
+              @click="backUserTypeSelection"
+            >
+              <v-icon color="white" size="30">fas fa-arrow-left</v-icon>
+
+              Retour
+            </div>
           </v-img>
         </v-flex>
         <v-flex
@@ -61,6 +71,7 @@
         >
           <v-img
             :height="imageHeight"
+            class="signIn-imageHolder"
             src="/images/sign-in-pharmacist.png"
             gradient="to top right, rgba(200,215,255,0.22), rgba(5,20,120,.14)"
             alt="Sign-in Pharmacist"
@@ -87,6 +98,15 @@
                 </v-flex>
               </v-layout>
             </v-container>
+            <div
+              v-if="isPharmacist"
+              class="signIn-backArrow white--text title-section-small pr-2 content-pointer"
+              @click="backUserTypeSelection"
+            >
+              <v-icon color="white" size="30">fas fa-arrow-left</v-icon>
+
+              Retour
+            </div>
           </v-img>
         </v-flex>
         <v-expand-transition>
@@ -146,7 +166,7 @@ export default {
         {
           hid: "Sign-in",
           name: "description",
-          content: "S'inscrire sur blablaPharma"
+          content: "S'inscrire sur Blablapharma"
         }
       ]
     };
@@ -185,6 +205,9 @@ export default {
     }
   },
   methods: {
+    backUserTypeSelection() {
+      this.signInType = null;
+    },
     smallScreen() {
       return this.$vuetify.breakpoint.smAndDown;
     },
