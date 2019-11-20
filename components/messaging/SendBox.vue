@@ -101,6 +101,7 @@
             placeholder="Écrire votre message"
             class="sendBox"
             @keydown.enter.exact.prevent="sendMessage"
+            @click="$emit('sendbox::focus')"
           >
             <v-icon
               slot="append"

@@ -124,7 +124,10 @@
           </v-container>
         </v-flex>
         <v-flex xs12 mt-1 mb-0 pb-0 px-2 mx-2 align-self-end
-          ><send-box :embed="embed" @sendbox:messageSent="handleNewMessage"
+          ><send-box
+            :embed="embed"
+            @sendbox::focus="readMessage"
+            @sendbox:messageSent="handleNewMessage"
         /></v-flex>
       </v-layout>
     </v-container>
