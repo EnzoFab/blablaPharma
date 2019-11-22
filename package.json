@@ -53,6 +53,7 @@
     "lodash.words": "^4.2.0",
     "nuxt": "^2.10.1",
     "nuxt-polyfill": "^1.0.3",
+    "push.js": "^1.0.12",
     "redirect-ssl": "^1.4.1",
     "rest": "^2.0.0",
     "sails.io.js": "^1.2.1",

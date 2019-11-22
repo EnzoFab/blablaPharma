@@ -99,7 +99,10 @@
             color="success"
             background-color="white"
             placeholder="Écrire votre message"
-            class="sendBox"
+            :class="{
+              sendBox: true,
+              'text--normal': embed || $vuetify.breakpoint.smAndDown
+            }"
             @keydown.enter.exact.prevent="sendMessage"
             @click="$emit('sendbox::focus')"
           >

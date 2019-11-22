@@ -1,4 +1,4 @@
-import { SailSocketWrapper } from "../../helpers";
+import { SailSocketWrapper, triggerNotification } from "../../helpers";
 import pickBy from "lodash.pickby";
 import reduce from "lodash.reduce";
 
@@ -15,6 +15,7 @@ import {
   RECEIVE_MESSAGE,
   TOGGLE_NOTIFICATION_SOUND
 } from "../types";
+import get from "lodash.get";
 
 /*
   Use actions to execute request to the server and also some mutations
@@ -85,8 +86,12 @@ export default {
   [RECEIVE_MESSAGE]: async ({ commit, state, rootState, getters }, message) => {
     commit(ADD_MESSAGES, [message]);
 
+    const { conversation, content, type, author } = message;
+
+    const conversationData = getters.getConversation(conversation);
+
     // if the conversation doesn't exist yet add it to the list of conversation
-    if (!getters.getConversation(message.conversations)) {
+    if (!conversationData) {
       const conversation = await SailSocketWrapper.get(
         rootState,
         `/conversations/${message.conversation}`
@@ -104,6 +109,21 @@ export default {
     commit(ADD_ACTIVE_CONVERSATIONS, [message.conversation]);
 
     if (process.client) {
+      const sender = get(conversationData, "members", []).find(
+        member => member.id === author
+      );
+
+      const { firstName, lastName } = sender
+        ? sender
+        : { firstName: "", lastName: "" };
+
+      const title = `Nouveau message de ${firstName} ${lastName}`;
+      const notificationContent =
+        type === "text" ? content : "Vous a envoyé un message";
+      const link = `/messages?active=${conversation}`;
+
+      await triggerNotification(title, notificationContent, link);
+
       // not to execute the code on server side
       // because audio isn't defined server side
       if (state.notificationActivated === true) {
