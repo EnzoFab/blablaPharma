@@ -32,6 +32,19 @@ const SnackBar = () => import("~/components/layout/SnackBar");
 
 const AdminButton = () => import("~/components/layout/AdminButton");
 export default {
+  head() {
+    const connectedUserId = this.$store.getters.isLoggedIn
+      ? this.$store.getters.connectedUser.id
+      : null;
+    const hasNewMessage =
+      connectedUserId &&
+      this.$store.getters["chat/hasNewMessages"](connectedUserId);
+
+    const titleTemplate = hasNewMessage ? `Nouveau(x) messages - %s` : "%s";
+    return {
+      titleTemplate
+    };
+  },
   components: {
     AdminButton,
     SnackBar,
