@@ -164,7 +164,8 @@ module.exports = {
     "@nuxtjs/pwa",
     ["vue-scrollto/nuxt", { duration: 150 }],
     "@nuxtjs/dotenv",
-    "nuxt-polyfill"
+    "nuxt-polyfill",
+    "@nuxtjs/redirect-module"
   ],
 
   /*

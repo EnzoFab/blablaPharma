@@ -150,7 +150,7 @@ export default {
           return;
         }
 
-        this.filters.q = value;
+        this.filters.q = words(value).join(" ");
 
         // first we look into items to see if there is an item that match the filters.q
         const el = this.items.find(item =>
@@ -222,7 +222,7 @@ export default {
     },
     handleChange(data) {
       if (data) {
-        this.$emit("pharmacistautocompletefield::search", {
+        const filters = this.$emit("pharmacistautocompletefield::search", {
           pharmacists: [data],
           filters: { ...this.filters }
         });

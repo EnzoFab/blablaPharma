@@ -203,7 +203,7 @@ export default {
         const data = { ...this.fields };
 
         // the picture hasn't change so we don't send it to the back
-        if (this.fields.picture === this.connectedUser.picture) {
+        if (data.picture === this.connectedUser.picture) {
           delete data.picture;
         }
 
