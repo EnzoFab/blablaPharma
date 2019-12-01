@@ -14,6 +14,9 @@
     "generate": "nuxt generate",
     "prod": "npm run build && npm run start"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.1",
