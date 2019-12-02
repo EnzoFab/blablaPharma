@@ -12,7 +12,8 @@
     "start": "nuxt start",
     "devServer": "nodemon server/index.js",
     "generate": "nuxt generate",
-    "prod": "npm run build && npm run start"
+    "prod": "npm run build && npm run start",
+    "heroku-postbuild": "npm run build"
   },
   "engines": {
     "node": "10.x"
