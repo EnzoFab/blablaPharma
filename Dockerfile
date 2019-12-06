@@ -10,6 +10,7 @@ WORKDIR /client
 COPY . .
 RUN npm install
 ENV HOST 0.0.0.0   # Insensitive environment variable
+ENV PORT 3000
 #ENV NPM_CONFIG_PRODUCTION false
 #ENV NODE_ENV production
 
