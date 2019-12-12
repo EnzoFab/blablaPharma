@@ -84,7 +84,7 @@ export default {
             ? URL.createObjectURL(this.value)
             : null;
         const src = this.value ? this.value : null;
-        return filePreview || src;
+        return filePreview ? filePreview : src;
       },
       set(e) {
         const file = e.target.files[0];
