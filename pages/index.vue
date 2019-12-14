@@ -2,7 +2,7 @@
   <div class="mt-0 pt-0">
     <section>
       <responsive-parallax
-        src="/images/banner.jpg"
+        :src="require('~/assets/images/banner.jpg')"
         :min-height="400"
         :max-height="500"
         user-overlay
@@ -80,7 +80,7 @@
                   <div class="text-xs-center">
                     <v-avatar tile size="130">
                       <v-img
-                        :src="presentation.image"
+                        :src="require(`~/assets/icons/${presentation.image}`)"
                         :alt="presentation.alt"
                       ></v-img>
                     </v-avatar>
@@ -112,8 +112,9 @@
 </template>
 
 <script>
-import HowItWorksDialog from "../components/homePage/HowItWorksDialog";
-import EngagementSection from "../components/homePage/EngagementSection";
+const HowItWorksDialog = () => import("~/components/homePage/HowItWorksDialog");
+const EngagementSection = () =>
+  import("~/components/homePage/EngagementSection");
 const BlogHomeSection = () => import("~/components/homePage/BlogHomeSection");
 const ResponsiveParallax = () =>
   import("~/components/homePage/ResponsiveParallax");
@@ -144,21 +145,21 @@ export default {
       showDialog: false,
       presentations: [
         {
-          image: "/images/network-icon.png",
+          image: "network-icon.png",
           alt: "icone réseau",
           title: "Un réseau de pharmaciens",
           description:
             "Soucieux de votre santé et prêts à vous accompagner sur votre traitement ou vos pathologies."
         },
         {
-          image: "/images/fiability-icon.png",
+          image: "fiability-icon.png",
           alt: "icone fiabilité",
           title: "Des réponses fiables",
           description:
             "Et personnalisées à vos questions grâce à un service de messagerie instantanée."
         },
         {
-          image: "/images/articles-icon.png",
+          image: "articles-icon.png",
           alt: "icone articles et vidéos",
           title: "Des articles et des vidéos",
           description:

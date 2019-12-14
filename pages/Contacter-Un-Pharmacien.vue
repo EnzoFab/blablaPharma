@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img
-      src="/images/contact.jpg"
+      :src="require('~/assets/images/contact.jpg')"
       aspect-ratio="3.15"
       gradient="to top right, rgba(255,255,255,0.25), rgba(220,230,255,.30)"
       alt="Contacter un pharmacien image de présentation"

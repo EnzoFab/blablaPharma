@@ -10,7 +10,7 @@
           'blabla-logo--medium': largeScreen
         }"
       />
-      <img v-else :alt="alt" :src="srcMobile" class="blabla-logo--large" />
+      <img v-else :alt="alt" :src="src" class="blabla-logo--large" />
     </client-only>
   </nuxt-link>
 </template>
@@ -20,9 +20,8 @@ export default {
   name: "BlablapharmaLogo",
   data() {
     return {
-      src: "/images/logo-navbar.png",
-      alt: "BlablaPharma logo",
-      srcMobile: "/images/logo-navbar.png"
+      src: require("~/assets/images/logo-navbar.png"),
+      alt: "BlablaPharma logo"
     };
   },
   computed: {

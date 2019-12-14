@@ -1,7 +1,7 @@
 <template>
   <div>
     <responsive-parallax
-      src="/images/engagement.jpg"
+      :src="require('~/assets/images/engagement.jpg')"
       :max-height="400"
       :min-height="350"
       class="mt-0 pt-0 hidden-sm-and-down"

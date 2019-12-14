@@ -48,7 +48,7 @@
     />
     <alert
       v-model="showDialog"
-      :text="'La taille des images ne doit pas excéder 2mo'"
+      text="La taille des images ne doit pas excéder 2mo"
     />
   </div>
 </template>
@@ -79,12 +79,18 @@ export default {
 
     imageSrc: {
       get() {
-        const filePreview =
+        try {
+          return URL.createObjectURL(this.value);
+        } catch (e) {
+          return this.value;
+        }
+
+        /* const filePreview =
           this.value && typeof this.value === "object"
             ? URL.createObjectURL(this.value)
             : null;
         const src = this.value ? this.value : null;
-        return filePreview ? filePreview : src;
+        return filePreview ? filePreview : src; */
       },
       set(e) {
         const file = e.target.files[0];

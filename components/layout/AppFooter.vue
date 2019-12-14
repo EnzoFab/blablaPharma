@@ -7,7 +7,7 @@
           <v-layout row wrap :mx-3="$vuetify.breakpoint.smAndUp" align-center>
             <v-flex offset-xs2 xs8 class="text-xs-center hidden-xs-only">
               <img
-                src="/images/logo-footer.png"
+                :src="require('~/assets/images/logo-footer.png')"
                 alt="footer icon"
                 class="blabla-logo--extra-small"
               />

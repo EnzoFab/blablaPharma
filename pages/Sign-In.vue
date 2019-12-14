@@ -28,7 +28,7 @@
         >
           <v-img
             class="signIn-imageHolder"
-            src="/images/sign-in.jpg"
+            :src="require('~/assets/images/sign-in.jpg')"
             :height="imageHeight"
             gradient="to top right, rgba(255,255,255,0.12), rgba(120,120,120,.14)"
             alt="Sign-in patient image"
@@ -72,7 +72,7 @@
           <v-img
             :height="imageHeight"
             class="signIn-imageHolder"
-            src="/images/sign-in-pharmacist.png"
+            :src="require('~/assets/images/sign-in-pharmacist.png')"
             gradient="to top right, rgba(200,215,255,0.22), rgba(5,20,120,.14)"
             alt="Sign-in Pharmacist"
           >

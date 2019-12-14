@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img
-      src="/images/faq.jpg"
+      :src="require('~/assets/images/faq.jpg')"
       aspect-ratio="3.15"
       gradient="to top right, rgba(255,255,255,0.30), rgba(220,230,230,.14)"
       alt="Foire aux questions"

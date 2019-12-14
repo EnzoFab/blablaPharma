@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     iconFullPath(icon) {
-      return `/images/how-it-works-icon-${icon}`;
+      return require(`~/assets/icons/how-it-works-icon-${icon}`);
     }
   }
 };
