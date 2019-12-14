@@ -161,7 +161,8 @@ module.exports = {
     ["vue-scrollto/nuxt", { duration: 150 }],
     "@nuxtjs/dotenv",
     "nuxt-polyfill",
-    "@nuxtjs/redirect-module"
+    "@nuxtjs/redirect-module",
+    "@bazzite/nuxt-optimized-images"
   ],
 
   /*
@@ -287,5 +288,8 @@ module.exports = {
         }
       });*/
     }
+  },
+  optimizedImages: {
+    optimizeImages: true
   }
 };

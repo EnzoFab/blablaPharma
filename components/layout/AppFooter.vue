@@ -49,7 +49,7 @@
             >
               <div class="content-center">
                 <img
-                  src="/images/logo-footer.png"
+                  :src="require('~/assets/images/logo-footer.png')"
                   alt="footer icon"
                   class="blabla-logo--small hidden-sm-and-up"
                 />
