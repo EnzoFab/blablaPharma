@@ -235,7 +235,7 @@ module.exports = {
           window.__forceSmoothScrollPolyfill__ !== true,
 
         // Optional install function called client side after the package is required:
-        install: smoothscroll => smoothscroll.polyfill(),
+        install: smoothScroll => smoothScroll.polyfill(),
         include: true
       }
     ]
