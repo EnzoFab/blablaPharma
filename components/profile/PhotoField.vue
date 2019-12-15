@@ -113,7 +113,9 @@ export default {
   asyncComputed: {
     async imagePreview() {
       try {
-        return await toBase64(this.value);
+        const preview = await toBase64(this.value);
+        console.log(preview);
+        return preview;
       } catch (e) {
         return this.value;
       }
