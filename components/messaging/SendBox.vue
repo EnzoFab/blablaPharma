@@ -23,6 +23,7 @@
                 <v-img
                   class="ma-1"
                   :src="file.filePreview"
+                  lazy-src="/images/empty.jpg"
                   :alt="file.filePreview"
                   height="85"
                   width="85"

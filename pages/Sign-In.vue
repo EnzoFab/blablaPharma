@@ -161,12 +161,12 @@ export default {
   name: "Sign-In",
   head() {
     return {
-      title: "Inscription",
+      title: "Rejoindre BlablaPharma",
       meta: [
         {
           hid: "Sign-in",
           name: "description",
-          content: "S'inscrire sur Blablapharma"
+          content: "Rejoignez BlablaPharma"
         }
       ]
     };

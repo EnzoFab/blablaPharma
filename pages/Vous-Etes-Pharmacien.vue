@@ -73,7 +73,7 @@ export default {
           hid: "are-you-pharmacist",
           name: "description",
           content:
-            "Vous êtes pharmaciens et vous avez des questions par rapport à blablaPharma"
+            "Vous êtes pharmaciens et vous avez des questions par rapport à BlablaPharma"
         }
       ]
     };

@@ -128,7 +128,8 @@ export default {
         {
           hid: "Page d'accueil",
           name: "description",
-          content: "Echanger avec un pharmacien ou que vous soyez"
+          content:
+            "Via BlablaPharma, échangez avec un pharmacien où que vous soyez"
         }
       ]
     };

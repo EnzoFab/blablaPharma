@@ -96,12 +96,13 @@ export default {
   name: "FAQ",
   head() {
     return {
-      title: "F.A.Q",
+      title: "FAQ",
       meta: [
         {
           hid: "FAQ",
           name: "description",
-          content: "Les réponses aux questions que vous vous posez"
+          content:
+            "Toutes les réponses aux questions concernant Blablapharma que vous pouvez vous poser"
         }
       ]
     };

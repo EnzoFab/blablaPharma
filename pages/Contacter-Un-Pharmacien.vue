@@ -155,7 +155,7 @@ export default {
         {
           hid: "Contacter un pharmacien",
           name: "description",
-          content: "Contacter un pharmacien sur blablapharma"
+          content: "Contacter un pharmacien sur Blablapharma"
         }
       ]
     };
@@ -210,9 +210,7 @@ export default {
       }
     },
     getFullAddress(pharmacist) {
-      return `${pharmacist.address}, ${pharmacist.postalCode}, ${
-        pharmacist.city
-      }`;
+      return `${pharmacist.address}, ${pharmacist.postalCode}, ${pharmacist.city}`;
     },
     search({ pharmacists, filters }) {
       this.isLoading = true;

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { FILE_MAXIMUM_SIZE } from "../../helpers";
+import { FILE_MAXIMUM_SIZE, toBase64 } from "../../helpers";
 
 const Alert = () => import("../dialogs/Alert");
 export default {
@@ -79,18 +79,19 @@ export default {
 
     imageSrc: {
       get() {
-        try {
+        return this.imagePreview;
+        /*try {
           return URL.createObjectURL(this.value);
         } catch (e) {
           return this.value;
-        }
+        } */
 
         /* const filePreview =
-          this.value && typeof this.value === "object"
-            ? URL.createObjectURL(this.value)
-            : null;
-        const src = this.value ? this.value : null;
-        return filePreview ? filePreview : src; */
+            this.value && typeof this.value === "object"
+              ? URL.createObjectURL(this.value)
+              : null;
+          const src = this.value ? this.value : null;
+          return filePreview ? filePreview : src; */
       },
       set(e) {
         const file = e.target.files[0];
@@ -105,6 +106,16 @@ export default {
           // only accept image
           this.$emit("input", file);
         }
+      }
+    }
+  },
+
+  asyncComputed: {
+    async imagePreview() {
+      try {
+        return await toBase64(this.value);
+      } catch (e) {
+        return this.value;
       }
     }
   },
