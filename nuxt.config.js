@@ -161,8 +161,8 @@ module.exports = {
     ["vue-scrollto/nuxt", { duration: 150 }],
     "@nuxtjs/dotenv",
     "nuxt-polyfill",
-    "@nuxtjs/redirect-module"
-    //  "@bazzite/nuxt-optimized-images"
+    "@nuxtjs/redirect-module",
+    "@bazzite/nuxt-optimized-images"
   ],
 
   /*
@@ -264,8 +264,8 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend(config, { isDev, isClient }) {}
-  }
-  /*optimizedImages: {
+  },
+  optimizedImages: {
     optimizeImages: true
-  } */
+  }
 };
