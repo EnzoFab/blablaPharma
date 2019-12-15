@@ -14,6 +14,7 @@ module.exports = {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { "http-equiv": "X-UA-Compatible", content: "IE=edge" },
       {
         hid: "keywords",
         name: "keywords",
@@ -208,6 +209,39 @@ module.exports = {
     treeShake: true
   },
 
+  polyfill: {
+    features: [
+      /*
+              Feature with detect:
+
+              Detection is better because the polyfill will not be
+              loaded, parsed and executed if it's not necessary.
+          */
+      {
+        require: "intersection-observer",
+        detect: () => "IntersectionObserver" in window
+      },
+      /*
+              Feature with detect & install:
+
+              Some polyfills require a installation step
+              Hence you could supply a install function which accepts the require result
+          */
+      {
+        require: "smoothscroll-polyfill",
+
+        // Detection found in source: https://github.com/iamdustan/smoothscroll/blob/master/src/smoothscroll.js
+        detect: () =>
+          "scrollBehavior" in document.documentElement.style &&
+          window.__forceSmoothScrollPolyfill__ !== true,
+
+        // Optional install function called client side after the package is required:
+        install: smoothScroll => smoothScroll.polyfill(),
+        include: true
+      }
+    ]
+  },
+
   serverMiddleware: [
     // Will register redirect-ssl npm package
     "redirect-ssl"
@@ -221,7 +255,7 @@ module.exports = {
     extractCSS: true,
     transpile: ["vuetify"],
     optimization: { minimize: true },
-    //terser: { cache: true, parallel: false },
+    terser: { cache: true, parallel: false },
     // optimizeCSS: true,
     filenames: {
       app: ({ isDev }) => (isDev ? "[name].[hash].js" : "[chunkhash].js"),
