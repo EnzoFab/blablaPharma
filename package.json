@@ -72,13 +72,10 @@
     "vuetify-loader": "^1.3.0"
   },
   "devDependencies": {
-    "@bazzite/nuxt-optimized-images": "^0.2.2",
     "@vue/test-utils": "^1.0.0-beta.27",
     "ava": "^1.0.1",
     "browser-env": "^3.2.5",
     "eslint": "^6.0.1",
-    "imagemin-mozjpeg": "^8.0.0",
-    "imagemin-pngquant": "^8.0.0",
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.9",
     "require-extension-hooks": "^0.3.3",
@@ -87,7 +84,6 @@
     "sass-loader": "^7.1.0",
     "sharp": "^0.23.1",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "webp-loader": "^0.6.0"
+    "stylus-loader": "^3.0.2"
   }
 }
