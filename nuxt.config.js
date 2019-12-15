@@ -253,7 +253,7 @@ module.exports = {
     //analyze: true,
     extractCSS: true,
     transpile: ["vuetify"],
-    //optimization: { minimize: true },
+    optimization: { minimize: true },
     //terser: { cache: true, parallel: false },
     // optimizeCSS: true,
     filenames: {
