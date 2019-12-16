@@ -81,7 +81,7 @@
             ref="uploader"
             accept="image/*"
             tabindex="-1"
-            @input="handleFiles"
+            @change="handleFiles"
           />
         </v-flex>
         <v-flex :xs9="embed" :xs10="!embed">

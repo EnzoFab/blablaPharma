@@ -45,7 +45,7 @@
       ref="photoField"
       accept="image/*"
       tabindex="-1"
-      @input="handleImageInput"
+      @change="handleImageInput"
     />
     <alert
       v-model="showDialog"
@@ -96,7 +96,6 @@ export default {
       },
       set(e) {
         const file = e.target.files[0];
-        console.log("upload file", file);
 
         if (file.type.includes("image/")) {
           return;
@@ -117,11 +116,8 @@ export default {
   asyncComputed: {
     async imagePreview() {
       try {
-        const preview = await toBase64(this.value);
-        console.log(preview);
-        return preview;
+        return await toBase64(this.value);
       } catch (e) {
-        console.error("base64", e);
         return this.value;
       }
     }
@@ -129,7 +125,6 @@ export default {
 
   methods: {
     handleImageInput(e) {
-      console.log("handle files", e);
       this.imageSrc = e;
     }
   }
