@@ -128,6 +128,7 @@ export default {
 
   methods: {
     handleImageInput(e) {
+      console.log("handle files", e);
       this.imageSrc = e;
     }
   }
