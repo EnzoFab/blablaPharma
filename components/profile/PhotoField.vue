@@ -97,7 +97,7 @@ export default {
       set(e) {
         const file = e.target.files[0];
 
-        if (file.type.includes("image/")) {
+        if (!file.type.includes("image/")) {
           return;
         }
 
