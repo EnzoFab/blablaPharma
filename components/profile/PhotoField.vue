@@ -80,12 +80,12 @@ export default {
 
     imageSrc: {
       get() {
-        return this.imagePreview;
-        /*try {
+        // return this.imagePreview;
+        try {
           return URL.createObjectURL(this.value);
         } catch (e) {
           return this.value;
-        } */
+        }
 
         /* const filePreview =
             this.value && typeof this.value === "object"
