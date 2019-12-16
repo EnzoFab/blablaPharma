@@ -95,17 +95,20 @@ export default {
       },
       set(e) {
         const file = e.target.files[0];
+        console.log("upload file", file);
 
         if (file.type.includes("image/")) {
-          const overSized = file.size >= FILE_MAXIMUM_SIZE;
-          if (overSized) {
-            this.showDialog = overSized;
-            return;
-          }
-
-          // only accept image
-          this.$emit("input", file);
+          return;
         }
+
+        const overSized = file.size >= FILE_MAXIMUM_SIZE;
+        if (overSized) {
+          this.showDialog = overSized;
+          return;
+        }
+
+        // only accept image
+        this.$emit("input", file);
       }
     }
   },
@@ -117,6 +120,7 @@ export default {
         console.log(preview);
         return preview;
       } catch (e) {
+        console.error("base64", e);
         return this.value;
       }
     }
