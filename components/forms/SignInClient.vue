@@ -42,6 +42,7 @@
             type="file"
             ref="photo"
             accept="image/*"
+            tabindex="-1"
             @change="loadImage"
           />
         </v-flex>

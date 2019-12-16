@@ -44,6 +44,7 @@
       type="file"
       ref="photoField"
       accept="image/*"
+      tabindex="-1"
       @input="handleImageInput"
     />
     <alert

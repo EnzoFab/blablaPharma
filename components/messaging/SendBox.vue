@@ -75,11 +75,12 @@
           </v-btn>
 
           <input
+            v-show="false"
             multiple
             type="file"
             ref="uploader"
-            v-show="false"
             accept="image/*"
+            tabindex="-1"
             @input="handleFiles"
           />
         </v-flex>
