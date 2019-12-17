@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <script v-if="showFreshChat()"></script>
-  </div>
+  <div></div>
 </template>
 
 <script>
@@ -23,26 +21,17 @@ export default {
   },
   methods: {
     showFreshChat() {
-      //&& !this.$route.path.includes("/messages")
-      console.log(
-        "state",
-        !this.$store.getters.isLoggedIn,
-        this.isPatient && !this.$route.path.includes("/messages")
-      );
-
       if (
         !this.$store.getters.isLoggedIn ||
         (this.isPatient && !this.$route.path.includes("/messages"))
       ) {
         this.initFreshChat();
-        return true;
+        return;
       }
 
       if (window.fcWidget) {
         window.fcWidget.destroy();
       }
-
-      return false;
     },
 
     initFreshChat() {
@@ -69,8 +58,16 @@ export default {
       });
     }
   },
+  watch: {
+    "$route.path"() {
+      this.showFreshChat();
+    },
+    isPatient() {
+      this.showFreshChat();
+    }
+  },
   mounted() {
-    console.log("Component fresh is mounted");
+    this.showFreshChat();
   }
 };
 </script>
