@@ -22,6 +22,12 @@ export default {
     },
     showFreshChat() {
       //&& !this.$route.path.includes("/messages")
+      console.log(
+        "state",
+        !this.$store.getters.isLoggedIn,
+        this.isPatient && !this.$route.path.includes("/messages")
+      );
+
       if (
         !this.$store.getters.isLoggedIn ||
         (this.isPatient && !this.$route.path.includes("/messages"))
