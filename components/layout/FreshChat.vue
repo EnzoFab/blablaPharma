@@ -1,6 +1,6 @@
 <template>
   <div>
-    <script v-if="showFreshChat"></script>
+    <script v-if="showFreshChat()"></script>
   </div>
 </template>
 
@@ -19,7 +19,9 @@ export default {
       const isLoggedIn = this.$store.getters.isLoggedIn;
 
       return isLoggedIn && this.$store.getters.userType === "Patient";
-    },
+    }
+  },
+  methods: {
     showFreshChat() {
       //&& !this.$route.path.includes("/messages")
       console.log(
@@ -41,9 +43,8 @@ export default {
       }
 
       return false;
-    }
-  },
-  methods: {
+    },
+
     initFreshChat() {
       console.log("Fresh chat mounted");
 
