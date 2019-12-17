@@ -59,6 +59,9 @@ export default {
         // externalId: "EXTERNAL_ID"
       });
     }
+  },
+  mounted() {
+    console.log("Fresh chat mounted");
   }
 };
 </script>
