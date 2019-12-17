@@ -39,6 +39,8 @@ export default {
   },
   methods: {
     initFreshChat() {
+      console.log("Fresh chat mounted");
+
       window.fcWidget.init({
         token: "567298fc-1d09-46cb-a942-12a07c45b2c2",
         host: "https://wchat.freshchat.com",
@@ -59,9 +61,6 @@ export default {
         // externalId: "EXTERNAL_ID"
       });
     }
-  },
-  mounted() {
-    console.log("Fresh chat mounted");
   }
 };
 </script>
