@@ -9,13 +9,13 @@ export const request_permission = () => {
 export const trigger_notification = async (
   title,
   body,
-  link = "",
+  url = "",
   onClick = null
 ) => {
   if (Push.Permission.has()) {
+    const link = `https://blablapharma.fr/${url}`;
     await Push.create(title, {
       body,
-      timeout: 6000,
       icon: "/favicons/favicon-32x32.png",
       onClick,
       link,
