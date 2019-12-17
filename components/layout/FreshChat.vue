@@ -68,6 +68,9 @@ export default {
         // externalId: "EXTERNAL_ID"
       });
     }
+  },
+  mounted() {
+    console.log("Component fresh is mounted");
   }
 };
 </script>
