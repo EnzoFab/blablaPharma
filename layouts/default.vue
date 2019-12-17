@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { requestPermission, triggerNotification } from "../helpers";
+import { requestPermission } from "../helpers";
 const AppFooter = () => import("~/components/layout/AppFooter");
 const AppNavBar = () => import("~/components/layout/AppNavBar");
 const LoginDialog = () => import("~/components/forms/LoginDialog");

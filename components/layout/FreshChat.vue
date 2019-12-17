@@ -42,7 +42,21 @@ export default {
       window.fcWidget.init({
         token: "567298fc-1d09-46cb-a942-12a07c45b2c2",
         host: "https://wchat.freshchat.com",
-        externalId: "EXTERNAL_ID"
+        locale: "fr",
+        siteId: "blablapharmaid",
+
+        config: {
+          headerProperty: {
+            appName: "BlablaPharma"
+          },
+          content: {
+            headers: {
+              chat: "Nous contacter",
+              chat_help: "Contactez nous si vous avez des questions"
+            }
+          }
+        }
+        // externalId: "EXTERNAL_ID"
       });
     }
   }
