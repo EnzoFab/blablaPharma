@@ -165,13 +165,6 @@ module.exports = {
     "@nuxtjs/dotenv",
     "nuxt-polyfill",
     "@nuxtjs/redirect-module",
-    [
-      "nuxt-imagemin",
-      {
-        optipng: { optimizationLevel: 5 }
-        // gifsicle: { optimizationLevel: 2 }
-      }
-    ],
 
     [
       "nuxt-social-meta",
