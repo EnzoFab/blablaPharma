@@ -168,8 +168,8 @@ module.exports = {
     [
       "nuxt-imagemin",
       {
-        optipng: { optimizationLevel: 5 },
-        gifsicle: { optimizationLevel: 2 }
+        optipng: { optimizationLevel: 5 }
+        // gifsicle: { optimizationLevel: 2 }
       }
     ],
 
