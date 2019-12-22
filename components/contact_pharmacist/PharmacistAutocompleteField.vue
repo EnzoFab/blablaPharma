@@ -94,6 +94,7 @@
 import to from "await-to-js";
 import words from "lodash.words";
 import uniqueBy from "lodash.uniqby";
+import get from "lodash.get";
 export default {
   name: "PharmacistAutocompleteField",
   props: {
@@ -128,10 +129,14 @@ export default {
 
   asyncComputed: {
     async autoCompleteItems() {
+      const professionLabel = get(this.filter, "professionLabel", [
+        "pharmacist",
+        "student"
+      ]);
       const [e, result] = await to(
         this.$pharmacist.search({
-          professionLabel: ["pharmacist", "student"],
           ...this.filters,
+          professionLabel,
           verified: this.verified
         })
       );

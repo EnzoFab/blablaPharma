@@ -272,7 +272,7 @@ module.exports = {
 
   serverMiddleware: [
     // Will register redirect-ssl npm package
-    "redirect-ssl"
+    //"redirect-ssl"
   ],
 
   /*
