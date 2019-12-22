@@ -167,7 +167,9 @@ export default {
       receiverFirstName: null,
       receiverLastName: null,
       showDialog: false,
-      isLoading: false
+      isLoading: false,
+      pharmacists: [],
+      pharmacistsBlablapharma: []
     };
   },
   computed: {
