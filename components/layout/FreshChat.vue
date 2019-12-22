@@ -35,7 +35,9 @@ export default {
     },
 
     initFreshChat() {
-      console.log("Fresh chat mounted");
+      if (window.fcWidget.isInitialized()) {
+        return;
+      }
 
       window.fcWidget.init({
         token: "567298fc-1d09-46cb-a942-12a07c45b2c2",

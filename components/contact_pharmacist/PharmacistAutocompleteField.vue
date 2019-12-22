@@ -129,7 +129,11 @@ export default {
   asyncComputed: {
     async autoCompleteItems() {
       const [e, result] = await to(
-        this.$pharmacist.search({ ...this.filters, verified: this.verified })
+        this.$pharmacist.search({
+          professionLabel: ["pharmacist", "student"],
+          ...this.filters,
+          verified: this.verified
+        })
       );
 
       return !e && result ? result : this.items;
@@ -167,9 +171,7 @@ export default {
         this.isLoading = true;
 
         const formatPharmacist = pharmacist => {
-          const completeAddress = `${pharmacist.institutionName} ${
-            pharmacist.address
-          }, ${pharmacist.postalCode} ${pharmacist.city}`;
+          const completeAddress = `${pharmacist.institutionName} ${pharmacist.address}, ${pharmacist.postalCode} ${pharmacist.city}`;
           const fullName = `${pharmacist.firstName} ${pharmacist.lastName}`;
           const searchWord = `${fullName}. ${completeAddress}`;
           return { ...pharmacist, completeAddress, fullName, searchWord };
