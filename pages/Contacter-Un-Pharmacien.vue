@@ -45,7 +45,6 @@
               Aucun résultats
             </h3>
           </v-flex>
-
           <v-flex
             v-for="pharma in availableBlablaPharmacists"
             offset-sm1
@@ -104,7 +103,7 @@
           fluid
           class="scroll-y pharmacists hidden-sm-and-down"
         >
-          <v-layout row wrap>
+          <v-layout v-if="availablePharmacists" row wrap>
             <v-flex
               v-for="pharmacist in availablePharmacists"
               offset-sm1
