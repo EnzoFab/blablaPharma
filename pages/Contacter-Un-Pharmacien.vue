@@ -19,116 +19,126 @@
         </v-layout>
       </v-container>
     </v-img>
-    <v-container fluid grid-list-xs>
-      <v-layout row wrap>
-        <v-flex offset-xs2 xs8 offset-sm2 sm6>
-          <pharmacist-autocomplete-field
-            @pharmacistautocompletefield::search="search"
-          />
-        </v-flex>
-        <v-flex v-if="isLoading" xs12 class="content-center">
-          <v-progress-circular
-            indeterminate
-            size="300"
-            color="green"
-          ></v-progress-circular>
-        </v-flex>
-        <template v-else-if="availableBlablaPharmacists != null">
-          <v-flex xs12 pb-2>
-            <h2 class="text--baseColor title-section-small">
-              Pharmaciens BlablaPharma
-            </h2>
-          </v-flex>
 
-          <v-flex v-if="availableBlablaPharmacists.length === 0" offset-xs2 xs8>
-            <h3 class="text-xs-center text-content  text--baseColor">
-              Aucun résultats
-            </h3>
-          </v-flex>
-          <v-flex
-            v-for="pharma in availableBlablaPharmacists"
-            offset-sm1
-            offset-md1
-            sm10
-            md5
-            :key="pharma.id"
-          >
-            <pharmacist-card
-              :full-address="getFullAddress(pharma)"
-              :first-name="pharma.firstName"
-              :image="pharma.picture"
-              :last-name="pharma.lastName"
-              :workplace="pharma.institutionName"
-              :identifiant="pharma.id"
-              :gender="pharma.gender"
-              :status="pharma.professionLabel"
-              @pharmacist-card::contact="contactPharmacist"
+    <client-only>
+      <v-container fluid grid-list-xs>
+        <v-layout row wrap>
+          <v-flex offset-xs2 xs8 offset-sm2 sm6>
+            <pharmacist-autocomplete-field
+              @pharmacistautocompletefield::search="search"
             />
           </v-flex>
-        </template>
-        <v-flex xs12>
-          <h2 class="text--baseColor title-section-small">Pharmaciens</h2>
-        </v-flex>
-        <v-flex v-if="availablePharmacists.length === 0" offset-xs2 xs8>
-          <h3 class="text-xs-center text-content  text--baseColor">
-            Aucun résultats
-          </h3>
-        </v-flex>
+          <v-flex v-if="isLoading" xs12 class="content-center">
+            <v-progress-circular
+              indeterminate
+              size="300"
+              color="green"
+            ></v-progress-circular>
+          </v-flex>
+          <template v-else-if="availableBlablaPharmacists != null">
+            <v-flex xs12 pb-2>
+              <h2 class="text--baseColor title-section-small">
+                Pharmaciens BlablaPharma
+              </h2>
+            </v-flex>
 
-        <v-flex
-          class="hidden-md-and-up"
-          v-for="pharmacist in availablePharmacists"
-          offset-sm1
-          offset-md1
-          sm10
-          md5
-          pb-4
-          :key="pharmacist.id"
-        >
-          <pharmacist-card
-            :full-address="getFullAddress(pharmacist)"
-            :first-name="pharmacist.firstName"
-            :image="pharmacist.picture"
-            :last-name="pharmacist.lastName"
-            :workplace="pharmacist.institutionName"
-            :identifiant="pharmacist.id"
-            :gender="pharmacist.gender"
-            :status="pharmacist.professionLabel"
-            @pharmacist-card::contact="contactPharmacist"
-          />
-        </v-flex>
-
-        <v-container
-          grid-list-xs
-          fluid
-          class="scroll-y pharmacists hidden-sm-and-down"
-        >
-          <v-layout v-if="availablePharmacists" row wrap>
             <v-flex
-              v-for="pharmacist in availablePharmacists"
+              v-if="availableBlablaPharmacists.length === 0"
+              offset-xs2
+              xs8
+            >
+              <h3 class="text-xs-center text-content  text--baseColor">
+                Aucun résultats
+              </h3>
+            </v-flex>
+            <v-flex
+              v-for="pharma in availableBlablaPharmacists"
               offset-sm1
               offset-md1
               sm10
               md5
-              pb-4
-              :key="pharmacist.id"
+              :key="pharma.id"
             >
               <pharmacist-card
-                :full-address="getFullAddress(pharmacist)"
-                :first-name="pharmacist.firstName"
-                :image="pharmacist.picture"
-                :last-name="pharmacist.lastName"
-                :workplace="pharmacist.institutionName"
-                :identifiant="pharmacist.id"
-                :gender="pharmacist.gender"
-                :status="pharmacist.professionLabel"
+                :full-address="getFullAddress(pharma)"
+                :first-name="pharma.firstName"
+                :image="pharma.picture"
+                :last-name="pharma.lastName"
+                :workplace="pharma.institutionName"
+                :identifiant="pharma.id"
+                :gender="pharma.gender"
+                :status="pharma.professionLabel"
                 @pharmacist-card::contact="contactPharmacist"
               />
             </v-flex>
-          </v-layout>
-        </v-container>
-      </v-layout>
-    </v-container>
+          </template>
+          <v-flex xs12>
+            <h2 class="text--baseColor title-section-small">Pharmaciens</h2>
+          </v-flex>
+          <v-flex
+            v-if="!availablePharmacists || availablePharmacists.length === 0"
+            offset-xs2
+            xs8
+          >
+            <h3 class="text-xs-center text-content  text--baseColor">
+              Aucun résultats
+            </h3>
+          </v-flex>
+
+          <v-flex
+            class="hidden-md-and-up"
+            v-for="pharmacist in availablePharmacists"
+            offset-sm1
+            offset-md1
+            sm10
+            md5
+            pb-4
+            :key="pharmacist.id"
+          >
+            <pharmacist-card
+              :full-address="getFullAddress(pharmacist)"
+              :first-name="pharmacist.firstName"
+              :image="pharmacist.picture"
+              :last-name="pharmacist.lastName"
+              :workplace="pharmacist.institutionName"
+              :identifiant="pharmacist.id"
+              :gender="pharmacist.gender"
+              :status="pharmacist.professionLabel"
+              @pharmacist-card::contact="contactPharmacist"
+            />
+          </v-flex>
+          <v-container
+            grid-list-xs
+            fluid
+            class="scroll-y pharmacists hidden-sm-and-down"
+          >
+            <v-layout v-if="availablePharmacists" row wrap>
+              <v-flex
+                v-for="pharmacist in availablePharmacists"
+                offset-sm1
+                offset-md1
+                sm10
+                md5
+                pb-4
+                :key="pharmacist.id"
+              >
+                <pharmacist-card
+                  :full-address="getFullAddress(pharmacist)"
+                  :first-name="pharmacist.firstName"
+                  :image="pharmacist.picture"
+                  :last-name="pharmacist.lastName"
+                  :workplace="pharmacist.institutionName"
+                  :identifiant="pharmacist.id"
+                  :gender="pharmacist.gender"
+                  :status="pharmacist.professionLabel"
+                  @pharmacist-card::contact="contactPharmacist"
+                />
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-layout>
+      </v-container>
+    </client-only>
   </div>
 </template>
 
