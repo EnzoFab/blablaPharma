@@ -2,8 +2,6 @@ const colors = require("vuetify/es5/util/colors").default;
 import VuetifyLoaderPlugin from "vuetify-loader/lib/plugin";
 // const env = require("dotenv").config();
 
-console.log(process.env.MAINTENANCE_MODE, process.env.API_URL);
-
 module.exports = {
   mode: "universal",
   // env: env.parsed,
@@ -274,7 +272,7 @@ module.exports = {
 
   serverMiddleware: [
     // Will register redirect-ssl npm package
-    process.env.DOMAIN ? "redirect-ssl" : ""
+    "redirect-ssl"
   ],
 
   /*
