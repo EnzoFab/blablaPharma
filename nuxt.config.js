@@ -2,6 +2,8 @@ const colors = require("vuetify/es5/util/colors").default;
 import VuetifyLoaderPlugin from "vuetify-loader/lib/plugin";
 // const env = require("dotenv").config();
 
+console.log(process.env.MAINTENANCE_MODE, process.env.API_URL);
+
 module.exports = {
   mode: "universal",
   // env: env.parsed,
@@ -162,7 +164,30 @@ module.exports = {
     ["vue-scrollto/nuxt", { duration: 150 }],
     "@nuxtjs/dotenv",
     "nuxt-polyfill",
-    "@nuxtjs/redirect-module"
+    "@nuxtjs/redirect-module",
+    [
+      "nuxt-imagemin",
+      {
+        optipng: { optimizationLevel: 5 },
+        gifsicle: { optimizationLevel: 2 }
+      }
+    ],
+
+    [
+      "nuxt-social-meta",
+      {
+        url: process.env.DOMAIN || "127.0.0.1",
+        title: "BlablaPharma",
+        description:
+          "BlablaPharma vous permet d'échanger directement avec un pharmacien ou que vous soyez",
+        img: "/images/logo-fav.png",
+        locale: "fr-Fr",
+        twitter: "@blablapharma",
+        themeColor: "#BED469"
+      }
+    ],
+    "@nuxtjs/sitemap",
+    "nuxt-maintenance-mode"
     //"@bazzite/nuxt-optimized-images"
   ],
 
@@ -189,6 +214,18 @@ module.exports = {
       changeOrigin: true,
       secure: true
     }
+  },
+
+  sitemap: {
+    hostname: process.env.DOMAIN || "127.0.0.1",
+    gzip: true,
+    exclude: ["/bo/**"]
+  },
+
+  maintenance: {
+    enabled: process.env.MAINTENANCE_MODE === "on", // If given truthy value, activate maintenance mode on startup
+    path: "/maintenance" // maintenance fallback content routing
+    // matcher: /^\/admin/ // Path to be in maintenance mode (regex)
   },
   /*
    ** vuetify module configuration
@@ -244,7 +281,7 @@ module.exports = {
 
   serverMiddleware: [
     // Will register redirect-ssl npm package
-    "redirect-ssl"
+    process.env.DOMAIN ? "redirect-ssl" : ""
   ],
 
   /*

@@ -85,8 +85,20 @@ export default function({ app, $axios }, inject) {
     search: filters => {
       const queryParams = reduce(
         filters,
-        (result, value, key) =>
-          value || value === false ? `${result}&${key}=${value}` : result,
+        (result, value, key) => {
+          if (Array.isArray(value)) {
+            const arrayQuery = value.reduce(
+              (acc, val) => `${acc}&${key}=${val}`,
+              ""
+            );
+
+            return `${result}&${arrayQuery}`;
+          }
+
+          return value || value === false
+            ? `${result}&${key}=${value}`
+            : result;
+        },
         "?lite=true"
       );
       return $axios(`/pharmacists/search${queryParams}`);

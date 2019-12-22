@@ -136,6 +136,7 @@
 <script>
 import to from "await-to-js";
 import pickBy from "lodash.pickby";
+import get from "lodash.get";
 import sampleSize from "lodash.samplesize";
 
 import { TOGGLE_CONNECTION_DIALOG, CONTACT_PHARMACIST } from "../store/types";
@@ -233,8 +234,21 @@ export default {
    */
   async asyncData({ app, query }) {
     // todo improve, handle query, pagination, number on page
+
+    const professionLabel = get(query, "professionLabel", [
+      "pharmacist",
+      "student"
+    ]);
+
     const [e, res] = await to(
-      app.$pharmacist.search({ limit: 100, page: 0, ...query, verified: true })
+      app.$pharmacist.search({
+        limit: 100,
+        page: 0,
+        ...query,
+        professionLabel,
+
+        verified: true
+      })
     );
 
     const pharmacists = !e && res ? res : [];
