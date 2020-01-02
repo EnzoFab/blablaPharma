@@ -17,96 +17,98 @@
       <v-flex v-if="errorMessage" xs12 pa-2>
         <div class="content-center red--text">{{ errorMessage }}</div>
       </v-flex>
-      <v-flex mt-3 pa-3 xs10 offset-xs1 class="scroll-y pharmacists-holder">
-        <v-flex v-if="pharmacists.length === 0" xs12>
-          <h3 class="content-center text--baseColor">
-            Aucun résultat
-          </h3>
-        </v-flex>
-        <v-flex mb-2 v-for="pharmacist in pharmacists" :key="pharmacist.id">
-          <v-card flat color="transparent" class="pa-1">
-            <div class="text--baseColor pa-3" style="border: solid 1px grey">
-              <div class="content-center">
-                <v-avatar v-if="pharmacist.picture" size="80">
-                  <v-img
-                    :src="pharmacist.picture"
-                    alt="Pharmacist photo"
-                  ></v-img>
-                </v-avatar>
-              </div>
-              <v-container pa-0 ma-0 fluid grid-list-xs fill-height>
-                <v-layout row wrap align-center>
-                  <v-flex xs12 sm8>
-                    <h3 class="title-section-small mb-2">
-                      {{ getFullName(pharmacist) }}
-                    </h3>
-                    <div>
-                      <span class="font-weight-bold">RPPS : </span>
-                      <span class="font-italic">{{
-                        pharmacist.professionalId
-                      }}</span>
-                    </div>
-                    <div>
-                      <span class="font-weight-bold">Sexe : </span>
-                      <span>{{ getGender(pharmacist) }}</span>
-                    </div>
-                    <div>
-                      <span class="font-weight-bold">Statut : </span>
-                      <span>{{ getProfession(pharmacist) }}</span>
-                    </div>
-                    <div>
-                      <span class="font-weight-bold">Adresse : </span>
-                      <span>{{ getCompleteAddress(pharmacist) }}</span>
-                    </div>
-                    <div>
-                      <span class="font-weight-bold"
-                        >Date d'inscription :
-                      </span>
-                      <span>{{ format(pharmacist.createdAt) }}</span>
-                    </div>
-                    <div v-if="pharmacist.warn" class="font-weight-bold">
-                      <v-icon>warning</v-icon>
-                      <span
-                        >Ce pharmacien a été averti le
-                        {{ format(pharmacist.warn) }}, il a 7 jours pour
-                        modifier son RPPS</span
+      <client-only>
+        <v-flex mt-3 pa-3 xs10 offset-xs1 class="scroll-y pharmacists-holder">
+          <v-flex v-if="pharmacists.length === 0" xs12>
+            <h3 class="content-center text--baseColor">
+              Aucun résultat
+            </h3>
+          </v-flex>
+          <v-flex mb-2 v-for="pharmacist in pharmacists" :key="pharmacist.id">
+            <v-card flat color="transparent" class="pa-1">
+              <div class="text--baseColor pa-3" style="border: solid 1px grey">
+                <div class="content-center">
+                  <v-avatar v-if="pharmacist.picture" size="80">
+                    <v-img
+                      :src="pharmacist.picture"
+                      alt="Pharmacist photo"
+                    ></v-img>
+                  </v-avatar>
+                </div>
+                <v-container pa-0 ma-0 fluid grid-list-xs fill-height>
+                  <v-layout row wrap align-center>
+                    <v-flex xs12 sm8>
+                      <h3 class="title-section-small mb-2">
+                        {{ getFullName(pharmacist) }}
+                      </h3>
+                      <div>
+                        <span class="font-weight-bold">RPPS : </span>
+                        <span class="font-italic">{{
+                          pharmacist.professionalId
+                        }}</span>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">Sexe : </span>
+                        <span>{{ getGender(pharmacist) }}</span>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">Statut : </span>
+                        <span>{{ getProfession(pharmacist) }}</span>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold">Adresse : </span>
+                        <span>{{ getCompleteAddress(pharmacist) }}</span>
+                      </div>
+                      <div>
+                        <span class="font-weight-bold"
+                          >Date d'inscription :
+                        </span>
+                        <span>{{ format(pharmacist.createdAt) }}</span>
+                      </div>
+                      <div v-if="pharmacist.warn" class="font-weight-bold">
+                        <v-icon>warning</v-icon>
+                        <span
+                          >Ce pharmacien a été averti le
+                          {{ format(pharmacist.warn) }}, il a 7 jours pour
+                          modifier son RPPS</span
+                        >
+                      </div>
+                    </v-flex>
+                    <v-flex xs12 sm4>
+                      <v-btn
+                        block
+                        depressed
+                        dark
+                        color="default-green"
+                        @click="confirmDialog(pharmacist, 'validate')"
+                        >Valider inscription</v-btn
                       >
-                    </div>
-                  </v-flex>
-                  <v-flex xs12 sm4>
-                    <v-btn
-                      block
-                      depressed
-                      dark
-                      color="default-green"
-                      @click="confirmDialog(pharmacist, 'validate')"
-                      >Valider inscription</v-btn
-                    >
-                    <v-btn
-                      v-if="!pharmacist.warn"
-                      block
-                      depressed
-                      color="orange"
-                      dark
-                      @click="confirmDialog(pharmacist, 'warn')"
-                      >Avertissement</v-btn
-                    >
-                    <v-btn
-                      v-if="canDeletePharmacist(pharmacist.warn)"
-                      block
-                      depressed
-                      color="red"
-                      dark
-                      @click="confirmDialog(pharmacist, 'delete')"
-                      >Supprimer</v-btn
-                    >
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </div>
-          </v-card>
+                      <v-btn
+                        v-if="!pharmacist.warn"
+                        block
+                        depressed
+                        color="orange"
+                        dark
+                        @click="confirmDialog(pharmacist, 'warn')"
+                        >Avertissement</v-btn
+                      >
+                      <v-btn
+                        v-if="canDeletePharmacist(pharmacist.warn)"
+                        block
+                        depressed
+                        color="red"
+                        dark
+                        @click="confirmDialog(pharmacist, 'delete')"
+                        >Supprimer</v-btn
+                      >
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </div>
+            </v-card>
+          </v-flex>
         </v-flex>
-      </v-flex>
+      </client-only>
     </v-layout>
     <v-dialog v-model="dialog" width="350">
       <v-card flat class="pa-4">
@@ -317,9 +319,7 @@ export default {
     },
 
     getCompleteAddress(pharmacist) {
-      return `${pharmacist.institutionName} - ${pharmacist.address}, ${
-        pharmacist.postalCode
-      } - ${pharmacist.city}`;
+      return `${pharmacist.institutionName} - ${pharmacist.address}, ${pharmacist.postalCode} - ${pharmacist.city}`;
     },
 
     getProfession(pharmacist) {
