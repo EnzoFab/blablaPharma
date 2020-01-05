@@ -1,0 +1,10 @@
+.articlePreview-title {
+  font-family: Helvetica, sans-serif;
+  font-size: 18px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.articlePreview-title:hover {
+  color: $text-color;
+}

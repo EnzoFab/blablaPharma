@@ -281,7 +281,7 @@ module.exports = {
   build: {
     //analyze: true,
     extractCSS: true,
-    transpile: ["vuetify"],
+    transpile: ["vuetify", "vue-youtube-embed"],
     optimization: { minimize: true },
     terser: { cache: true, parallel: false },
     // optimizeCSS: true,

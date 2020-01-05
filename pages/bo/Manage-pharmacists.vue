@@ -317,9 +317,7 @@ export default {
     },
 
     getCompleteAddress(pharmacist) {
-      return `${pharmacist.institutionName} - ${pharmacist.address}, ${
-        pharmacist.postalCode
-      } - ${pharmacist.city}`;
+      return `${pharmacist.institutionName} - ${pharmacist.address}, ${pharmacist.postalCode} - ${pharmacist.city}`;
     },
 
     getProfession(pharmacist) {

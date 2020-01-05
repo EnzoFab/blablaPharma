@@ -13,3 +13,8 @@ $hover-color: #799999;
 @import "components/profile";
 @import "components/scrollbar";
 @import "components/signIn";
+@import "components/article";
+
+iframe {
+  width: 100%;
+}

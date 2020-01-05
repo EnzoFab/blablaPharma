@@ -1,20 +1,45 @@
 <template>
-  <v-container fluid>
-    <v-card flat>
-      <h1 class="text-xs-center title-main text--baseColor">
-        En construction
-      </h1>
-      <div class="text--baseColor text-xs-center text-content pt-2">
-        Le blog n'est pas encore disponible, il le sera très prochainement
+  <div>
+    <v-img
+      :src="require('~/assets/images/contact.jpg')"
+      aspect-ratio="3.15"
+      gradient="to top right, rgba(255,255,255,0.25), rgba(220,230,255,.30)"
+      alt="Blog"
+    >
+      <v-container pt-5 fill-height>
+        <v-layout align-center wrap>
+          <v-flex xs12>
+            <div class="content-center title-main">
+              <span class="title-section-huge text--baseColor ">BLOG</span>
+              <hr class="divider  mt-3 default-grey" />
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-img>
+    <client-only>
+      <div style="padding-left: 15%; padding-right: 15%">
+        <v-container fluid grid-list-xl>
+          <v-layout row wrap>
+            <v-flex v-for="article in articles" :key="article.id" md4 sm4 xs6>
+              <article-preview
+                :article-id="article.id"
+                :creation-date="article.date"
+                :image="article.image"
+                :text="article.text"
+                :title="article.title"
+                :video-id="article.videoId"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
       </div>
-      <div class="pt-3 content-center">
-        <v-icon :size="150">fas fa-wrench</v-icon>
-      </div>
-    </v-card>
-  </v-container>
+    </client-only>
+  </div>
 </template>
 
 <script>
+import ArticlePreview from "~/components/blog/ArticlePreview";
 export default {
   name: "index",
   head() {
@@ -27,6 +52,47 @@ export default {
           content: "Visualizez du contenu pharmaceutique"
         }
       ]
+    };
+  },
+  components: {
+    ArticlePreview
+  },
+  asyncData() {
+    const articles = [
+      {
+        id: 1,
+        title: "Mon premier article",
+        videoId: "ZVgdQHA_IH4",
+        text: null,
+        date: new Date()
+      },
+      {
+        id: 2,
+        title:
+          "Another for me   eeerer  njenrejnrk tnejtnektrn  rjtnrtjnt (ytjnjertnrj tyrjntjrn ynrjy",
+        videoId: "OSmSNK7Rano",
+        text: null,
+        date: new Date()
+      },
+      {
+        id: 4,
+        title: "Another one",
+        videoId: "OSmSNK7Rano",
+        text: "A simple texte for you to understand something young guy",
+        date: new Date()
+      },
+      {
+        id: 3,
+        title: "Another one",
+        image:
+          "https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg",
+        text: null,
+        date: new Date()
+      }
+    ];
+
+    return {
+      articles
     };
   }
 };
