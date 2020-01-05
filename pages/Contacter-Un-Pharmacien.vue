@@ -51,26 +51,58 @@
                 Aucun résultats
               </h3>
             </v-flex>
+
             <v-flex
-              v-for="pharma in availableBlablaPharmacists"
+              class="hidden-md-and-up"
+              v-for="pharmacist in availableBlablaPharmacists"
               offset-sm1
               offset-md1
               sm10
               md5
-              :key="pharma.id"
+              pb-4
+              :key="pharmacist.id"
             >
               <pharmacist-card
-                :full-address="getFullAddress(pharma)"
-                :first-name="pharma.firstName"
-                :image="pharma.picture"
-                :last-name="pharma.lastName"
-                :workplace="pharma.institutionName"
-                :identifiant="pharma.id"
-                :gender="pharma.gender"
-                :status="pharma.professionLabel"
+                :full-address="getFullAddress(pharmacist)"
+                :first-name="pharmacist.firstName"
+                :image="pharmacist.picture"
+                :last-name="pharmacist.lastName"
+                :workplace="pharmacist.institutionName"
+                :identifiant="pharmacist.id"
+                :gender="pharmacist.gender"
+                :status="pharmacist.professionLabel"
                 @pharmacist-card::contact="contactPharmacist"
               />
             </v-flex>
+            <v-container
+              grid-list-xs
+              fluid
+              class="scroll-y pharmacists hidden-sm-and-down"
+            >
+              <v-layout v-if="availableBlablaPharmacists" row wrap>
+                <v-flex
+                  v-for="pharmacist in availableBlablaPharmacists"
+                  offset-sm1
+                  offset-md1
+                  sm10
+                  md5
+                  pb-4
+                  :key="pharmacist.id"
+                >
+                  <pharmacist-card
+                    :full-address="getFullAddress(pharmacist)"
+                    :first-name="pharmacist.firstName"
+                    :image="pharmacist.picture"
+                    :last-name="pharmacist.lastName"
+                    :workplace="pharmacist.institutionName"
+                    :identifiant="pharmacist.id"
+                    :gender="pharmacist.gender"
+                    :status="pharmacist.professionLabel"
+                    @pharmacist-card::contact="contactPharmacist"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
           </template>
           <v-flex xs12>
             <h2 class="text--baseColor title-section-small">Pharmaciens</h2>
@@ -184,13 +216,10 @@ export default {
   },
   computed: {
     availablePharmacists() {
-      return sampleSize(this.pharmacists.filter(this.notCurrentPharmacist), 10);
+      return sampleSize(this.pharmacists.filter(this.notCurrentPharmacist), 20);
     },
     availableBlablaPharmacists() {
-      return sampleSize(
-        this.pharmacistsBlablapharma.filter(this.notCurrentPharmacist),
-        2
-      );
+      return this.pharmacistsBlablapharma.filter(this.notCurrentPharmacist);
     }
   },
 
