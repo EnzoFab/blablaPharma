@@ -44,5 +44,14 @@ export default {
     low_quality: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
   }),
 
-  getReadingTime: text => Math.ceil(text ? words(text).length / 250 : 0)
+  getReadingTime: text => Math.ceil(text ? words(text).length / 250 : 0),
+
+  getShareUrl: {
+    facebook: (url, text) =>
+      `https://www.facebook.com/sharer/sharer.php?u=${url}&t=${text}`,
+    twitter: (url, text) =>
+      `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+    linkedIn: (url, summary) =>
+      `https://www.linkedin.com/shareArticle?mini=true&url=${url}&=${summary}`
+  }
 };

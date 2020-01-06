@@ -1,56 +1,87 @@
 <template>
-  <v-card hover flat height="350">
-    <v-img
-      v-show="!playerVisible"
-      :src="coverImage.high_quality"
-      :lazy-src="coverImage.low_quality"
-      :gradient="
-        !image
-          ? 'to top right, rgba(100,160,255,0.25), rgba(220,230,255,.60)'
-          : ''
-      "
-      :alt="`cover article ${title}`"
-      height="120"
-    >
-      <v-container v-if="!image" fluid fill-height>
-        <v-layout row wrap align-center>
-          <v-flex xs12 class="content-center">
-            <v-icon
-              v-show="!loaderVisible"
-              class="content-pointer"
-              color="default-green"
-              size="60"
-              @click="showYoutubePlayer"
-              >fas fa-play-circle</v-icon
-            >
-            <v-progress-circular
-              v-show="loaderVisible"
-              indeterminate
-              color="default-green"
-              size="60"
-            ></v-progress-circular>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-img>
+  <v-card
+    color="default-grey lighten-4"
+    hover
+    flat
+    height="370"
+    class="articlePreview-card"
+  >
+    <div>
+      <v-img
+        v-show="!playerVisible"
+        :src="coverImage.high_quality"
+        :lazy-src="coverImage.low_quality"
+        :gradient="
+          !image
+            ? 'to top right, rgba(100,160,255,0.25), rgba(220,230,255,.60)'
+            : ''
+        "
+        :alt="`cover article ${title}`"
+        height="130"
+      >
+        <v-container v-if="!image" fluid fill-height>
+          <v-layout row wrap align-center>
+            <v-flex xs12 class="content-center">
+              <v-icon
+                v-show="!loaderVisible"
+                class="content-pointer"
+                color="default-green"
+                size="60"
+                @click="showYoutubePlayer"
+                >fas fa-play-circle</v-icon
+              >
+              <v-progress-circular
+                v-show="loaderVisible"
+                indeterminate
+                color="default-green"
+                size="60"
+              ></v-progress-circular>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-img>
 
-    <youtube
-      v-show="playerVisible"
-      :video-id="videoId"
-      ref="youtube"
-      fitParent
-      player-height="120"
-      @ready="playerReady"
-    ></youtube>
+      <youtube
+        v-show="playerVisible"
+        :video-id="videoId"
+        ref="youtube"
+        fitParent
+        player-height="120"
+        @ready="playerReady"
+      ></youtube>
+    </div>
 
-    <v-container fluid pt-1 mt-0>
+    <v-container pt-1 mt-0>
       <v-layout row wrap>
-        <v-flex pt-3 offset-xs2 xs8 class="content-center">
-          <span class="text--normal text--baseColor"
+        <v-flex pt-2 pb-0 mb-0 offset-xs1 xs9 class="content-center">
+          <span class="text--normal text--baseColor text-futura pb-0 mb-0"
             >{{ formatCreationDate() }} - {{ readingTime() }}</span
           >
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                icon
+                size="17"
+                v-on="on"
+                @click="showShareIcons = !showShareIcons"
+                ><v-icon color="default-grey lighten-1" size="15"
+                  >fas fa-share-square</v-icon
+                ></v-btn
+              >
+            </template>
+            <span>Partager</span>
+          </v-tooltip>
+          <v-slide-y-transition>
+            <share-article-icons
+              v-show="showShareIcons"
+              :article-id="articleId"
+              :article-title="title"
+            />
+          </v-slide-y-transition>
         </v-flex>
-        <v-flex xs12 pa-2>
+        <v-flex v-show="!showShareIcons" xs12 pt-1></v-flex>
+
+        <v-flex xs12 px-2 pt-0 mt-0>
           <h1
             class="articlePreview-title content-pointer"
             @click="openFullArticle"
@@ -65,29 +96,50 @@
             >
           </h1>
         </v-flex>
+        <v-flex xs12 align-self-end> </v-flex>
       </v-layout>
     </v-container>
+
+    <div class="articlePreview-buttonsHolder pt-1">
+      <div>
+        <span class="articlePreview-buttonEye pa-1 text-futura text--baseColor">
+          <v-icon size="20">far fa-eye</v-icon> 18
+        </span>
+        <span class="articlePreview-buttonLike pa-1">
+          <v-icon
+            class="content-pointer"
+            @click="like = !like"
+            :color="like ? 'default-green' : 'default-grey'"
+            >{{ like ? "fas fa-heart" : "far fa-heart" }}</v-icon
+          >
+        </span>
+      </div>
+    </div>
   </v-card>
 </template>
 
 <script>
 import { getYoutubeCoverImage, getReadingTime } from "../../helpers";
+import ShareArticleIcons from "./ShareArticleIcons";
 
 export default {
   name: "ArticlePreview",
+  components: { ShareArticleIcons },
   props: {
-    articleId: String,
+    articleId: String | Number,
     videoId: String,
     image: String,
     title: String,
     text: String,
-    creationDate: Date
+    creationDate: Date,
+    isLike: Boolean
   },
   data() {
     return {
       playerVisible: false,
       loaderVisible: false,
-      player: null
+      player: null,
+      showShareIcons: false
     };
   },
   computed: {
@@ -95,6 +147,14 @@ export default {
       return this.videoId
         ? getYoutubeCoverImage(this.videoId)
         : { high_quality: this.image, low_quality: "/images/empty.jpg" };
+    },
+    like: {
+      get() {
+        return this.isLike;
+      },
+      set(value) {
+        this.$emit("articlePreview::like", value);
+      }
     }
   },
 

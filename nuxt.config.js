@@ -143,7 +143,7 @@ module.exports = {
   plugins: [
     "~/plugins/axios",
     "~/plugins/commons",
-    "~/plugins/auth",
+    "~/plugins/api",
     { src: "~/plugins/vue-cookie-law.js", ssr: false },
     { src: "~/plugins/smoothScroll", ssr: false }
   ],

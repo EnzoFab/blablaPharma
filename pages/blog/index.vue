@@ -21,14 +21,16 @@
       <div style="padding-left: 15%; padding-right: 15%">
         <v-container fluid grid-list-xl>
           <v-layout row wrap>
-            <v-flex v-for="article in articles" :key="article.id" md4 sm4 xs6>
+            <v-flex v-for="article in articles" :key="article.id" md4 sm6 xs12>
               <article-preview
                 :article-id="article.id"
                 :creation-date="article.date"
                 :image="article.image"
+                :is-like="article.like"
                 :text="article.text"
                 :title="article.title"
                 :video-id="article.videoId"
+                @articlePreview::like="value => handleLike(article, value)"
               />
             </v-flex>
           </v-layout>
@@ -57,6 +59,14 @@ export default {
   components: {
     ArticlePreview
   },
+
+  methods: {
+    handleLike(article, value) {
+      if (article) {
+        article.like = value;
+      }
+    }
+  },
   asyncData() {
     const articles = [
       {
@@ -64,7 +74,8 @@ export default {
         title: "Mon premier article",
         videoId: "ZVgdQHA_IH4",
         text: null,
-        date: new Date()
+        date: new Date(),
+        like: false
       },
       {
         id: 2,
@@ -72,14 +83,16 @@ export default {
           "Another for me   eeerer  njenrejnrk tnejtnektrn  rjtnrtjnt (ytjnjertnrj tyrjntjrn ynrjy",
         videoId: "OSmSNK7Rano",
         text: null,
-        date: new Date()
+        date: new Date(),
+        like: true
       },
       {
         id: 4,
         title: "Another one",
         videoId: "OSmSNK7Rano",
         text: "A simple texte for you to understand something young guy",
-        date: new Date()
+        date: new Date(),
+        like: true
       },
       {
         id: 3,
@@ -87,7 +100,8 @@ export default {
         image:
           "https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg",
         text: null,
-        date: new Date()
+        date: new Date(),
+        like: false
       }
     ];
 

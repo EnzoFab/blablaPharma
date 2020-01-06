@@ -1,10 +1,37 @@
-.articlePreview-title {
-  font-family: Helvetica, sans-serif;
-  font-size: 18px;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
+.articlePreview {
+  &-title {
+    font-family: Helvetica, sans-serif;
+    font-size: 18px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 
-.articlePreview-title:hover {
-  color: $text-color;
+  &-title:hover {
+    color: $text-color;
+  }
+
+  &-card {
+    position: relative;
+  }
+
+  &-buttonsHolder {
+    border-top: solid 1px $text-color;
+    position: absolute;
+    bottom: 0;
+    width: 94%;
+    margin-left: 3%;
+    margin-right: 3%;
+  }
+
+  &-buttonEye {
+    float: left;
+  }
+  &-buttonLike {
+    float: right;
+  }
+
+  &-buttonLike:hover {
+    background-color: rgba(232, 228, 227, 0.7);
+    border-radius: 50%;
+  }
 }
