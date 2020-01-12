@@ -136,7 +136,13 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ["@assets/scss/main.scss"],
+  css: [
+    "@assets/scss/main.scss",
+    "quill/dist/quill.snow.css",
+    "quill/dist/quill.bubble.css",
+    "quill/dist/quill.core.css"
+  ],
+
   /*
    ** Plugins to load before mounting the App
    */
@@ -145,8 +151,10 @@ module.exports = {
     "~/plugins/commons",
     "~/plugins/api",
     { src: "~/plugins/vue-cookie-law.js", ssr: false },
-    { src: "~/plugins/smoothScroll", ssr: false }
+    { src: "~/plugins/smoothScroll", ssr: false },
+    { src: "~plugins/quill-plugin.js", ssr: false }
   ],
+
   /*
    ** Nuxt.js modules
    */

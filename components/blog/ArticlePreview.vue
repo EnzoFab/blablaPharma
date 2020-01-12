@@ -92,7 +92,7 @@
                     -moz-box-orient: vertical;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;"
-              >{{ title }}</span
+              >{{ getTroncateTitle(title) }}</span
             >
           </h1>
         </v-flex>
@@ -120,8 +120,9 @@
 
 <script>
 import { getYoutubeCoverImage, getReadingTime } from "../../helpers";
-import ShareArticleIcons from "./ShareArticleIcons";
+const ShareArticleIcons = () => import("./ShareArticleIcons");
 
+const TITLE_MAX_LENGTH = 50;
 export default {
   name: "ArticlePreview",
   components: { ShareArticleIcons },
@@ -187,6 +188,13 @@ export default {
 
     playerReady({ target }) {
       this.player = target;
+    },
+
+    getTroncateTitle(title) {
+      if (title && title.length > TITLE_MAX_LENGTH) {
+        return `${title.substring(0, TITLE_MAX_LENGTH)}...`;
+      }
+      return title;
     }
   }
 };

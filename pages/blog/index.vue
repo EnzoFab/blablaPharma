@@ -17,6 +17,17 @@
         </v-layout>
       </v-container>
     </v-img>
+    <v-container>
+      <v-layout row justify-center>
+        <v-flex offset-xs6 xs5>
+          <v-text-field box hide-details label="rechercher">
+            <v-btn slot="append" icon flat>
+              <v-icon medium color="default-grey">search</v-icon>
+            </v-btn>
+          </v-text-field>
+        </v-flex>
+      </v-layout>
+    </v-container>
     <client-only>
       <div style="padding-left: 15%; padding-right: 15%">
         <v-container fluid grid-list-xl>

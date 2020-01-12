@@ -1,5 +1,6 @@
 .articlePreview {
   &-title {
+    display: block;
     font-family: Helvetica, sans-serif;
     font-size: 18px;
     overflow-wrap: break-word;
@@ -8,6 +9,14 @@
 
   &-title:hover {
     color: $text-color;
+  }
+
+  &-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
   }
 
   &-card {
@@ -34,4 +43,8 @@
     background-color: rgba(232, 228, 227, 0.7);
     border-radius: 50%;
   }
+}
+
+.quill-editor {
+  height: 30vh;
 }

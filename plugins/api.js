@@ -112,4 +112,12 @@ export default function({ app, $axios }, inject) {
      */
     warn: id => $axios.put(`/pharmacists/${id}/warn`)
   });
+
+  inject("blog", {
+    create: data => {
+      const formData = toFormData(data);
+      return $axios.post("/articles", formData);
+    },
+    delete: articeId => $axios.delete(`/articles/${articeId}`)
+  });
 }
