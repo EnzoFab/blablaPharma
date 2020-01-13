@@ -103,7 +103,7 @@
     <div class="articlePreview-buttonsHolder pt-1">
       <div>
         <span class="articlePreview-buttonEye pa-1 text-futura text--baseColor">
-          <v-icon size="20">far fa-eye</v-icon> 18
+          <v-icon size="20">far fa-eye</v-icon> {{ views }}
         </span>
         <span class="articlePreview-buttonLike pa-1">
           <v-icon
@@ -132,8 +132,10 @@ export default {
     image: String,
     title: String,
     text: String,
-    creationDate: Date,
-    isLike: Boolean
+    creationDate: Date | String,
+    likes: Number,
+    isLike: Boolean,
+    views: Number
   },
   data() {
     return {
@@ -145,9 +147,11 @@ export default {
   },
   computed: {
     coverImage() {
+      const high_quality = this.image ? this.image : "/images/empty.jpg";
+
       return this.videoId
         ? getYoutubeCoverImage(this.videoId)
-        : { high_quality: this.image, low_quality: "/images/empty.jpg" };
+        : { high_quality, low_quality: "/images/empty.jpg" };
     },
     like: {
       get() {
@@ -170,7 +174,12 @@ export default {
     },
 
     formatCreationDate() {
-      return this.$moment(this.creationDate).format("Do MMMM YYYY");
+      const date =
+        typeof this.creationDate === "string"
+          ? parseInt(this.creationDate)
+          : this.creationDate;
+
+      return this.$moment(new Date(date)).format("Do MMMM YYYY");
     },
 
     showYoutubePlayer() {

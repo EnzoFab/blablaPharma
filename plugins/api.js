@@ -1,5 +1,5 @@
 import reduce from "lodash.reduce";
-import { toFormData } from "~/helpers";
+import { toFormData, buildQueryParams } from "~/helpers";
 
 export default function({ app, $axios }, inject) {
   // IOT use $auth which will contains auth methods
@@ -83,7 +83,9 @@ export default function({ app, $axios }, inject) {
 
   inject("pharmacist", {
     search: filters => {
-      const queryParams = reduce(
+      const queryParams = buildQueryParams(filters, "?lite=true");
+
+      /*  const queryParams = reduce(
         filters,
         (result, value, key) => {
           if (Array.isArray(value)) {
@@ -100,7 +102,8 @@ export default function({ app, $axios }, inject) {
             : result;
         },
         "?lite=true"
-      );
+      ); */
+
       return $axios(`/pharmacists/search${queryParams}`);
     },
     update: (id, payload) => $axios.put(`/pharmacists/${id}`, payload),
@@ -114,10 +117,15 @@ export default function({ app, $axios }, inject) {
   });
 
   inject("blog", {
-    create: data => {
+    createArticle: data => {
       const formData = toFormData(data);
       return $axios.post("/articles", formData);
     },
-    delete: articeId => $axios.delete(`/articles/${articeId}`)
+    search: filters => {
+      const queryParams = buildQueryParams(filters);
+      return $axios.get(`/articles${queryParams}`);
+    },
+    getArticle: articleId => $axios.get(`/articles/${articleId}`),
+    deleteArticle: articleId => $axios.delete(`/articles/${articleId}`)
   });
 }

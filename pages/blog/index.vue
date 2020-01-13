@@ -32,18 +32,33 @@
       <div style="padding-left: 15%; padding-right: 15%">
         <v-container fluid grid-list-xl>
           <v-layout row wrap>
-            <v-flex v-for="article in articles" :key="article.id" md4 sm6 xs12>
-              <article-preview
-                :article-id="article.id"
-                :creation-date="article.date"
-                :image="article.image"
-                :is-like="article.like"
-                :text="article.text"
-                :title="article.title"
-                :video-id="article.videoId"
-                @articlePreview::like="value => handleLike(article, value)"
-              />
-            </v-flex>
+            <template v-if="articles.length > 0">
+              <v-flex
+                v-for="article in articles"
+                :key="article.id"
+                md4
+                sm6
+                xs12
+              >
+                <article-preview
+                  :article-id="article.id"
+                  :creation-date="article.createdAt"
+                  :image="article.picture"
+                  :is-like="article.userLike"
+                  :likes="article.likes"
+                  :text="article.content"
+                  :title="article.title"
+                  :video-id="article.youtubeVideoId"
+                  :views="article.views"
+                  @articlePreview::like="value => handleLike(article, value)"
+                />
+              </v-flex>
+            </template>
+            <v-flex v-else xs12
+              ><div class="content-center text--section text--baseColor">
+                Aucun articles pour le moment
+              </div></v-flex
+            >
           </v-layout>
         </v-container>
       </div>
@@ -52,6 +67,8 @@
 </template>
 
 <script>
+import to from "await-to-js";
+
 import ArticlePreview from "~/components/blog/ArticlePreview";
 export default {
   name: "index",
@@ -78,8 +95,11 @@ export default {
       }
     }
   },
-  asyncData() {
-    const articles = [
+  async asyncData({ app, query }) {
+    const [e, res] = await to(app.$blog.search({ limit: 10, ...query }));
+
+    const articles = res ? res : [];
+    /*const articles = [
       {
         id: 1,
         title: "Mon premier article",
@@ -114,7 +134,7 @@ export default {
         date: new Date(),
         like: false
       }
-    ];
+    ]; */
 
     return {
       articles

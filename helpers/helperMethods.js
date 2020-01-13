@@ -1,4 +1,5 @@
 import words from "lodash.words";
+import reduce from "lodash.reduce";
 /**
  *
  * @param {Object} data
@@ -53,5 +54,24 @@ export default {
       `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
     linkedIn: (url, summary) =>
       `https://www.linkedin.com/shareArticle?mini=true&url=${url}&=${summary}`
+  },
+
+  buildQueryParams: (filters, defaultAccumulator = "?") => {
+    return reduce(
+      filters,
+      (result, value, key) => {
+        if (Array.isArray(value)) {
+          const arrayQuery = value.reduce(
+            (acc, val) => `${acc}&${key}=${val}`,
+            ""
+          );
+
+          return `${result}&${arrayQuery}`;
+        }
+
+        return value || value === false ? `${result}&${key}=${value}` : result;
+      },
+      defaultAccumulator
+    );
   }
 };

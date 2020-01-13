@@ -4,6 +4,7 @@ import io from "./io";
 import helperMethods from "./helperMethods";
 
 export const SailSocketWrapper = wrapper(io);
+export const buildQueryParams = helperMethods.buildQueryParams;
 export const toFormData = helperMethods.toFormData;
 export const isUrl = helperMethods.isUrl;
 export const getYoutubeCoverImage = helperMethods.getYoutubeCoverImage;

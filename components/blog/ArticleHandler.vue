@@ -280,7 +280,7 @@ export default {
      * reset the dialog to its original state
      */
     resetDialog() {
-      this.fields = {
+      const fields = {
         content: this.defaultContent,
         picture: this.defaultPicture,
         keywords: this.defaultKeyWords,
@@ -288,9 +288,15 @@ export default {
         youtubeVideoId: this.defaultYoutubeVideoId
       };
 
+      this.fields = { ...fields };
+
       this.imageEnabled = false;
       this.textEnabled = false;
       this.showLoader = false;
+
+      this.youtubeCover = null;
+      this.youtubeVideo = null;
+      this.youtubeVideoEnabled = false;
 
       this.isLoading = false;
     },
@@ -335,7 +341,14 @@ export default {
         return keyword;
       });
 
-      const fields = { ...this.fields, youtubeVideoId, picture, keywords };
+      const fields = {
+        ...this.fields,
+        youtubeVideoId,
+        picture,
+        keywords: JSON.stringify(keywords)
+      };
+
+      console.log(fields);
 
       this.$emit("articleHandler::save", fields);
     },
