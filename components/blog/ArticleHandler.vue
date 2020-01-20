@@ -209,11 +209,12 @@ export default {
 
   data() {
     return {
+      // respect the key order
       fields: {
         content: this.defaultContent,
+        title: this.defaultTitle,
         picture: this.defaultPicture,
         keywords: this.defaultKeyWords,
-        title: this.defaultTitle,
         youtubeVideoId: this.defaultYoutubeVideoId
       },
       youtubeCover: null,
@@ -280,9 +281,9 @@ export default {
     resetDialog() {
       const fields = {
         content: this.defaultContent,
+        title: this.defaultTitle,
         picture: this.defaultPicture,
         keywords: this.defaultKeyWords,
-        title: this.defaultTitle,
         youtubeVideoId: this.defaultYoutubeVideoId
       };
 
@@ -340,12 +341,15 @@ export default {
         return keyword;
       });
 
+      const content = this.fields.content || "";
+
       const fields = {
         ...this.fields,
         id: this.articleId,
         youtubeVideoId,
-        picture,
-        keywords: JSON.stringify(keywords)
+        keywords: JSON.stringify(keywords),
+        content,
+        picture
       };
 
       this.$emit("articleHandler::save", fields);

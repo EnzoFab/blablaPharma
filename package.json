@@ -70,6 +70,7 @@
     "smoothscroll-polyfill": "^0.4.4",
     "socket.io-client": "^2.2.0",
     "url-polyfill": "^1.1.7",
+    "uuid": "^3.4.0",
     "vue-async-computed": "^3.7.0",
     "vue-cookie-law": "^1.10.0",
     "vue-infinite-loading": "^2.4.4",

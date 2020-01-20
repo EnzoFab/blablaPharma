@@ -112,7 +112,8 @@ export default $axios => {
       warn: id => $axios.put(`/pharmacists/${id}/warn`)
     },
     blog: {
-      getArticle: articleSlugId => $axios.get(`/articles/${articleSlugId}`),
+      getArticle: (articleSlugId, visitorId = "") =>
+        $axios.get(`/articles/${articleSlugId}?visitorId=${visitorId}`),
 
       search: filters => {
         const queryParams = buildQueryParams(filters);

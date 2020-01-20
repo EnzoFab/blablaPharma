@@ -97,7 +97,13 @@ export default {
     }
   },
   async asyncData({ app, query }) {
-    const [e, res] = await to(app.$blog.search({ limit: 10, ...query }));
+    const filters = {
+      limit: 15,
+      sort: "createdAt",
+      order: "DESC",
+      ...query
+    };
+    const [e, res] = await to(app.$blog.search(filters));
 
     const articles = res ? res : [];
 

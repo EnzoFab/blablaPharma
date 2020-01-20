@@ -18,3 +18,4 @@ export const SEND_MESSAGE = "action:send_message";
 export const RECEIVE_MESSAGE = "action:receive_message";
 export const FETCH_CONVERSATION = "action:fetch_conversation";
 export const FETCH_MESSAGE = "action:fetch_message";
+export const SET_VISITOR_ID = "muation:setvisitorId";
