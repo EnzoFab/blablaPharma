@@ -102,7 +102,20 @@ export default {
   computed: {
     model: {
       get() {
-        return this.value;
+        if (!this.value) {
+          return [];
+        }
+
+        return this.value.map(keyword => {
+          if (typeof keyword === "string") {
+            return {
+              text: upperFirst(keyword),
+              color: "purple"
+            };
+          }
+
+          return keyword;
+        });
       },
       set(val) {
         if (val.length === this.value.length) {

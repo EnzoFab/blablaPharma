@@ -17,20 +17,16 @@
         </v-btn>
       </template>
       <v-btn
+        v-for="btn in buttons"
         fab
         dark
         medium
-        color="lime darken-1"
         nuxt
-        to="/bo/manage-pharmacists"
+        :color="btn.color"
+        :key="btn.icon"
+        :to="`/bo/${btn.link}`"
       >
-        <v-icon>fas fa-user-md</v-icon>
-      </v-btn>
-      <v-btn fab dark medium color="indigo">
-        <v-icon>fas fa-share-alt</v-icon>
-      </v-btn>
-      <v-btn fab dark medium color="red">
-        <v-icon>fas fa-search</v-icon>
+        <v-icon>{{ btn.icon }}</v-icon>
       </v-btn>
     </v-speed-dial>
     <v-fab-transition v-else mode="in-out" hide-on-leave>
@@ -47,7 +43,19 @@ export default {
   props: [],
   data() {
     return {
-      fab: false
+      fab: false,
+      buttons: [
+        {
+          color: "lime darken-1",
+          icon: "fas fa-user-md",
+          link: "manage-pharmacists"
+        },
+        {
+          color: "default-grey darken-1",
+          icon: "fas fa-newspaper",
+          link: "manage-blog"
+        }
+      ]
     };
   },
   computed: {

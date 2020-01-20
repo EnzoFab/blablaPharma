@@ -46,6 +46,7 @@
                   :image="article.picture"
                   :is-like="article.userLike"
                   :likes="article.likes"
+                  :slug-id="article.slug"
                   :text="article.content"
                   :title="article.title"
                   :video-id="article.youtubeVideoId"
@@ -99,6 +100,7 @@ export default {
     const [e, res] = await to(app.$blog.search({ limit: 10, ...query }));
 
     const articles = res ? res : [];
+
     /*const articles = [
       {
         id: 1,

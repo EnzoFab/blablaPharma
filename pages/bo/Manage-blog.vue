@@ -12,6 +12,11 @@
           <v-icon>fas fa-plus</v-icon>
         </v-btn>
       </v-flex>
+      <v-flex xs8 offset-xs2>
+        <v-alert v-model="showError" type="error" dismissible outline
+          >{{ errorMessage }} Rééssayez ultérieurement.</v-alert
+        >
+      </v-flex>
 
       <v-spacer></v-spacer>
       <template v-if="articles.length > 0">
@@ -25,7 +30,13 @@
           >
             <v-icon>fas fa-trash</v-icon>
           </v-btn>
-          <v-btn icon color="green" medium outline>
+          <v-btn
+            icon
+            color="green"
+            medium
+            outline
+            @click="updateArticle(article)"
+          >
             <v-icon>fas fa-edit</v-icon>
           </v-btn>
           <article-preview
@@ -33,6 +44,7 @@
             :creation-date="article.createdAt"
             :image="article.picture"
             :is-like="article.like"
+            :slug-id="article.slug"
             :text="article.content"
             :title="article.title"
             :video-id="article.youtubeVideoId"
@@ -46,7 +58,18 @@
         </div></v-flex
       >
     </v-layout>
-    <article-handler v-model="showDialog" @articleHandler::save="handleSave" />
+    <article-handler
+      v-model="showDialog"
+      :article-id="selectedArticle ? selectedArticle.id : null"
+      :default-content="selectedArticle ? selectedArticle.content : null"
+      :default-key-words="selectedArticle ? selectedArticle.keywords : []"
+      :default-picture="selectedArticle ? selectedArticle.picture : null"
+      :default-title="selectedArticle ? selectedArticle.title : null"
+      :default-youtube-video-id="
+        selectedArticle ? selectedArticle.youtubeVideoId : null
+      "
+      @articleHandler::save="handleSave"
+    />
   </v-container>
 </template>
 
@@ -54,7 +77,7 @@
 import to from "await-to-js";
 import { TOGGLE_SNACKBAR } from "../../store/types";
 
-import ArticlePreview from "../../components/blog/ArticlePreview";
+import ArticlePreview from "~/components/blog/ArticlePreview";
 import ArticleHandler from "../../components/blog/ArticleHandler";
 
 export default {
@@ -67,36 +90,94 @@ export default {
   data() {
     return {
       showDialog: false,
-      selectedArticle: null
+      selectedArticle: null,
+      showError: false,
+      errorMessage: null
     };
   },
 
   methods: {
+    updateArticle(article) {
+      this.selectedArticle = article;
+      this.showDialog = true;
+    },
+
     async handleSave(article) {
       if (!this.selectedArticle) {
         const [err, createdArticle] = await to(
           this.$blog.createArticle(article)
         );
 
+        this.showDialog = false;
+
+        if (err) {
+          this.showError = true;
+          this.errorMessage =
+            "Une erreur est survenue l'article n'a pas pu être créé.";
+          return;
+        }
+
         if (!err && createdArticle) {
           this.articles = [createdArticle, ...this.articles];
-          this.showDialog = false;
         }
+
+        this.$store.commit(
+          TOGGLE_SNACKBAR,
+          `L'article "${createdArticle.title}" a été créé`
+        );
+
+        return;
       }
+
+      const [err, updatedArticle] = await to(
+        this.$blog.updateArticle(article.id, article)
+      );
+
+      this.showDialog = false;
+
+      if (err) {
+        this.showError = true;
+        this.errorMessage =
+          "Une erreur est survenue l'article n'a pas pu être mis à jour";
+        return;
+      }
+
+      this.$store.commit(
+        TOGGLE_SNACKBAR,
+        ` L'article ${updatedArticle.title} a été mis à jour avec succès`
+      );
+
+      this.articles = this.articles.map(e => {
+        if (e.id === updatedArticle.id) {
+          return { ...updatedArticle };
+        }
+        return e;
+      });
     },
 
     async deleteArticle(articleId) {
       const [e] = await to(this.$blog.deleteArticle(articleId));
 
-      if (!e) {
-        this.articles = this.articles.filter(
-          article => article.id !== articleId
-        );
+      if (e) {
+        this.showError = true;
+        this.errorMessage =
+          "Une erreur est survenue l'article n'a pas pu être supprimé.";
+        return;
+      }
 
-        this.$store.commit(
-          TOGGLE_SNACKBAR,
-          "L'article a été supprimé avec succès"
-        );
+      this.articles = this.articles.filter(article => article.id !== articleId);
+
+      this.$store.commit(
+        TOGGLE_SNACKBAR,
+        "L'article a été supprimé avec succès"
+      );
+    }
+  },
+
+  watch: {
+    showDialog(newVal) {
+      if (!newVal) {
+        this.selectedArticle = null;
       }
     }
   },

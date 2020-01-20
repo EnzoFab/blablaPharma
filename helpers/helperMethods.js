@@ -72,6 +72,10 @@ export default {
         return value || value === false ? `${result}&${key}=${value}` : result;
       },
       defaultAccumulator
-    );
+    )
+      .split("&&")
+      .join("&")
+      .split("?&")
+      .join("?");
   }
 };

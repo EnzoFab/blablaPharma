@@ -55,6 +55,7 @@
               <v-flex xs10 offset-xs1 key="1">
                 <v-text-field
                   @change="getVideoId"
+                  :value="fields.youtubeVideoId"
                   placeholder="Url de la vidéo ou id de la vidéo"
                   box
                   clearable
@@ -196,11 +197,12 @@ export default {
     Alert
   },
   props: {
+    articleId: String | Number,
     value: Boolean,
     defaultContent: { type: String, default: "" },
     defaultKeyWords: { type: Array, default: () => [] },
     defaultTitle: { type: String, default: "" },
-    defaultPicture: { type: String, default: "" },
+    defaultPicture: { type: String | Object, default: "" },
     defaultYoutubeVideoId: { type: String, default: "" },
     dialogTitle: { type: String, default: "Nouveau article" }
   },
@@ -266,10 +268,6 @@ export default {
         return this.value;
       },
       set(newVal) {
-        if (this.value) {
-          this.resetDialog();
-        }
-
         this.$emit("input", newVal);
       }
     }
@@ -290,13 +288,14 @@ export default {
 
       this.fields = { ...fields };
 
-      this.imageEnabled = false;
+      this.imageEnabled = !!this.defaultPicture;
       this.textEnabled = false;
       this.showLoader = false;
 
-      this.youtubeCover = null;
-      this.youtubeVideo = null;
-      this.youtubeVideoEnabled = false;
+      this.youtubeCover = this.defaultYoutubeVideoId
+        ? getYoutubeCoverImage(this.defaultYoutubeVideoId)
+        : null;
+      this.youtubeVideoEnabled = !!this.defaultYoutubeVideoId;
 
       this.isLoading = false;
     },
@@ -343,12 +342,11 @@ export default {
 
       const fields = {
         ...this.fields,
+        id: this.articleId,
         youtubeVideoId,
         picture,
         keywords: JSON.stringify(keywords)
       };
-
-      console.log(fields);
 
       this.$emit("articleHandler::save", fields);
     },
@@ -375,6 +373,11 @@ export default {
 
       this.youtubeVideoEnabled = false;
       this.imageEnabled = true;
+    }
+  },
+  watch: {
+    value() {
+      this.resetDialog();
     }
   }
 };

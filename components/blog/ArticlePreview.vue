@@ -3,7 +3,7 @@
     color="default-grey lighten-4"
     hover
     flat
-    height="370"
+    :height="height"
     class="articlePreview-card"
   >
     <div>
@@ -57,24 +57,27 @@
           <span class="text--normal text--baseColor text-futura pb-0 mb-0"
             >{{ formatCreationDate() }} - {{ readingTime() }}</span
           >
-          <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                icon
-                size="17"
-                v-on="on"
-                @click="showShareIcons = !showShareIcons"
-                ><v-icon color="default-grey lighten-1" size="15"
-                  >fas fa-share-square</v-icon
-                ></v-btn
-              >
-            </template>
-            <span>Partager</span>
-          </v-tooltip>
+          <template v-show="!hideShareIcons">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-show="!hideShareIcons"
+                  icon
+                  size="17"
+                  v-on="on"
+                  @click="showShareIcons = !showShareIcons"
+                  ><v-icon color="default-grey lighten-1" size="15"
+                    >fas fa-share-square</v-icon
+                  ></v-btn
+                >
+              </template>
+              <span>Partager</span>
+            </v-tooltip>
+          </template>
           <v-slide-y-transition>
             <share-article-icons
-              v-show="showShareIcons"
-              :article-id="articleId"
+              v-show="showShareIcons && !hideShareIcons"
+              :slug-id="slugId"
               :article-title="title"
             />
           </v-slide-y-transition>
@@ -127,15 +130,17 @@ export default {
   name: "ArticlePreview",
   components: { ShareArticleIcons },
   props: {
-    articleId: String | Number,
     videoId: String,
     image: String,
     title: String,
     text: String,
     creationDate: Date | String,
-    likes: Number,
+    likes: Number | String,
     isLike: Boolean,
-    views: Number
+    views: Number | String,
+    height: { type: String | Number, default: 370 },
+    slugId: String,
+    hideShareIcons: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -165,7 +170,7 @@ export default {
 
   methods: {
     openFullArticle() {
-      this.$router.push(`/blog/${this.articleId}`);
+      this.$router.push(`/blog/${this.slugId}`);
     },
 
     readingTime() {

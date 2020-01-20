@@ -41,7 +41,7 @@ import { TOGGLE_SNACKBAR } from "../../store/types";
 export default {
   name: "ShareArticleIcons",
   props: {
-    articleId: String | Number,
+    slugId: String,
     articleTitle: String,
     iconSize: { type: Number, default: 15 }
   },
@@ -63,7 +63,7 @@ export default {
   }),
   methods: {
     getArticleUrl() {
-      return `${process.env.DOMAIN}/blog/${this.articleId}`;
+      return `${process.env.DOMAIN}/blog/${this.slugId}`;
     },
     getUrl(media) {
       return getShareUrl[media](this.getArticleUrl(), this.articleTitle);

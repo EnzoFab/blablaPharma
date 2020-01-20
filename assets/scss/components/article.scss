@@ -48,3 +48,19 @@
 .quill-editor {
   height: 30vh;
 }
+
+.articleFull {
+  padding-left: 12%;
+  padding-right: 12%;
+  width: 100%;
+
+  &-wrapper {
+    border: solid 1px rgba(247, 229, 218, 0.8);
+    border-radius: 2px;
+  }
+
+  &-iconsWrapper {
+    border-top: solid 1px $text-color;
+    border-bottom: solid 1px $text-color;
+  }
+}
