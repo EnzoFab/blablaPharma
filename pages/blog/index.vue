@@ -1,30 +1,32 @@
 <template>
   <div>
     <v-img
-      :src="require('~/assets/images/contact.jpg')"
+      :src="require('~/assets/images/blog-cover.png')"
+      ::lazy-src="require('~/assets/images/blog-cover-lazy.png')"
       aspect-ratio="3.15"
       gradient="to top right, rgba(255,255,255,0.25), rgba(220,230,255,.30)"
       alt="Blog"
     >
-      <v-container pt-5 fill-height>
-        <v-layout align-center wrap>
-          <v-flex xs12>
-            <div class="content-center title-main">
-              <span class="title-section-huge text--baseColor ">BLOG</span>
-              <hr class="divider  mt-3 default-grey" />
-            </div>
-          </v-flex>
-        </v-layout>
-      </v-container>
     </v-img>
-    <v-container>
-      <v-layout row justify-center>
+    <v-container pa-0>
+      <v-layout row justify-center pt-4 pb-0>
         <v-flex offset-xs6 xs5>
-          <v-text-field box hide-details label="rechercher">
-            <v-btn slot="append" icon flat>
-              <v-icon medium color="default-grey">search</v-icon>
-            </v-btn>
-          </v-text-field>
+          <article-autocomplete-field
+            @articleAutocompletefield::search="handleAutocompleteSearch"
+          />
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap pa-0>
+        <v-flex xs2>
+          <v-select
+            :items="orders"
+            :loading="loadingSelect"
+            label="Trier par"
+            flat
+            solo
+            hide-details
+            @change="sortArticle"
+          ></v-select>
         </v-flex>
       </v-layout>
     </v-container>
@@ -69,8 +71,10 @@
 
 <script>
 import to from "await-to-js";
+import get from "lodash.get";
 
 import ArticlePreview from "~/components/blog/ArticlePreview";
+import ArticleAutocompleteField from "../../components/blog/ArticleAutocompleteField";
 export default {
   name: "index",
   head() {
@@ -86,20 +90,58 @@ export default {
     };
   },
   components: {
+    ArticleAutocompleteField,
     ArticlePreview
   },
 
+  data: () => ({
+    orders: [
+      { text: "Les plus récents", value: { sort: "createdAt", order: "DESC" } },
+      { text: "Les plus anciens", value: { sort: "createdAt", order: "ASC" } },
+      { text: "Les plus vue", value: { sort: "views", order: "DESC" } },
+      { text: "Les moins vue", value: { sort: "views", order: "ASC" } }
+    ],
+    loadingSelect: false
+  }),
+
   methods: {
+    async sortArticle(value) {
+      this.loadingSelect = true;
+      const filters = { ...this.$route.query, ...value };
+      const [e, articles] = await to(this.$blog.search(filters));
+
+      setTimeout(() => {
+        this.loadingSelect = false;
+        if (articles) {
+          this.articles = articles;
+          this.$router.push({
+            path: "/blog",
+            query: { ...this.$route.query, ...value }
+          });
+        }
+      }, 1500);
+    },
+
     handleLike(article, value) {
       if (article) {
         article.like = value;
       }
+    },
+    handleAutocompleteSearch({ articles, q }) {
+      this.articles = articles;
+
+      this.$router.push({
+        path: "/blog",
+        query: { ...this.$route.query, q }
+      });
     }
   },
   async asyncData({ app, query }) {
+    const sort = get(query, "sort", "createdAt");
+
     const filters = {
       limit: 15,
-      sort: "createdAt",
+      sort,
       order: "DESC",
       ...query
     };
@@ -145,7 +187,8 @@ export default {
     ]; */
 
     return {
-      articles
+      articles,
+      filters
     };
   }
 };

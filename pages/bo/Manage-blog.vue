@@ -2,10 +2,9 @@
   <v-container fluid grid-list-xl px-3>
     <v-layout row wrap px4>
       <v-flex offset-xs3 xs6>
-        <v-text-field
-          placeholder="replace me by the autocomplete"
-          box
-        ></v-text-field>
+        <article-autocomplete-field
+          @articleAutocompletefield::search="handleAutocompleteSearch"
+        />
       </v-flex>
       <v-flex xs2>
         <v-btn fab outline color="blue" @click="showDialog = true">
@@ -79,10 +78,12 @@ import { TOGGLE_SNACKBAR } from "../../store/types";
 
 import ArticlePreview from "~/components/blog/ArticlePreview";
 import ArticleHandler from "../../components/blog/ArticleHandler";
+import ArticleAutocompleteField from "../../components/blog/ArticleAutocompleteField";
 
 export default {
   name: "Manage-blog",
   components: {
+    ArticleAutocompleteField,
     ArticleHandler,
     ArticlePreview
   },
@@ -97,6 +98,10 @@ export default {
   },
 
   methods: {
+    handleAutocompleteSearch({ articles }) {
+      this.articles = article;
+    },
+
     updateArticle(article) {
       this.selectedArticle = article;
       this.showDialog = true;

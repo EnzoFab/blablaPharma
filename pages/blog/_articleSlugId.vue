@@ -1,71 +1,87 @@
 <template>
   <v-container fluid px-5 pb-5 style="background-color: white">
-    <div class="articleFull">
-      <v-container class="articleFull-wrapper">
-        <v-layout row wrap align-center>
-          <v-flex offset-xs2 xs8 pb-2>
-            <div class="text--baseColor text-futura pl-2  pt-3 pb-5">
-              <span>
-                {{ formatCreationDate() }} - {{ readingTime() }} de lecture
-              </span>
-            </div>
-            <h1 class="title-section">
-              {{ article.title }}
-            </h1>
-          </v-flex>
-          <v-flex v-if="!article.youtubeVideoId && !article.picture" offset-xs2>
-            <div
-              v-if="article.content"
-              class="text-content"
-              v-html="article.content"
-            ></div>
-          </v-flex>
-          <v-flex offset-xs2 xs8 pb-3>
-            <youtube
-              v-if="article.youtubeVideoId"
-              :video-id="article.youtubeVideoId"
-              ref="youtube"
-              fitParent
-              resize
-              :player-vars="{ autoplay: 1 }"
-            ></youtube>
-            <v-img
-              v-else-if="article.picture"
-              :src="article.picture"
-              lazy-src="/images/empty.jpg"
-            ></v-img>
-          </v-flex>
-          <v-flex v-if="article.picture" offset-xs2 xs8>
-            <div
-              v-if="article.content"
-              class="text-content"
-              v-html="article.content"
-            ></div>
-          </v-flex>
+    <template v-if="article.id">
+      <div class="articleFull">
+        <v-container class="articleFull-wrapper">
+          <v-layout row wrap align-center>
+            <v-flex offset-xs2 xs8 pb-2>
+              <div class="text--baseColor text-futura pl-2  pt-3 pb-5">
+                <span>
+                  {{ formatCreationDate() }} - {{ readingTime() }} de lecture
+                </span>
+              </div>
+              <h1 class="title-section">
+                {{ article.title }}
+              </h1>
+            </v-flex>
+            <v-flex
+              v-if="!article.youtubeVideoId && !article.picture"
+              offset-xs2
+            >
+              <div
+                v-if="article.content"
+                class="text-content"
+                v-html="article.content"
+              ></div>
+            </v-flex>
+            <v-flex offset-xs2 xs8 pb-3>
+              <youtube
+                v-if="article.youtubeVideoId"
+                :video-id="article.youtubeVideoId"
+                ref="youtube"
+                fitParent
+                resize
+                :player-vars="{ autoplay: 1 }"
+              ></youtube>
+              <v-img
+                v-else-if="article.picture"
+                :src="article.picture"
+                lazy-src="/images/empty.jpg"
+              ></v-img>
+            </v-flex>
+            <v-flex v-if="article.picture" offset-xs2 xs8>
+              <div
+                v-if="article.content"
+                class="text-content"
+                v-html="article.content"
+              ></div>
+            </v-flex>
 
-          <v-flex offset-xs2 xs8>
-            <v-icon small color="default-grey">far fa-eye</v-icon>
-            <span class="pl-1 text--baseColor text--normal text-futura">
-              Vu {{ article.views }} fois
-            </span>
-          </v-flex>
-          <v-flex offset-xs2 xs8>
-            <v-icon small color="default-green">fas fa-heart</v-icon>
-            <span class="pl-1 text--baseColor text--normal text-futura">
-              Aimé {{ article.likes }} fois
-            </span>
-          </v-flex>
-          <v-flex offset-xs2 xs8>
-            <div class="articleFull-iconsWrapper py-3">
-              <share-article-icons
-                :slug-id="article.slug"
-                :article-title="article.title"
-              />
-            </div>
-          </v-flex>
-        </v-layout>
-      </v-container>
-      <div style="float: right">
+            <v-flex offset-xs2 xs8>
+              <v-icon small color="default-grey">far fa-eye</v-icon>
+              <span class="pl-1 text--baseColor text--normal text-futura">
+                Vu {{ article.views }} fois
+              </span>
+            </v-flex>
+            <v-flex offset-xs2 xs8>
+              <v-icon small color="default-green">fas fa-heart</v-icon>
+              <span class="pl-1 text--baseColor text--normal text-futura">
+                Aimé {{ article.likes }} fois
+              </span>
+            </v-flex>
+            <v-flex offset-xs2 xs8>
+              <div class="articleFull-iconsWrapper py-3">
+                <share-article-icons
+                  :slug-id="article.slug"
+                  :article-title="article.title"
+                />
+              </div>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <div style="float: right">
+          <v-btn flat color="default-grey" nuxt href="/blog"
+            >Voir tous les articles</v-btn
+          >
+        </div>
+      </div>
+    </template>
+    <div v-else class="content-center">
+      <v-icon color="default-grey" size="140">fas fa-capsules</v-icon>
+      <div class="text--baseColor title-section-small pb-2">
+        Cet article n'existe pas
+      </div>
+      <div>
         <v-btn flat color="default-grey" nuxt href="/blog"
           >Voir tous les articles</v-btn
         >
@@ -107,12 +123,24 @@
 import to from "await-to-js";
 import get from "lodash.get";
 import take from "lodash.take";
-import { getReadingTime } from "../../helpers";
+import { getReadingTime } from "~/helpers";
 
 const ShareArticleIcons = () => import("~/components/blog/ShareArticleIcons");
 const ArticlePreview = () => import("~/components/blog/ArticlePreview");
 
 export default {
+  head() {
+    return {
+      title: this.article.title ? this.article.title : "Article",
+      meta: [
+        {
+          hid: "blog",
+          name: "description",
+          content: "Du contenu pharmaceutique votre disposition"
+        }
+      ]
+    };
+  },
   components: { ArticlePreview, ShareArticleIcons },
   methods: {
     formatCreationDate() {

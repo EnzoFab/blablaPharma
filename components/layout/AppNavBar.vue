@@ -61,7 +61,7 @@ export default {
           spacerBefore: false
         },
         {
-          title: () => "Blog",
+          title: () => "Blog ETP",
           display_case: [display_cases.EVERY],
           isLink: true,
           nuxtLink: "/blog",

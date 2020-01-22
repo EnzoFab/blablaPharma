@@ -108,7 +108,10 @@
         <span class="articlePreview-buttonEye pa-1 text-futura text--baseColor">
           <v-icon size="20">far fa-eye</v-icon> {{ views }}
         </span>
-        <span class="articlePreview-buttonLike pa-1">
+        <span
+          v-show="$store.getters.isLoggedIn"
+          class="articlePreview-buttonLike pa-1"
+        >
           <v-icon
             class="content-pointer"
             @click="like = !like"
@@ -135,7 +138,7 @@ export default {
     title: String,
     text: String,
     creationDate: Date | String,
-    likes: Number | String,
+    //likes: Number | String,
     isLike: Boolean,
     views: Number | String,
     height: { type: String | Number, default: 370 },

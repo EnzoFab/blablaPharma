@@ -1,63 +1,69 @@
 <template>
-  <v-combobox
-    v-model="model"
-    :filter="filter"
-    :hide-no-data="!search"
-    :items="items"
-    :search-input="search"
-    hide-selected
-    label="Chercher un mot clés"
-    placeholder="liste des mots clés de l'article"
-    multiple
-    box
-  >
-    <template v-slot:no-data>
-      <v-list-tile>
-        <span class="subheading">Créer</span>
-        <v-chip :color="`${colors[nonce - 1]} lighten-3`" label small>
-          {{ search }}
+  <div>
+    <span class="text--tiny text--baseColor"
+      >Un seul mot ou groupe de mots, éviter les déterminants et articles (le,
+      la, les, un, de, des,...)</span
+    >
+    <v-combobox
+      v-model="model"
+      :filter="filter"
+      :hide-no-data="!search"
+      :items="items"
+      :search-input="search"
+      hide-selected
+      label="Chercher un mot clés"
+      placeholder="liste des mots clés de l'article"
+      multiple
+      box
+    >
+      <template v-slot:no-data>
+        <v-list-tile>
+          <span class="subheading">Créer</span>
+          <v-chip :color="`${colors[nonce - 1]} lighten-3`" label small>
+            {{ search }}
+          </v-chip>
+        </v-list-tile>
+      </template>
+      <template v-slot:selection="{ item, parent, selected }">
+        <v-chip
+          v-if="item === Object(item)"
+          :color="`${item.color} lighten-1`"
+          :selected="selected"
+          label
+          dark
+          small
+        >
+          <span class="pr-2">
+            {{ item.text }}
+          </span>
+          <v-icon small @click="parent.selectItem(item)">close</v-icon>
         </v-chip>
-      </v-list-tile>
-    </template>
-    <template v-slot:selection="{ item, parent, selected }">
-      <v-chip
-        v-if="item === Object(item)"
-        :color="`${item.color} lighten-1`"
-        :selected="selected"
-        label
-        dark
-        small
-      >
-        <span class="pr-2">
-          {{ item.text }}
-        </span>
-        <v-icon small @click="parent.selectItem(item)">close</v-icon>
-      </v-chip>
-    </template>
-    <template v-slot:item="{ index, item }">
-      <v-list-tile-content>
-        <v-text-field
-          v-if="editing === item"
-          v-model="editing.text"
-          autofocus
-          flat
-          background-color="transparent"
-          hide-details
-          solo
-          @keyup.enter="edit(index, item)"
-        ></v-text-field>
-        <v-chip v-else :color="`${item.color} lighten-1`" dark label small>
-          {{ item.text }}
-        </v-chip>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <v-list-tile-action @click.stop>
-        <v-btn icon @click.stop.prevent="edit(index, item)">
-          <v-icon>{{ editing !== item ? "edit" : "check" }}</v-icon>
-        </v-btn>
-      </v-list-tile-action>
-    </template>
-  </v-combobox>
+      </template>
+      <template v-slot:item="{ index, item }">
+        <v-list-tile-content>
+          <v-text-field
+            v-if="editing === item"
+            v-model="editing.text"
+            autofocus
+            flat
+            background-color="transparent"
+            hide-details
+            solo
+            @keyup.enter="edit(index, item)"
+          ></v-text-field>
+          <v-chip v-else :color="`${item.color} lighten-1`" dark label small>
+            {{ item.text }}
+          </v-chip>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <v-list-tile-action @click.stop>
+          <v-btn icon @click.stop.prevent="edit(index, item)">
+            <v-icon>{{ editing !== item ? "edit" : "check" }}</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </template>
+    </v-combobox>
+  </div>
 </template>
 
 <script>
