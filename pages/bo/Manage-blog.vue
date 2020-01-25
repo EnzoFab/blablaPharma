@@ -42,7 +42,7 @@
             :article-id="article.id"
             :creation-date="article.createdAt"
             :image="article.picture"
-            :is-like="article.like"
+            :is-like="article.userLike"
             :slug-id="article.slug"
             :text="article.content"
             :title="article.title"
@@ -74,14 +74,27 @@
 
 <script>
 import to from "await-to-js";
-import { TOGGLE_SNACKBAR } from "../../store/types";
+import { TOGGLE_SNACKBAR } from "~/store/types";
 
-import ArticlePreview from "~/components/blog/ArticlePreview";
-import ArticleHandler from "../../components/blog/ArticleHandler";
-import ArticleAutocompleteField from "../../components/blog/ArticleAutocompleteField";
+const ArticlePreview = () => import("~/components/blog/ArticlePreview");
+const ArticleHandler = () => import("~/components/blog/ArticleHandler");
+const ArticleAutocompleteField = () =>
+  import("~/components/blog/ArticleAutocompleteField");
 
 export default {
   name: "Manage-blog",
+  head() {
+    return {
+      title: "Gestion du blog",
+      meta: [
+        {
+          hid: "blog",
+          name: "description",
+          content: "Visualizez du contenu pharmaceutique"
+        }
+      ]
+    };
+  },
   components: {
     ArticleAutocompleteField,
     ArticleHandler,

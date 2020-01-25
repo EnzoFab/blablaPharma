@@ -54,10 +54,14 @@
               </span>
             </v-flex>
             <v-flex offset-xs2 xs8>
-              <v-icon small color="default-green">fas fa-heart</v-icon>
-              <span class="pl-1 text--baseColor text--normal text-futura">
-                Aimé {{ article.likes }} fois
-              </span>
+              <v-icon
+                class="content-pointer"
+                @click="likeArticle"
+                :color="article.userLike ? 'default-green' : 'default-grey'"
+                >{{
+                  article.userLike ? "fas fa-heart" : "far fa-heart"
+                }}</v-icon
+              >
             </v-flex>
             <v-flex offset-xs2 xs8>
               <div class="articleFull-iconsWrapper py-3">
@@ -123,7 +127,9 @@
 import to from "await-to-js";
 import get from "lodash.get";
 import take from "lodash.take";
+
 import { getReadingTime } from "~/helpers";
+import { TOGGLE_SNACKBAR } from "~/store/types";
 
 const ShareArticleIcons = () => import("~/components/blog/ShareArticleIcons");
 const ArticlePreview = () => import("~/components/blog/ArticlePreview");
@@ -143,6 +149,23 @@ export default {
   },
   components: { ArticlePreview, ShareArticleIcons },
   methods: {
+    async likeArticle() {
+      const [e, article] = await to(this.$blog.likeArticle(this.article.id));
+
+      if (e && !article) {
+        return;
+      }
+
+      this.article = article;
+
+      if (this.article.userLike) {
+        this.$store.commit(
+          TOGGLE_SNACKBAR,
+          `${this.article.title} a été ajouté à vos favoris`
+        );
+      }
+    },
+
     formatCreationDate() {
       if (!this.article.createdAt) {
         return "";

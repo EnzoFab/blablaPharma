@@ -114,7 +114,7 @@
         >
           <v-icon
             class="content-pointer"
-            @click="like = !like"
+            @click="likeArticle"
             :color="like ? 'default-green' : 'default-grey'"
             >{{ like ? "fas fa-heart" : "far fa-heart" }}</v-icon
           >
@@ -125,7 +125,10 @@
 </template>
 
 <script>
-import { getYoutubeCoverImage, getReadingTime } from "../../helpers";
+import to from "await-to-js";
+import { getYoutubeCoverImage, getReadingTime } from "~/helpers";
+import { TOGGLE_SNACKBAR } from "~/store/types";
+
 const ShareArticleIcons = () => import("./ShareArticleIcons");
 
 const TITLE_MAX_LENGTH = 50;
@@ -133,6 +136,7 @@ export default {
   name: "ArticlePreview",
   components: { ShareArticleIcons },
   props: {
+    articleId: String | Number,
     videoId: String,
     image: String,
     title: String,
@@ -150,7 +154,8 @@ export default {
       playerVisible: false,
       loaderVisible: false,
       player: null,
-      showShareIcons: false
+      showShareIcons: false,
+      like: this.isLike
     };
   },
   computed: {
@@ -160,18 +165,27 @@ export default {
       return this.videoId
         ? getYoutubeCoverImage(this.videoId)
         : { high_quality, low_quality: "/images/empty.jpg" };
-    },
-    like: {
-      get() {
-        return this.isLike;
-      },
-      set(value) {
-        this.$emit("articlePreview::like", value);
-      }
     }
   },
 
   methods: {
+    async likeArticle() {
+      const [e, res] = await to(this.$blog.likeArticle(this.articleId));
+
+      if (e && !res) {
+        return;
+      }
+
+      this.like = !this.like;
+
+      if (this.like) {
+        this.$store.commit(
+          TOGGLE_SNACKBAR,
+          `${this.getTroncateTitle(this.title, 20)} a été ajouté à vos favoris`
+        );
+      }
+    },
+
     openFullArticle() {
       this.$router.push(`/blog/${this.slugId}`);
     },
@@ -207,9 +221,9 @@ export default {
       this.player = target;
     },
 
-    getTroncateTitle(title) {
-      if (title && title.length > TITLE_MAX_LENGTH) {
-        return `${title.substring(0, TITLE_MAX_LENGTH)}...`;
+    getTroncateTitle(title, size = TITLE_MAX_LENGTH) {
+      if (title && title.length > size) {
+        return `${title.substring(0, size)}...`;
       }
       return title;
     }

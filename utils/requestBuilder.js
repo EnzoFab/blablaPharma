@@ -114,7 +114,6 @@ export default $axios => {
     blog: {
       getArticle: (articleSlugId, visitorId = "") =>
         $axios.get(`/articles/${articleSlugId}?visitorId=${visitorId}`),
-
       search: filters => {
         const queryParams = buildQueryParams(filters);
         return $axios.get(`/articles${queryParams}`);
@@ -124,6 +123,7 @@ export default $axios => {
         const formData = toFormData(data);
         return $axios.post("/articles", formData);
       },
+      likeArticle: articleId => $axios.post(`/articles/${articleId}/like`),
 
       updateArticle: (articleId, data) => {
         const formData = toFormData(data);

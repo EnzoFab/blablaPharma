@@ -115,6 +115,13 @@ export default {
               }
             },
             {
+              title: "Mes articles sauvegardés",
+              nuxtLink: "/profile/mes-articles",
+              action: () => {
+                this.$router.push({ path: "/profile/mes-articles" });
+              }
+            },
+            {
               title: "Deconnexion",
               action: () => {
                 this.$store.dispatch(LOGOUT);

@@ -150,7 +150,8 @@ export default {
         },
         {
           text: "Blog",
-          href: "https://blablapharma.wixsite.com/blablapharma/blog"
+          href: "/blog",
+          nuxtLink: true
         },
         { text: "F.A.Q", href: "/faq", nuxtLink: true },
         {
