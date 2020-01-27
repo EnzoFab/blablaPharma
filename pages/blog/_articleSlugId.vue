@@ -19,11 +19,7 @@
               v-if="!article.youtubeVideoId && !article.picture"
               offset-xs2
             >
-              <div
-                v-if="article.content"
-                class="text-content"
-                v-html="article.content"
-              ></div>
+              <div class="text-content" v-html="article.content"></div>
             </v-flex>
             <v-flex offset-xs2 xs8 pb-3>
               <youtube
@@ -40,12 +36,8 @@
                 lazy-src="/images/empty.jpg"
               ></v-img>
             </v-flex>
-            <v-flex v-if="article.picture" offset-xs2 xs8>
-              <div
-                v-if="article.content"
-                class="text-content"
-                v-html="article.content"
-              ></div>
+            <v-flex v-if="article.youtubeVideoId" offset-xs2 xs8>
+              <div class="text-content" v-html="article.content"></div>
             </v-flex>
 
             <v-flex offset-xs2 xs8>
@@ -143,14 +135,31 @@ const ArticlePreview = () => import("~/components/blog/ArticlePreview");
 
 export default {
   head() {
+    const title = this.article.title ? this.article.title : "Article";
+
     return {
-      title: this.article.title ? this.article.title : "Article",
+      title,
+
       meta: [
+        { charset: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
         {
-          hid: "blog",
+          hid: "description",
           name: "description",
-          content: "Du contenu pharmaceutique votre disposition"
-        }
+          content: title
+        },
+        { hid: "og:type", name: "og:type", content: "website" },
+        { hid: "og:url", name: "og:url", content: process.env.DOMAIN },
+        { hid: "og:title", name: "og:title", content: title },
+        { hid: "og:site_name", name: "og:site_name", content: title },
+        { hid: "og:locale", name: "og:locale", content: "fr" },
+        {
+          hid: "og:image",
+          name: "og:image",
+          content: `${process.env.DOMAIN}/images/logo-fav.png`
+        },
+        { name: "msapplication-TileColor", content: "#868788" },
+        { name: "theme-color", content: "#BED469" }
       ]
     };
   },
