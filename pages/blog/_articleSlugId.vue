@@ -7,7 +7,8 @@
             <v-flex offset-xs2 xs8 pb-2>
               <div class="text--baseColor text-futura pl-2  pt-3 pb-5">
                 <span>
-                  {{ formatCreationDate() }} - {{ readingTime() }} de lecture
+                  {{ formatDate(article.createdAt) }} - {{ readingTime() }} de
+                  lecture
                 </span>
               </div>
               <h1 class="title-section">
@@ -61,6 +62,12 @@
                 >{{
                   article.userLike ? "fas fa-heart" : "far fa-heart"
                 }}</v-icon
+              >
+              <span
+                v-if="article.userLike"
+                class="text--baseColor text--normal"
+              >
+                {{ formatDate(article.likeAt) }}</span
               >
             </v-flex>
             <v-flex offset-xs2 xs8>
@@ -150,7 +157,9 @@ export default {
   components: { ArticlePreview, ShareArticleIcons },
   methods: {
     async likeArticle() {
-      const [e, article] = await to(this.$blog.likeArticle(this.article.id));
+      const [e, article] = !this.article.userLike
+        ? await to(this.$blog.likeArticle(this.article.id))
+        : await to(this.$blog.unlikeArticle(this.article.id));
 
       if (e && !article) {
         return;
@@ -158,23 +167,20 @@ export default {
 
       this.article = article;
 
-      if (this.article.userLike) {
-        this.$store.commit(
-          TOGGLE_SNACKBAR,
-          `${this.article.title} a été ajouté à vos favoris`
-        );
-      }
+      const message = this.article.userLike
+        ? `${this.article.title} a été ajouté à vos favoris`
+        : `${this.article.title} a été retiré de vos favoris`;
+
+      this.$store.commit(TOGGLE_SNACKBAR, message);
     },
 
-    formatCreationDate() {
-      if (!this.article.createdAt) {
+    formatDate(articleDate) {
+      if (!articleDate) {
         return "";
       }
 
       const date =
-        typeof this.article.createdAt === "string"
-          ? parseInt(this.article.createdAt)
-          : this.article.createdAt;
+        typeof articleDate === "string" ? parseInt(articleDate) : articleDate;
 
       return this.$moment(new Date(date)).format("Do MMMM YYYY");
     },
@@ -183,9 +189,7 @@ export default {
         ? getReadingTime(this.article.content)
         : 0;
       return `${time} Min`;
-    },
-
-    handleLike() {}
+    }
   },
   async asyncData({ app, params, store }) {
     // if the user is connected the visitorId its id

@@ -138,8 +138,14 @@
               </template>
             </v-slide-y-transition>
 
-            <v-slide-y-transition>
-              <v-flex v-show="!textEnabled" xs2 offset-xs2 align-self-center>
+            <v-slide-y-transition group>
+              <v-flex
+                v-show="!textEnabled"
+                xs2
+                offset-xs2
+                align-self-center
+                :key="'text1'"
+              >
                 <v-btn
                   fab
                   outline
@@ -151,7 +157,7 @@
                 </v-btn>
               </v-flex>
 
-              <v-flex v-show="textEnabled" pa-1 xs10 offset-xs1>
+              <v-flex v-show="textEnabled" xs10 offset-xs1 :key="'text2'">
                 <div
                   class="quill-editor"
                   v-model="fields.content"

@@ -123,13 +123,15 @@ export default $axios => {
         const formData = toFormData(data);
         return $axios.post("/articles", formData);
       },
-      likeArticle: articleId => $axios.post(`/articles/${articleId}/like`),
+      likeArticle: articleId => $axios.post(`/articles/${articleId}/likes`),
 
       updateArticle: (articleId, data) => {
         const formData = toFormData(data);
         return $axios.put(`/articles/${articleId}`, formData);
       },
-      deleteArticle: articleId => $axios.delete(`/articles/${articleId}`)
+
+      deleteArticle: articleId => $axios.delete(`/articles/${articleId}`),
+      unlikeArticle: articleId => $axios.delete(`/articles/${articleId}/likes`)
     }
   };
 };

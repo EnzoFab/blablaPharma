@@ -1,8 +1,9 @@
 <template>
   <v-card
-    color="default-grey lighten-4"
+    color="default-green lighten-4"
     hover
     flat
+    disabled
     :height="height"
     class="articlePreview-card"
   >
@@ -170,20 +171,21 @@ export default {
 
   methods: {
     async likeArticle() {
-      const [e, res] = await to(this.$blog.likeArticle(this.articleId));
+      const [e, article] = !this.like
+        ? await to(this.$blog.likeArticle(this.articleId))
+        : await to(this.$blog.unlikeArticle(this.articleId));
 
-      if (e && !res) {
+      if (e && !article) {
         return;
       }
 
       this.like = !this.like;
 
-      if (this.like) {
-        this.$store.commit(
-          TOGGLE_SNACKBAR,
-          `${this.getTroncateTitle(this.title, 20)} a été ajouté à vos favoris`
-        );
-      }
+      const message = this.like
+        ? `${this.title} a été ajouté à vos favoris`
+        : `${this.title} a été retiré de vos favoris`;
+
+      this.$store.commit(TOGGLE_SNACKBAR, message);
     },
 
     openFullArticle() {
