@@ -167,6 +167,10 @@ export default {
   components: { ArticlePreview, ShareArticleIcons },
   methods: {
     async likeArticle() {
+      if (!this.$store.getters.isLoggedIn) {
+        return;
+      }
+
       const [e, article] = !this.article.userLike
         ? await to(this.$blog.likeArticle(this.article.id))
         : await to(this.$blog.unlikeArticle(this.article.id));
