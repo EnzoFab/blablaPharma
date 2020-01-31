@@ -115,7 +115,6 @@
             :title="relatedArticle.title"
             :video-id="relatedArticle.youtubeVideoId"
             :views="relatedArticle.views"
-            @articlePreview::like="value => handleLike(relatedArticle, value)"
           />
         </v-flex>
       </v-layout>

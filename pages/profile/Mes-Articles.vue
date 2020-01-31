@@ -83,9 +83,9 @@
 <script>
 import to from "await-to-js";
 import get from "lodash.get";
-import { TOGGLE_SNACKBAR } from "../../store/types";
+import { TOGGLE_SNACKBAR } from "~/store/types";
 
-import { getYoutubeCoverImage } from "../../helpers";
+import { getYoutubeCoverImage } from "~/helpers";
 
 import ArticlePreview from "~/components/blog/ArticlePreview";
 
