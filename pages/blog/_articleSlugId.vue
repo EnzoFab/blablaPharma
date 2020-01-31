@@ -48,6 +48,7 @@
             </v-flex>
             <v-flex offset-xs2 xs8>
               <v-icon
+                v-if="$store.getters.isLoggedIn"
                 class="content-pointer"
                 @click="likeArticle"
                 :color="article.userLike ? 'default-green' : 'default-grey'"
