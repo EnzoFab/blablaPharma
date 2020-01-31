@@ -20,37 +20,51 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <v-alert v-model="alert" dismissible type="error">{{
+      errorMessage
+    }}</v-alert>
     <client-only>
       <v-container pt-0 mt-0 fluid grid-list-xl>
         <v-layout row wrap>
           <template v-if="articles.length > 0">
             <v-flex
-              v-for="(article, i) in articles"
+              v-for="(article, i) in articlesWithImages"
               :key="article.id"
               xs12
               :style="
-                i < articles.length - 1 ? 'border-bottom: inset 1px black' : ''
+                i < articles.length - 1
+                  ? 'border-bottom: inset 1px #ada9a8'
+                  : ''
               "
             >
               <v-container ma-0 fluid fill-height>
                 <v-layout row wrap align-center>
-                  <v-flex offset-x1 xs4>
-                    <article-preview
-                      :article-id="article.id"
-                      :creation-date="article.createdAt"
-                      :image="article.picture"
-                      :is-like="article.userLike"
-                      :likes="article.likes"
-                      :slug-id="article.slug"
-                      :text="article.content"
-                      :title="article.title"
-                      :video-id="article.youtubeVideoId"
-                      :views="article.views"
-                    />
+                  <v-flex xs5>
+                    <v-img
+                      :src="article.high_quality"
+                      :lazy-src="article.low_quality"
+                    ></v-img>
                   </v-flex>
-                  <v-flex offset-xs1 xs3 class="text--baseColor title-section">
-                    Ajouté le : {{ formatDate(article.likedAt) }}</v-flex
+                  <v-flex pl-3 xs5 class="text--baseColor" align-self-start>
+                    <h2
+                      class="title-section-huge content-pointer pb-5"
+                      @click="openArticle(article.slug)"
+                    >
+                      {{ article.title }}
+                    </h2>
+                    <span class="text-content pt-5"
+                      >Ajouté le : {{ formatDate(article.likedAt) }}</span
+                    ></v-flex
                   >
+                  <v-flex
+                    xs2
+                    class="content-center"
+                    @click="deleteArticleFromFavorite(article)"
+                  >
+                    <v-icon class="content-pointer" size="45" color="red"
+                      >fas fa-minus-circle</v-icon
+                    >
+                  </v-flex>
                 </v-layout>
               </v-container>
             </v-flex>
@@ -69,8 +83,9 @@
 <script>
 import to from "await-to-js";
 import get from "lodash.get";
+import { TOGGLE_SNACKBAR } from "../../store/types";
 
-// todo change the request
+import { getYoutubeCoverImage } from "../../helpers";
 
 import ArticlePreview from "~/components/blog/ArticlePreview";
 
@@ -94,6 +109,8 @@ export default {
     ArticlePreview
   },
   data: () => ({
+    alert: false,
+    errorMessage: null,
     orders: [
       { text: "Les plus récents", value: { sort: "createdAt", order: "DESC" } },
       { text: "Les plus anciens", value: { sort: "createdAt", order: "ASC" } },
@@ -105,7 +122,26 @@ export default {
     loadingSelect: false
   }),
 
+  computed: {
+    articlesWithImages() {
+      return this.articles.map(article => ({
+        ...article,
+        ...this.getCoverImage(article)
+      }));
+    }
+  },
+
   methods: {
+    openArticle(slugId) {
+      this.$router.push(`/blog/${slugId}`);
+    },
+
+    getCoverImage(article) {
+      return article.picture
+        ? { high_quality: article.picture, low_quality: "/images/empty.jpg" }
+        : getYoutubeCoverImage(article.youtubeVideoId);
+    },
+
     formatDate(articleDate) {
       if (!articleDate) {
         return "";
@@ -146,6 +182,23 @@ export default {
         path: "/profile/mes-articles",
         query: { ...this.$route.query, q }
       });
+    },
+    async deleteArticleFromFavorite(article) {
+      const [e] = await to(this.$blog.unlikeArticle(article.id));
+
+      if (e) {
+        this.errorMessage =
+          "Une erreur est survenue veuillez réessayer ultérieurement";
+        this.alert = true;
+        return;
+      }
+
+      this.articles = this.articles.filter(a => article.id !== a.id);
+
+      this.$store.commit(
+        TOGGLE_SNACKBAR,
+        `l'article ${article.title} a été retiré de vos favoris`
+      );
     }
   },
   async asyncData({ app, query }) {
