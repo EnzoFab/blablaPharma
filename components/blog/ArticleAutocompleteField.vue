@@ -51,15 +51,6 @@ export default {
     items: [],
     searchWord: ""
   }),
-  /*asyncComputed: {
-    async autoCompleteItems() {
-      const [e, articles] = await to(
-        this.$blog.search({ q: this.searchWord, limit: 5 })
-      );
-      return articles ? articles : [];
-    }
-  }, */
-
   computed: {
     search: {
       get() {
@@ -73,7 +64,7 @@ export default {
         this.searchWord = value;
         this.isLoading = true;
 
-        const [e, articles] = await to(
+        const [, articles] = await to(
           this.$blog.search({ q: this.searchWord, limit: 5 })
         );
 
@@ -105,7 +96,7 @@ export default {
       return this.$moment(new Date(date)).format("Do MMMM YYYY");
     },
     async searchArticle() {
-      const [e, res] = await to(
+      const [, res] = await to(
         this.$blog.search({ q: this.searchWord, limit: 5 })
       );
 

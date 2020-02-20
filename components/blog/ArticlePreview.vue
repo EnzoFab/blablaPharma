@@ -1,12 +1,5 @@
 <template>
-  <v-card
-    color="default-green lighten-4"
-    hover
-    flat
-    disabled
-    :height="height"
-    class="articlePreview-card"
-  >
+  <div class="articlePreview-card">
     <div>
       <v-img
         v-show="!playerVisible"
@@ -122,7 +115,7 @@
         </span>
       </div>
     </div>
-  </v-card>
+  </div>
 </template>
 
 <script>
