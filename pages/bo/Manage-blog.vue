@@ -112,7 +112,7 @@ export default {
 
   methods: {
     handleAutocompleteSearch({ articles }) {
-      this.articles = article;
+      this.articles = articles;
     },
 
     updateArticle(article) {

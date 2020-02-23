@@ -16,8 +16,8 @@
           />
         </v-flex>
       </v-layout>
-      <v-layout row wrap pa-0>
-        <v-flex xs2>
+      <v-layout row wrap py-0 pl-3 pr-0>
+        <v-flex xs6 sm6 md2>
           <v-select
             :items="orders"
             :loading="loadingSelect"
@@ -25,6 +25,7 @@
             flat
             solo
             hide-details
+            color="default-grey"
             @change="sortArticle"
           ></v-select>
         </v-flex>
@@ -73,8 +74,9 @@
 import to from "await-to-js";
 import get from "lodash.get";
 
-import ArticlePreview from "~/components/blog/ArticlePreview";
-import ArticleAutocompleteField from "../../components/blog/ArticleAutocompleteField";
+const ArticlePreview = () => import("~/components/blog/ArticlePreview");
+const ArticleAutocompleteField = () =>
+  import("~/components/blog/ArticleAutocompleteField");
 export default {
   name: "index",
   head() {
@@ -98,8 +100,8 @@ export default {
     orders: [
       { text: "Les plus récents", value: { sort: "createdAt", order: "DESC" } },
       { text: "Les plus anciens", value: { sort: "createdAt", order: "ASC" } },
-      { text: "Les plus vue", value: { sort: "views", order: "DESC" } },
-      { text: "Les moins vue", value: { sort: "views", order: "ASC" } }
+      { text: "Les plus vus", value: { sort: "views", order: "DESC" } },
+      { text: "Les moins vus", value: { sort: "views", order: "ASC" } }
     ],
     loadingSelect: false
   }),
@@ -108,7 +110,7 @@ export default {
     async sortArticle(value) {
       this.loadingSelect = true;
       const filters = { ...this.$route.query, ...value };
-      const [e, articles] = await to(this.$blog.search(filters));
+      const [, articles] = await to(this.$blog.search(filters));
 
       setTimeout(() => {
         this.loadingSelect = false;

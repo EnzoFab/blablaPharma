@@ -92,13 +92,15 @@
       </div>
     </div>
 
-    <v-container v-if="relatedArticles.length > 0" fluid grid-list-xs>
+    <v-container v-if="relatedArticles.length > 0" fluid grid-list-xl>
       <span class="text--section text--baseColor">A voir aussi :</span>
-      <v-layout row align-center justify-center>
+      <v-layout row align-center wrap>
         <v-flex
-          xs4
-          sm4
-          md3
+          offset-xs1
+          offset-sm0
+          xs10
+          sm6
+          md4
           v-for="relatedArticle in relatedArticles"
           :key="relatedArticle.id"
         >
@@ -213,7 +215,7 @@ export default {
       ? store.state.visitorId
       : (await to(store.dispatch("generateVisitorId")))[1];
 
-    const [e, result] = await to(
+    const [, result] = await to(
       app.$blog.getArticle(params.articleSlugId, visitorId)
     );
     const article = result ? result : {};
@@ -227,7 +229,7 @@ export default {
     };
 
     // if there the article
-    const [err, res] =
+    const [, res] =
       keywords && keywords.length > 0
         ? await to(app.$blog.search({ ...filters, keywords }))
         : await to(app.$blog.search(filters));
