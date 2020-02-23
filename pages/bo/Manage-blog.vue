@@ -83,6 +83,7 @@ const ArticleAutocompleteField = () =>
 
 export default {
   name: "Manage-blog",
+  layout: "admin",
   head() {
     return {
       title: "Gestion du blog",
@@ -212,7 +213,5 @@ export default {
       articles
     };
   }
-
-  //layout: "admin"
 };
 </script>
