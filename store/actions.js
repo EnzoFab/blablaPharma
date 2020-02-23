@@ -1,9 +1,12 @@
+import uuidv4 from "uuid/v4";
+
 import {
   LOGOUT,
   REMOVE_CONVERSATIONS_FROM_STORE,
   REMOVE_MESSAGES_FROM_STORE,
   SET_CONNECTED_USER,
   SET_JWT_TOKEN,
+  SET_VISITOR_ID,
   TOGGLE_SNACKBAR
 } from "./types";
 
@@ -77,5 +80,18 @@ export default {
     if (message) {
       commit(TOGGLE_SNACKBAR, message);
     }
+  },
+
+  async generateVisitorId({ commit, getters }) {
+    if (getters.isLoggedIn) {
+      return getters.connectedUser.id;
+    }
+
+    const visitorId = uuidv4();
+
+    commit(SET_VISITOR_ID, visitorId);
+    this.app.$cookies.set("visitorId", visitorId);
+
+    return visitorId;
   }
 };

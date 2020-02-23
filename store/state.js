@@ -4,5 +4,6 @@ export default () => ({
   pharmacist: null,
   snackBarVisible: false,
   snackbarText: null,
-  contactPharmacistDialog: false
+  contactPharmacistDialog: false,
+  visitorId: null
 });

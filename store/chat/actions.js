@@ -75,7 +75,6 @@ export default {
 
       commit(ADD_ACTIVE_CONVERSATIONS, [message.conversation]);
     } catch (e) {
-      console.log(e);
       commit(UPDATE_MESSAGE, {
         id: message.id,
         newMessageData: { error: true }

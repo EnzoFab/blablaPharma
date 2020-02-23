@@ -40,7 +40,9 @@ export default {
       connectedUserId &&
       this.$store.getters["chat/hasNewMessages"](connectedUserId);
 
-    const titleTemplate = hasNewMessage ? `Nouveau(x) messages - %s` : "%s";
+    const titleTemplate = hasNewMessage
+      ? `Nouveau(x) messages - %s`
+      : "%s | Blablapharma";
     return {
       titleTemplate
     };

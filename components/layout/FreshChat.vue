@@ -35,7 +35,7 @@ export default {
     },
 
     initFreshChat() {
-      if (window.fcWidget.isInitialized()) {
+      if (!window.fcWidget || window.fcWidget.isInitialized()) {
         return;
       }
 

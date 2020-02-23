@@ -123,7 +123,7 @@ const Contact = () => import("~/components/forms/Contact");
 export default {
   head() {
     return {
-      title: "BlablaPharma",
+      title: "Home",
       meta: [
         {
           hid: "Page d'accueil",

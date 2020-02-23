@@ -26,17 +26,22 @@ module.exports = {
         name: "description",
         content: process.env.npm_package_description || ""
       },
-      {
-        name: "msapplication-TileColor",
-        content: "#ffffff"
-      },
+      { name: "msapplication-TileColor", content: "#868788" },
+
       {
         name: "msapplication-TileImage",
         content: "/favicons/ms-icon-144x144.png"
       },
+      { name: "theme-color", content: "#BED469" },
+      { hid: "og:type", name: "og:type", content: "website" },
+      { hid: "og:url", name: "og:url", content: process.env.DOMAIN },
+      { hid: "og:title", name: "og:title", content: "Blablapharma" },
+      { hid: "og:site_name", name: "og:site_name", content: "Blablapharma" },
+      { hid: "og:locale", name: "og:locale", content: "fr" },
       {
-        name: "theme-color",
-        content: "#ffffff"
+        hid: "og:image",
+        name: "og:image",
+        content: `${process.env.DOMAIN}/images/logo-fav.png`
       }
     ],
     link: [
@@ -136,17 +141,25 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ["@assets/scss/main.scss"],
+  css: [
+    "@assets/scss/main.scss",
+    "quill/dist/quill.snow.css",
+    "quill/dist/quill.bubble.css",
+    "quill/dist/quill.core.css"
+  ],
+
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
     "~/plugins/axios",
     "~/plugins/commons",
-    "~/plugins/auth",
+    "~/plugins/api",
     { src: "~/plugins/vue-cookie-law.js", ssr: false },
-    { src: "~/plugins/smoothScroll", ssr: false }
+    { src: "~/plugins/smoothScroll", ssr: false },
+    { src: "~plugins/quill-plugin.js", ssr: false }
   ],
+
   /*
    ** Nuxt.js modules
    */
@@ -163,6 +176,7 @@ module.exports = {
     "@nuxtjs/dotenv",
     "nuxt-polyfill",
     "@nuxtjs/redirect-module",
+    "@nuxtjs/robots",
 
     [
       "nuxt-social-meta",
@@ -210,7 +224,13 @@ module.exports = {
   sitemap: {
     hostname: process.env.DOMAIN || "127.0.0.1",
     gzip: true,
-    exclude: ["/bo/**"]
+    path: "/sitemap.xml",
+    exclude: ["/bo/**, /profile/**"]
+  },
+
+  robots: {
+    Disallow: ["/bo", "/profile"],
+    Sitemap: `${process.env.DOMAIN}/sitemap.xml`
   },
 
   maintenance: {
@@ -281,7 +301,7 @@ module.exports = {
   build: {
     //analyze: true,
     extractCSS: true,
-    transpile: ["vuetify"],
+    transpile: ["vuetify", "vue-youtube-embed"],
     optimization: { minimize: true },
     terser: { cache: true, parallel: false },
     // optimizeCSS: true,

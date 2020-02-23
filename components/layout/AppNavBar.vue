@@ -61,7 +61,7 @@ export default {
           spacerBefore: false
         },
         {
-          title: () => "Blog",
+          title: () => "Blog ETP",
           display_case: [display_cases.EVERY],
           isLink: true,
           nuxtLink: "/blog",
@@ -112,6 +112,13 @@ export default {
               nuxtLink: "/profile/parameters",
               action: () => {
                 this.$router.push({ path: "/profile/parameters" });
+              }
+            },
+            {
+              title: "Mes articles sauvegardés",
+              nuxtLink: "/profile/mes-articles",
+              action: () => {
+                this.$router.push({ path: "/profile/mes-articles" });
               }
             },
             {

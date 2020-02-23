@@ -3,7 +3,8 @@ import {
   SET_CONNECTED_USER,
   TOGGLE_CONNECTION_DIALOG,
   TOGGLE_SNACKBAR,
-  HIDE_SNACKBAR
+  HIDE_SNACKBAR,
+  SET_VISITOR_ID
 } from "./types";
 
 export default {
@@ -44,5 +45,7 @@ export default {
     state.snackbarText = text;
   },
 
-  [HIDE_SNACKBAR]: state => (state.snackBarVisible = false)
+  [HIDE_SNACKBAR]: state => (state.snackBarVisible = false),
+
+  [SET_VISITOR_ID]: (state, visitorId) => (state.visitorId = visitorId)
 };
