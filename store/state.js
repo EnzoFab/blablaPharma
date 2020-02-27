@@ -1,5 +1,6 @@
 export default () => ({
   token: null,
+  refreshToken: null,
   connectedUser: null,
   pharmacist: null,
   snackBarVisible: false,

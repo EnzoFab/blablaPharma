@@ -1,6 +1,7 @@
 import {
   SET_JWT_TOKEN,
   SET_CONNECTED_USER,
+  SET_REFRESH_TOKEN,
   TOGGLE_CONNECTION_DIALOG,
   TOGGLE_SNACKBAR,
   HIDE_SNACKBAR,
@@ -15,6 +16,15 @@ export default {
    */
   [SET_JWT_TOKEN]: (state, token) => {
     state.token = token;
+  },
+
+  /**
+   *
+   * @param state
+   * @param refreshToken
+   */
+  [SET_REFRESH_TOKEN]: (state, refreshToken) => {
+    state.refreshToken = refreshToken;
   },
 
   /**

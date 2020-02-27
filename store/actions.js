@@ -6,36 +6,41 @@ import {
   REMOVE_MESSAGES_FROM_STORE,
   SET_CONNECTED_USER,
   SET_JWT_TOKEN,
+  SET_REFRESH_TOKEN,
   SET_VISITOR_ID,
   TOGGLE_SNACKBAR
 } from "./types";
 
-const logUserIn = (app, commit, token, account) => {
+const logUserIn = (app, commit, token, account, refreshToken) => {
   app.$cookies.setAll([
     { name: "accessToken", value: token },
-    { name: "userData", value: account }
+    { name: "userData", value: account },
+    { name: "refreshToken", value: refreshToken }
   ]);
   commit(SET_CONNECTED_USER, account);
   commit(SET_JWT_TOKEN, token);
+  commit(SET_REFRESH_TOKEN, refreshToken);
 };
 /*
   Use actions to execute request to the server and also some mutations
  */
 export default {
   async login({ commit }, { email, password }) {
-    const { account, token, pharmacist } = await this.$auth.login(
+    const { account, token, pharmacist, refreshToken } = await this.$auth.login(
       email,
       password
     );
-    logUserIn(this.app, commit, token, { account, pharmacist });
+    logUserIn(this.app, commit, token, { account, pharmacist }, refreshToken);
   },
 
   async resetPassword({ commit }, { resetPasswordToken, password }) {
-    const { account, token, pharmacist } = await this.$auth.updatePassword(
-      resetPasswordToken,
-      password
-    );
-    logUserIn(this.app, commit, token, { account, pharmacist });
+    const {
+      account,
+      token,
+      pharmacist,
+      refresh_token
+    } = await this.$auth.updatePassword(resetPasswordToken, password);
+    logUserIn(this.app, commit, token, { account, pharmacist }, refresh_token);
     this.$router.push({ path: "/" });
   },
 
@@ -65,6 +70,7 @@ export default {
     this.app.$cookies.remove("activeConversations");
 
     commit(SET_JWT_TOKEN, null);
+    commit(SET_REFRESH_TOKEN, null);
     commit(SET_CONNECTED_USER, null);
     commit(`chat/${REMOVE_MESSAGES_FROM_STORE}`);
     commit(`chat/${REMOVE_CONVERSATIONS_FROM_STORE}`);
@@ -79,6 +85,18 @@ export default {
 
     if (message) {
       commit(TOGGLE_SNACKBAR, message);
+    }
+  },
+
+  refreshToken({ commit }, { token, refreshToken }) {
+    if (token) {
+      commit(SET_JWT_TOKEN, token);
+      this.app.$cookies.set("accessToken", token);
+    }
+
+    if (refreshToken && refreshToken.length > 0) {
+      commit(SET_REFRESH_TOKEN, refreshToken);
+      this.app.$cookies.set("refreshToken", token);
     }
   },
 

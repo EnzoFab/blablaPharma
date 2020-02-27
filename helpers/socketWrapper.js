@@ -8,7 +8,8 @@ import configSocket from "./configSocket";
 export default function wrapper(io) {
   const socketRequest = config => {
     return new Promise((resolve, reject) => {
-      io.socket.request(config, (data, jwres) => {
+      const io_request = io.socket.request;
+      io_request(config, (data, jwres) => {
         if (jwres.error) {
           reject(jwres);
         } else {

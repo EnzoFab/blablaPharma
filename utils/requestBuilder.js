@@ -58,6 +58,9 @@ export default $axios => {
       checkResetPasswordToken: token =>
         $axios.get(`/forgot-password/verify-token/${token}`),
 
+      refreshToken: refreshToken =>
+        $axios.post("/auth/token", { refreshToken }),
+
       /**
        *
        * @param {string} token
