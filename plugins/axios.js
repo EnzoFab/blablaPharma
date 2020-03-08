@@ -1,4 +1,3 @@
-import to from "await-to-js";
 import { LOGOUT } from "../store/types";
 
 export default function({ $axios, store, app }) {
@@ -34,20 +33,22 @@ export default function({ $axios, store, app }) {
         return promiseError();
       }
 
-      if (e.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        const refreshToken = store.state.refreshToken;
+      if (e.response.status === 401 && !originalRequest.__isRetryRequest) {
+        originalRequest.__isRetryRequest = true;
 
-        const [err, res] = await to(app.$auth.refreshToken(refreshToken));
+        try {
+          await store.dispatch("refreshToken");
+          const Authorization = `Bearer ${store.state.token}`;
+          const newRequest = {
+            ...originalRequest,
+            headers: { Authorization },
+            baseURL: "" // remove /api from the url
+          };
 
-        if (err) {
+          return $axios.request(newRequest);
+        } catch (raisedError) {
           return promiseError();
         }
-
-        console.log(res);
-        store.dispatch("refreshToken", res);
-
-        return $axios(originalRequest);
       }
       return promiseError();
     }

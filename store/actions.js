@@ -1,4 +1,5 @@
 import uuidv4 from "uuid/v4";
+import to from "await-to-js";
 
 import {
   LOGOUT,
@@ -88,7 +89,15 @@ export default {
     }
   },
 
-  refreshToken({ commit }, { token, refreshToken }) {
+  async refreshToken({ commit, state }) {
+    const [e, r] = await to(this.app.$auth.refreshToken(state.refreshToken));
+    if (e) {
+      console.log(e, r);
+      throw e;
+    }
+
+    const { token, refreshToken } = r;
+
     if (token) {
       commit(SET_JWT_TOKEN, token);
       this.app.$cookies.set("accessToken", token);
@@ -96,7 +105,7 @@ export default {
 
     if (refreshToken && refreshToken.length > 0) {
       commit(SET_REFRESH_TOKEN, refreshToken);
-      this.app.$cookies.set("refreshToken", token);
+      this.app.$cookies.set("refreshToken", refreshToken);
     }
   },
 

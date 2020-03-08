@@ -133,14 +133,16 @@ export default {
   },
 
   [FETCH_CONVERSATION]: async ({ commit, rootState }) => {
-    const conversations = await SailSocketWrapper.get(
-      rootState,
-      "/conversations"
-    );
-    commit(
-      ADD_CONVERSATIONS,
-      conversations.filter(conversation => conversation.messages.length > 0)
-    );
+    try {
+      const conversations = await SailSocketWrapper.get(
+        rootState,
+        "/conversations"
+      );
+      commit(
+        ADD_CONVERSATIONS,
+        conversations.filter(conversation => conversation.messages.length > 0)
+      );
+    } catch (e) {}
   },
 
   [CONTACT_PHARMACIST]: async ({ commit, rootState }, memberId) => {

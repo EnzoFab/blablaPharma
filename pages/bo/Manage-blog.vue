@@ -154,7 +154,7 @@ export default {
 
       this.showDialog = false;
 
-      if (err) {
+      if (err || !updatedArticle) {
         this.showError = true;
         this.errorMessage =
           "Une erreur est survenue l'article n'a pas pu être mis à jour";
