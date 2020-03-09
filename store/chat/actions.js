@@ -29,10 +29,8 @@ export default {
    * @param filters
    * @returns {Promise<void>}
    */
-  [FETCH_MESSAGE]: async (
-    { commit, rootState },
-    { conversationId, filters }
-  ) => {
+  [FETCH_MESSAGE]: async (ctx, { conversationId, filters }) => {
+    const { commit } = ctx;
     const queryParam = reduce(
       pickBy(filters),
       (result, value, key) => {
@@ -42,7 +40,7 @@ export default {
     );
 
     const messages = await SailSocketWrapper.get(
-      rootState,
+      ctx,
       `/conversations/${conversationId}/messages${queryParam}`
     );
 
@@ -51,13 +49,15 @@ export default {
     return messages;
   },
 
-  [SEND_MESSAGE]: async ({ commit, rootState }, message) => {
+  [SEND_MESSAGE]: async (ctx, message) => {
+    const { commit } = ctx;
+
     commit(ADD_MESSAGES, [message]);
 
     try {
       // const { type, content, conversation } = message;
       const { createdAt, id, content } = await SailSocketWrapper.post(
-        rootState,
+        ctx,
         `/conversations/${message.conversation}/messages`,
 
         { type: message.type, content: message.content }
@@ -132,12 +132,11 @@ export default {
     }
   },
 
-  [FETCH_CONVERSATION]: async ({ commit, rootState }) => {
+  [FETCH_CONVERSATION]: async ctx => {
+    const { commit } = ctx;
+
     try {
-      const conversations = await SailSocketWrapper.get(
-        rootState,
-        "/conversations"
-      );
+      const conversations = await SailSocketWrapper.get(ctx, "/conversations");
       commit(
         ADD_CONVERSATIONS,
         conversations.filter(conversation => conversation.messages.length > 0)
@@ -145,14 +144,11 @@ export default {
     } catch (e) {}
   },
 
-  [CONTACT_PHARMACIST]: async ({ commit, rootState }, memberId) => {
-    const conversation = await SailSocketWrapper.post(
-      rootState,
-      "/conversations",
-      {
-        memberId
-      }
-    );
+  [CONTACT_PHARMACIST]: async (ctx, memberId) => {
+    const { commit } = ctx;
+    const conversation = await SailSocketWrapper.post(ctx, "/conversations", {
+      memberId
+    });
 
     commit(ADD_CONVERSATIONS, [conversation]);
 
@@ -173,9 +169,11 @@ export default {
    * @param rootState
    * @param {object} message
    */
-  readMessage: ({ commit, rootState }, message) => {
+  readMessage: (ctx, message) => {
+    const { commit } = ctx;
+
     SailSocketWrapper.post(
-      rootState,
+      ctx,
       `/conversations/${message.conversation}/event/read`,
       { messageId: message.id }
     );

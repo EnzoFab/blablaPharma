@@ -94,8 +94,6 @@ export default {
       const [e] = await to(this.$account.delete(id));
 
       if (e) {
-        console.error(e);
-
         setTimeout(() => {
           this.isLoading = false;
         }, 1500);

@@ -90,9 +90,9 @@ export default {
   },
 
   async refreshToken({ commit, state }) {
+    console.log("Here");
     const [e, r] = await to(this.app.$auth.refreshToken(state.refreshToken));
     if (e) {
-      console.log(e, r);
       throw e;
     }
 
