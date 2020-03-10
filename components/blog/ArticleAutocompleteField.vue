@@ -102,16 +102,19 @@ export default {
       );
 
       const articles = res ? res : [];
-      this.$emit("articleAutocompletefield::search", {
-        articles,
-        q: this.searchWord
-      });
+
+      const result =
+        this.searchWord && this.searchWord.length > 0
+          ? { articles, q: this.searchWord }
+          : { articles };
+      this.$emit("articleAutocompletefield::search", result);
     },
 
     handleChange(element) {
       const articles = element ? [element] : this.items;
       const title = get(element, "title", "");
-      this.$emit("articleAutocompletefield::search", { articles, q: title });
+      const result = title.length > 0 ? { articles, q: title } : { articles };
+      this.$emit("articleAutocompletefield::search", result);
     }
   }
 };
