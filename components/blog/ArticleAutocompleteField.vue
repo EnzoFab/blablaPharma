@@ -98,7 +98,7 @@ export default {
     },
     async searchArticle() {
       const [, res] = await to(
-        this.$blog.search({ q: this.searchWord, limit: 5 })
+        this.$blog.search({ q: this.searchWord, limit: 10 })
       );
 
       const articles = res ? res : [];

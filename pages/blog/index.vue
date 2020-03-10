@@ -147,46 +147,9 @@ export default {
       order: "DESC",
       ...query
     };
-    const [e, res] = await to(app.$blog.search(filters));
+    const [, res] = await to(app.$blog.search(filters));
 
     const articles = res ? res : [];
-
-    /*const articles = [
-      {
-        id: 1,
-        title: "Mon premier article",
-        videoId: "ZVgdQHA_IH4",
-        text: null,
-        date: new Date(),
-        like: false
-      },
-      {
-        id: 2,
-        title:
-          "Another for me   eeerer  njenrejnrk tnejtnektrn  rjtnrtjnt (ytjnjertnrj tyrjntjrn ynrjy",
-        videoId: "OSmSNK7Rano",
-        text: null,
-        date: new Date(),
-        like: true
-      },
-      {
-        id: 4,
-        title: "Another one",
-        videoId: "OSmSNK7Rano",
-        text: "A simple texte for you to understand something young guy",
-        date: new Date(),
-        like: true
-      },
-      {
-        id: 3,
-        title: "Another one",
-        image:
-          "https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg",
-        text: null,
-        date: new Date(),
-        like: false
-      }
-    ]; */
 
     return {
       articles,
