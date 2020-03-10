@@ -1,10 +1,13 @@
 const colors = require("vuetify/es5/util/colors").default;
 import VuetifyLoaderPlugin from "vuetify-loader/lib/plugin";
-// const env = require("dotenv").config();
+//const env = require("dotenv").config();
 
 module.exports = {
   mode: "universal",
-  // env: env.parsed,
+  env: {
+    DOMAIN: process.env.DOMAIN
+  },
+  //env: env.parsed,
   /*
    ** Headers of the page
    */
