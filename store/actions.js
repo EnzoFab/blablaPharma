@@ -114,6 +114,12 @@ export default {
       return getters.connectedUser.id;
     }
 
+    const oldVisitorId = this.app.$cookies.get("visitorId");
+
+    if (oldVisitorId) {
+      return oldVisitorId;
+    }
+
     const visitorId = uuidv4();
 
     commit(SET_VISITOR_ID, visitorId);

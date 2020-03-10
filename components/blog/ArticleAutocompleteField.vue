@@ -44,6 +44,7 @@
 
 <script>
 import to from "await-to-js";
+import get from "lodash.get";
 export default {
   name: "ArticleAutocompleteField",
   data: () => ({

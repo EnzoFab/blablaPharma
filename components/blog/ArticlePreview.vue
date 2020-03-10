@@ -34,15 +34,16 @@
           </v-layout>
         </v-container>
       </v-img>
-
-      <youtube
-        v-show="playerVisible"
-        :video-id="videoId"
-        ref="youtube"
-        fitParent
-        player-height="120"
-        @ready="playerReady"
-      ></youtube>
+      <client-only>
+        <youtube
+          v-show="playerVisible"
+          :video-id="videoId"
+          ref="youtube"
+          fitParent
+          player-height="120"
+          @ready="playerReady"
+        ></youtube>
+      </client-only>
     </div>
 
     <v-container pt-1 mt-0>

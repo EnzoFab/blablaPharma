@@ -22,14 +22,15 @@
               <div class="text-content" v-html="article.content"></div>
             </v-flex>
             <v-flex offset-xs2 xs8 pb-3>
-              <youtube
-                v-if="article.youtubeVideoId"
-                :video-id="article.youtubeVideoId"
-                ref="youtube"
-                fitParent
-                resize
-                :player-vars="{ autoplay: 1 }"
-              ></youtube>
+              <client-only v-if="article.youtubeVideoId">
+                <youtube
+                  :video-id="article.youtubeVideoId"
+                  ref="youtube"
+                  fitParent
+                  resize
+                  :player-vars="{ autoplay: 1 }"
+                ></youtube>
+              </client-only>
               <v-img
                 v-else-if="article.picture"
                 :src="article.picture"
