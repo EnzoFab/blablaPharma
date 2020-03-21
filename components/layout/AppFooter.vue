@@ -62,9 +62,9 @@
               <div class="text-xs-center">
                 <hr class="divider my-2" />
                 <a
-                  href="mailto:contact@blablapharma.fr"
+                  href="mailto:blablapharma@gmail.com"
                   class="white--text text-no-decoration"
-                  >contact@blablapharma.fr</a
+                  >blablapharma@gmail.com</a
                 >
                 <v-container class="pt-3">
                   <a
