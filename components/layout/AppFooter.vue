@@ -115,12 +115,7 @@
       </div>
     </v-footer>
 
-    <v-dialog v-model="showDialog" full-width>
-      <v-card flat>
-        <v-icon class="pl-2 pt-2" @click="showDialog = false">close</v-icon>
-        <contact />
-      </v-card>
-    </v-dialog>
+    <contact v-model="showDialog" />
   </div>
 </template>
 

@@ -210,6 +210,7 @@ export default {
   },
   methods: {
     closeDialog() {
+      this.$refs.login.reset();
       // reset every fields and close the dialog
       this.mail = "";
       this.password = "";
