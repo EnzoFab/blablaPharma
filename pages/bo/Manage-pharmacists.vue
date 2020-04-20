@@ -9,6 +9,7 @@
       <v-flex offset-xs2 xs8>
         <pharmacist-autocomplete-field
           :verified="false"
+          :activated="false"
           with-student
           @pharmacistautocompletefield::search="search"
         />
@@ -367,7 +368,12 @@ export default {
   },
   async asyncData({ app }) {
     const [e, result] = await to(
-      app.$pharmacist.search({ limit: 100, page: 0, verified: false })
+      app.$pharmacist.search({
+        limit: 100,
+        page: 0,
+        verified: false,
+        activated: false
+      })
     );
 
     const pharmacists = !e && result ? result : [];

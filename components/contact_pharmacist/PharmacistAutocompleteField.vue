@@ -98,6 +98,7 @@ import get from "lodash.get";
 export default {
   name: "PharmacistAutocompleteField",
   props: {
+    activated: { type: Boolean, default: true },
     // whether to display non-verified account or not
     verified: { type: Boolean, default: true },
     withStudent: { type: Boolean, default: false }
@@ -137,7 +138,8 @@ export default {
         this.$pharmacist.search({
           ...this.filters,
           professionLabel,
-          verified: this.verified
+          verified: this.verified,
+          activated: this.activated
         })
       );
 
@@ -208,7 +210,11 @@ export default {
   methods: {
     async searchPharmacists() {
       const [e, result] = await to(
-        this.$pharmacist.search({ ...this.filters, verified: this.verified })
+        this.$pharmacist.search({
+          ...this.filters,
+          verified: this.verified,
+          activated: this.activated
+        })
       );
 
       const pharmacists = result ? result : [];
