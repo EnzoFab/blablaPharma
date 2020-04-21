@@ -42,6 +42,13 @@
                       <h3 class="title-section-small mb-2">
                         {{ getFullName(pharmacist) }}
                       </h3>
+                      <div
+                        v-if="pharmacist.emailToken"
+                        class="red--text font-weight-bold"
+                      >
+                        <v-icon color="red">warning</v-icon> Ce compte n'est pas
+                        activé
+                      </div>
                       <div>
                         <span class="font-weight-bold">RPPS : </span>
                         <span class="font-italic">{{
@@ -94,7 +101,7 @@
                         >Avertissement</v-btn
                       >
                       <v-btn
-                        v-if="canDeletePharmacist(pharmacist.warn)"
+                        v-if="canDeletePharmacist(pharmacist)"
                         block
                         depressed
                         color="red"
@@ -350,12 +357,17 @@ export default {
       return this.$moment(date).format("Do MMMM YYYY");
     },
 
-    canDeletePharmacist(date) {
+    canDeletePharmacist(pharmacist) {
+      /*returns true if the pharmacist hasno't actived his account or
+        or he has not change his rpps since the warning
+       */
+      const date = pharmacist.warn;
       return (
-        date &&
-        this.$moment()
-          .add(7, "days")
-          .isSameOrBefore(this.$moment(date))
+        pharmacist.emailToken ||
+        (date &&
+          this.$moment()
+            .add(7, "days")
+            .isSameOrBefore(this.$moment(date)))
       );
     },
 
