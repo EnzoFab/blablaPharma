@@ -92,7 +92,7 @@
                         >Valider inscription</v-btn
                       >
                       <v-btn
-                        v-if="!pharmacist.warn"
+                        v-if="!pharmacist.warn && !pharmacist.emailToken"
                         block
                         depressed
                         color="orange"
@@ -239,17 +239,15 @@ export default {
       }
 
       if (!e && res) {
-        if (!e && result) {
-          this.pharmacists = this.pharmacists.filter(
-            pharmacist => pharmacist.id !== id
-          );
-          this.$store.commit(
-            TOGGLE_SNACKBAR,
-            `le compte du pharmacien: ${this.getFullName(
-              this.selectedPharmacist
-            )}, a bien été supprimé`
-          );
-        }
+        this.pharmacists = this.pharmacists.filter(
+          pharmacist => pharmacist.id !== id
+        );
+        this.$store.commit(
+          TOGGLE_SNACKBAR,
+          `le compte du pharmacien: ${this.getFullName(
+            this.selectedPharmacist
+          )}, a bien été supprimé`
+        );
       }
 
       setTimeout(() => {
