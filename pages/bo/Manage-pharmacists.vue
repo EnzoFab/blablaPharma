@@ -84,6 +84,15 @@
                     </v-flex>
                     <v-flex xs12 sm4>
                       <v-btn
+                        v-if="pharmacist.emailToken"
+                        block
+                        depressed
+                        dark
+                        color="blue"
+                        @click="confirmDialog(pharmacist, 'activate')"
+                        >Activer le compte</v-btn
+                      >
+                      <v-btn
                         block
                         depressed
                         dark
@@ -131,6 +140,10 @@
             >
           </div>
         </div>
+        <div v-else-if="confirmType === 'activate'">
+          Voulez vous activer le compte de
+          <b>{{ getFullName(selectedPharmacist) }}</b> ?
+        </div>
         <div
           v-else-if="confirmType === 'delete'"
           class="content-center text--section text--baseColor"
@@ -141,7 +154,6 @@
           Voulez vous avertir <b>{{ getFullName(selectedPharmacist) }}</b> ?
         </div>
         <div class="content-center">
-          <v-btn outline @click="dialog = false" color="blue">Annuler</v-btn>
           <v-btn
             v-if="confirmType === 'validate'"
             :loading="loading"
@@ -149,6 +161,14 @@
             @click="validatePharmacist"
             color="green"
             >Valider</v-btn
+          >
+          <v-btn
+            v-else-if="confirmType === 'activate'"
+            :loading="loading"
+            outline
+            @click="activatePharmacistAccount"
+            color="green"
+            >Activer</v-btn
           >
           <v-btn
             v-else-if="confirmType === 'delete'"
@@ -166,6 +186,7 @@
             color="orange"
             >Avertir</v-btn
           >
+          <v-btn outline @click="dialog = false" color="blue">Annuler</v-btn>
         </div>
       </v-card>
     </v-dialog>
@@ -229,7 +250,37 @@ export default {
       setTimeout(() => (this.loading = false), 1500);
     },
 
+    async activatePharmacistAccount() {
+      this.loading = true;
+
+      const { emailToken, id } = this.selectedPharmacist;
+
+      const [e] = await to(this.$auth.activateAccount(emailToken));
+
+      if (e) {
+        this.errorMessage =
+          "Une erreur est survenue impossible de supprimer ce pharmacien";
+        this.loading = false;
+        this.hideDialog();
+        return;
+      }
+
+      this.pharmacists = this.pharmacists.map(pharmacist => {
+        if (pharmacist.id === id) {
+          // set the emailToken of the selected pharmacist to null
+          return { ...pharmacist, emailToken: null };
+        }
+
+        return pharmacist;
+      });
+
+      setTimeout(() => {
+        this.loading = false;
+        this.hideDialog();
+      }, 500);
+    },
     async deletePharmacist() {
+      this.loading = true;
       const id = this.selectedPharmacist.id;
       const [e, res] = await to(this.$account.delete(id));
 
@@ -255,37 +306,6 @@ export default {
         this.hideDialog();
       }, 1500);
     },
-    async warningPharmacist() {
-      const id = this.selectedPharmacist.id;
-      const [e, result] = await to(this.$pharmacist.warn(id));
-
-      if (e) {
-        this.errorMessage =
-          "Une erreur est survenue, impossible d'avertir cet utilisateur";
-      }
-
-      if (!e && result) {
-        this.pharmacists = this.pharmacists.map(pharmacist => {
-          if (pharmacist.id === id) {
-            return { ...pharmacist, warn: result.warn };
-          }
-
-          return pharmacist;
-        });
-        this.$store.commit(
-          TOGGLE_SNACKBAR,
-          `le compte du pharmacien: ${this.getFullName(
-            this.selectedPharmacist
-          )}, a bien été averti`
-        );
-      }
-
-      setTimeout(() => {
-        this.loading = false;
-        this.hideDialog();
-      }, 1500);
-    },
-
     async validatePharmacist() {
       this.loading = true;
       const id = this.selectedPharmacist.id;
@@ -307,6 +327,38 @@ export default {
           `le compte du pharmacien: ${this.getFullName(
             this.selectedPharmacist
           )}, a bien été activé`
+        );
+      }
+
+      setTimeout(() => {
+        this.loading = false;
+        this.hideDialog();
+      }, 1500);
+    },
+    async warningPharmacist() {
+      this.loading = true;
+
+      const id = this.selectedPharmacist.id;
+      const [e, result] = await to(this.$pharmacist.warn(id));
+
+      if (e) {
+        this.errorMessage =
+          "Une erreur est survenue, impossible d'avertir cet utilisateur";
+      }
+
+      if (!e && result) {
+        this.pharmacists = this.pharmacists.map(pharmacist => {
+          if (pharmacist.id === id) {
+            return { ...pharmacist, warn: result.warn };
+          }
+
+          return pharmacist;
+        });
+        this.$store.commit(
+          TOGGLE_SNACKBAR,
+          `le compte du pharmacien: ${this.getFullName(
+            this.selectedPharmacist
+          )}, a bien été averti`
         );
       }
 
