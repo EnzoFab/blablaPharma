@@ -37,11 +37,11 @@
           <v-layout row wrap>
             <template v-if="articles.length > 0">
               <v-flex
-                v-for="article in articles"
-                :key="article.id"
                 md4
                 sm6
                 xs12
+                v-for="article in articles"
+                :key="article.id"
               >
                 <article-preview
                   :article-id="article.id"

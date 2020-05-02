@@ -1,27 +1,37 @@
 <template>
-  <v-container fluid px-5 pb-5 style="background-color: white">
+  <v-container
+    fluid
+    :class="{
+      'px-5': $vuetify.breakpoint.mdAndUp,
+      'mx-0 px-0': !$vuetify.breakpoint.mdAndUp
+    }"
+    pb-5
+    style="background-color: white"
+  >
     <template v-if="article.id">
-      <div class="articleFull">
-        <v-container class="articleFull-wrapper">
+      <div :class="{ articleFull: $vuetify.breakpoint.mdAndUp }">
+        <v-container
+          :class="{ 'articleFull-wrapper': $vuetify.breakpoint.mdAndUp }"
+        >
           <v-layout row wrap align-center>
             <v-flex offset-xs2 xs8 pb-2>
-              <div class="text--baseColor text-futura pl-2  pt-3 pb-5">
-                <span>
-                  {{ formatDate(article.createdAt) }} - {{ readingTime() }} de
-                  lecture
-                </span>
-              </div>
               <h1 class="title-section">
                 {{ article.title }}
               </h1>
             </v-flex>
+            <div class="text--baseColor text-futura pl-2  pt-3 pb-1">
+              <span>
+                {{ formatDate(article.createdAt) }} - {{ readingTime() }} de
+                lecture
+              </span>
+            </div>
             <v-flex
               v-if="!article.youtubeVideoId && !article.picture"
               offset-xs2
             >
               <div class="text-content" v-html="article.content"></div>
             </v-flex>
-            <v-flex offset-xs2 xs8 pb-3>
+            <v-flex offset-md2 md8 sm10 offset-sm1 pb-3>
               <client-only v-if="article.youtubeVideoId">
                 <youtube
                   :video-id="article.youtubeVideoId"
@@ -37,11 +47,17 @@
                 lazy-src="/images/empty.jpg"
               ></v-img>
             </v-flex>
-            <v-flex v-if="article.youtubeVideoId" offset-xs2 xs8>
+            <v-flex
+              v-if="article.youtubeVideoId"
+              offset-md2
+              md8
+              sm10
+              offset-sm1
+            >
               <div class="text-content" v-html="article.content"></div>
             </v-flex>
 
-            <v-flex offset-xs2 xs8>
+            <v-flex offset-md2 md8 sm10 offset-sm1>
               <v-icon small color="default-grey">far fa-eye</v-icon>
               <span class="pl-1 text--baseColor text--normal text-futura">
                 Vu {{ article.views }} fois
@@ -74,7 +90,7 @@
             </v-flex>
           </v-layout>
         </v-container>
-        <div style="float: right">
+        <div :style="$vuetify.breakpoint.mdAndUp ? 'float: right' : ''">
           <v-btn flat color="default-grey" nuxt href="/blog"
             >Voir tous les articles</v-btn
           >
@@ -97,11 +113,9 @@
       <span class="text--section text--baseColor">A voir aussi :</span>
       <v-layout row align-center wrap>
         <v-flex
-          offset-xs1
-          offset-sm0
-          xs10
-          sm6
           md4
+          sm6
+          xs12
           v-for="relatedArticle in relatedArticles"
           :key="relatedArticle.id"
         >
