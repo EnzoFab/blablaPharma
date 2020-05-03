@@ -50,6 +50,10 @@
                         activé
                       </div>
                       <div>
+                        <span class="font-weight-bold">Email : </span>
+                        <span class="font-italic">{{ pharmacist.email }}</span>
+                      </div>
+                      <div>
                         <span class="font-weight-bold">RPPS : </span>
                         <span class="font-italic">{{
                           pharmacist.professionalId
@@ -429,6 +433,14 @@ export default {
     }
   },
   async asyncData({ app }) {
+    const [error, res] = await to(
+      app.$pharmacist.search({
+        limit: 100,
+        page: 0,
+        verified: false
+      })
+    );
+
     const [e, result] = await to(
       app.$pharmacist.search({
         limit: 100,
@@ -438,10 +450,11 @@ export default {
       })
     );
 
-    const pharmacists = !e && result ? result : [];
+    const unactivatedPharmacist = !e && result ? result : [];
+    const activatedPharmacist = !error && res ? res : [];
 
     return {
-      pharmacists
+      pharmacists: [...unactivatedPharmacist, ...activatedPharmacist]
     };
   }
 };
